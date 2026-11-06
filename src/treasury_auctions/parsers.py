@@ -23,12 +23,13 @@ MONTH = r"(?:JAN(?:UARY)?|FEB(?:RUARY)?|MAR(?:CH)?|APR(?:IL)?|MAY|JUNE?|JULY?|AU
 WEEKDAY = r"(?:MONDAY|TUESDAY|WEDNESDAY|THURSDAY|FRIDAY|SATURDAY|SUNDAY)"
 # 08-Nov-2017 | 07-DEC-2022 | 9-Mar-23 | 04-December-2019 | 1ST MARCH 2024 | 1STMARCH 2024 | 30TH OCTOBER 2026
 DATE_DMY = re.compile(
-    rf"\b(\d{{1,2}})\s*(?:ST|ND|RD|TH)?\s*[-/ .,]?\s*({MONTH})\.?\s*[-/ .,]?\s*(\d{{4}}|\d{{2}})(?!\d)", re.I)
+    rf"(?<!\d)(\d{{1,2}})\s*(?:ST|ND|RD|TH)?\s*[-/ .,]?\s*({MONTH})\.?\s*[-/ .,]?\s*(\d{{4}}|\d{{2}})(?!\d)", re.I)
 DATE_NUM = re.compile(r"\b(\d{1,2})\s*[/.-]\s*(\d{1,2})\s*[/.-]\s*(\d{4}|\d{2})(?!\d)")
 # Monday, 15 October 2026 | November 05, 2026 | Wednesday 21, October 2026 | December 03,2020
 DATE_MDY = re.compile(rf"\b({MONTH})\.?\s+(\d{{1,2}})(?:ST|ND|RD|TH)?\s*,?\s*(\d{{4}})(?!\d)", re.I)
 
 NUM = re.compile(r"(?<![\w.,/])(\d{1,3}(?:,\d{3})+(?:\.\d+)?|\d+(?:\.\d+)?)(?![\w/]|[.,]\d)")
+TARGET_TYPES = {"ug_bill_result", "ug_bill_invitation", "ke_bill_result", "gh_bill_result"}
 BAD_NUM = re.compile(r"\b\d{1,3}\.\d{3}\.\d{1,3}\b|\b\d+,\d{1,2}\b(?!\d)")
 
 
@@ -43,7 +44,8 @@ class ParseResult:
 
     @property
     def ok(self) -> bool:
-        return self.doc_type.endswith("_result") or self.doc_type.endswith("_invitation")
+        """True only for the target families (Treasury bill results and bill invitations)."""
+        return self.doc_type in TARGET_TYPES
 
 
 def _year(y: str) -> int:
@@ -124,14 +126,60 @@ UG_RESULT_HINT = re.compile(r"RESULTS?\s+OF\s+(?:THE\s+)?TREASURY\s+BILLS?|TREAS
 UG_BOND_HINT = re.compile(r"TREASURY\s+BONDS?|T[\s-]?BONDS?\b|BOND\s+AUCTION|RE-?OPEN", re.I)
 
 
+UG_GLUED = [  # OCR drops spaces inside labels ("AMOUNTOFFERED"); restore known label words only
+    ("AMOUNTOFFERED", "AMOUNT OFFERED"), ("AMOUNTTENDERED", "AMOUNT TENDERED"), ("ACCEPTEDBIDS", "ACCEPTED BIDS"),
+    ("BIDTOCOVERRATIO", "BID TO COVER RATIO"), ("BIDTOCOVER", "BID TO COVER"), ("INVITATIONTOTENDER", "INVITATION TO TENDER"),
+    ("AUCTIONDATE", "AUCTION DATE"), ("SETTLEMENTDATE", "SETTLEMENT DATE"), ("MATURITYDATE", "MATURITY DATE"),
+    ("ISSUEDATE", "ISSUE DATE"), ("CUT-OFFPRICE", "CUT-OFF PRICE"), ("CUTOFFPRICE", "CUT OFF PRICE"),
+    ("PRESSRELEASE", "PRESS RELEASE"), ("HELDON", "HELD ON"), ("ISSUENO", "ISSUE NO"), ("AUCTIONNO", "AUCTION NO"),
+    ("EFFECTIVEYIELD", "EFFECTIVE YIELD"), ("OFFERINGAMOUNT", "OFFERING AMOUNT"),
+    ("DESCRIPTIONOFOFFERING", "DESCRIPTION OF OFFERING"), ("DETAILSOFOFFERING", "DETAILS OF OFFERING"),
+    ("RESULTSOFTREASURYBILLSAUCTION", "RESULTS OF TREASURY BILLS AUCTION"),
+]
+
+
+def deglue(text: str) -> str:
+    """Repair OCR label artefacts without touching any numeric value.
+
+    * re-insert spaces in known label words
+    * O/0 confusion inside the labels AUCTION, NO, HELD ON (never inside numbers)
+    * a 12-character ISIN glued to the following tenor ("UG12B070422691DAYS")
+    """
+    text = re.sub(r"AUCTI0N", "AUCTION", text, flags=re.I)
+    text = re.sub(r"(AUCTION\s*)N0(?=\s*[:.])", r"\1NO", text, flags=re.I)
+    text = re.sub(r"HELD\s*0N", "HELD ON", text, flags=re.I)
+    text = re.sub(r"\b(UG\d{2}[A-Z]\d{7})(?=(?:91|182|364)\s*DAYS)", r"\1 ", text)
+    for a, b in UG_GLUED:
+        text = re.sub(a, b, text, flags=re.I)
+    text = re.sub(r"RESULTS\s*OF\s*TREASURY\s*BILLS\s*AUCTION", "RESULTS OF TREASURY BILLS AUCTION", text, flags=re.I)
+    return text
+
+
+def _bill_like_maturities(text: str) -> bool:
+    """Three maturity dates about 3, 6 and 12 months apart (used when OCR misses the banner heading)."""
+    line, _ = line_after(text, r"MATURITY\s+DATES?")
+    if not line:
+        return False
+    ds = [to_date(m, "dmy_name") for m in DATE_DMY.finditer(line)]
+    ds = [date.fromisoformat(d) for d in ds if d]
+    if len(ds) != 3:
+        return False
+    gap1, gap2 = (ds[1] - ds[0]).days, (ds[2] - ds[0]).days
+    return 80 <= gap1 <= 100 and 255 <= gap2 <= 290
+
+
 def classify_ug(text: str) -> str:
+    text = deglue(text)
     up = text.upper()
-    has_table = bool(re.search(r"^\s*OFFERED", text, re.M | re.I)) and bool(re.search(r"^\s*TENDERED", text, re.M | re.I))
-    if "INVITATION TO TENDER" in up or "DETAILS OF OFFERING" in up:
+    has_table = bool(re.search(r"^\s*(?:AMOUNT\s+)?OFFERED", text, re.M | re.I)) and bool(
+        re.search(r"^\s*(?:AMOUNT\s+)?(?:TENDERED|BIDS\s+RECEIVED)", text, re.M | re.I))
+    if "INVITATION TO TENDER" in up or "DETAILS OF OFFERING" in up or "DESCRIPTION OF OFFERING" in up:
         if re.search(r"\b(?:91|182|364)\s*-?\s*DAYS?\b", up) and not re.search(r"\bYEAR|\bYR\b", up[:1500]):
             return "ug_bill_invitation"
         return "ug_bond_invitation" if UG_BOND_HINT.search(up) or "YEAR" in up else "ug_other_invitation"
-    if UG_RESULT_HINT.search(up) and has_table and re.search(r"\b91\b", up):
+    bill_maturities = bool(re.search(r"MATURITIES[^\n]*\b91\b[^\n]*\b364\b", up)) or _bill_like_maturities(text)
+    if has_table and (re.search(r"\b91\b", up) or bill_maturities) and (
+            UG_RESULT_HINT.search(up) or ("PRESS RELEASE" in up and bill_maturities and not UG_BOND_HINT.search(up))):
         return "ug_bill_result"
     if has_table and UG_BOND_HINT.search(up):
         return "ug_bond_result"
@@ -145,6 +193,7 @@ def classify_ug(text: str) -> str:
 
 
 def parse_ug_result(text: str) -> ParseResult:
+    text = deglue(text)
     r = ParseResult(classify_ug(text))
     if r.doc_type != "ug_bill_result":
         return r
@@ -228,6 +277,7 @@ def _quantity_checks(r: ParseResult, unit_floor: float, unit_cap: float, tol: fl
 
 
 def parse_ug_invitation(text: str) -> ParseResult:
+    text = deglue(text)
     r = ParseResult(classify_ug(text))
     if r.doc_type != "ug_bill_invitation":
         return r
@@ -253,7 +303,7 @@ def parse_ug_invitation(text: str) -> ParseResult:
         if mm:
             offers[tenor] = float(mm.group(1).replace(",", ""))
             raw[tenor] = mm.group(0).strip()
-    tot = re.search(r"(?:TOTAL|MATURITIES\s*\(DAYS\)\s*:?)[^\n\d]*([\d,]{7,})\s*/=", up)
+    tot = re.search(r"(?:TOTAL|OFFERING\s+AMOUNT|MATURITIES\s*\(DAYS\)\s*:?)[^\n\d]*([\d,]{7,})\s*/=", up)
     ev["printed_total"] = float(tot.group(1).replace(",", "")) if tot else None
     r.raw.update({f"offer_{k}": v for k, v in raw.items()})
     if len(offers) < 3:
@@ -281,8 +331,12 @@ def classify_ke(text: str) -> str:
 
 
 def _ke_row(text, label, start=0, end=None):
-    """Return (values, raw); values keep the trailing TOTAL column if present (n = 3 or 4)."""
-    rest, pos = line_after(text, label, start, end)
+    """Return (values, raw); values keep the trailing TOTAL column if present (n = 3 or 4).
+
+    The label must be followed (after an optional unit in parentheses) directly by a number, so
+    narrative sentences such as "bids received was 194 amounting to ..." never match.
+    """
+    rest, pos = line_after(text, label + r"(?:\s*\([^)\n]*\))?(?=[ \t:]*\d)", start, end)
     if rest is None:
         return None, None, -1
     v = nums(rest)
@@ -320,7 +374,10 @@ def parse_ke_result(text: str) -> ParseResult:
         # rates on the next line (layout wraps the label)
         m = re.search(r"Weighted\s+Average\s+Interest\s+Rate\s+of[^\n]*\n([^\n]*)", text[:endA], re.I)
         war = nums(m.group(1)) if m else war
-    r.raw.update(offered=Oraw, bids=Braw, accepted=Araw, cover=craw, redemptions=rraw)
+    due_line, _ = line_after(text[:endA], r"Due\s+Date")
+    dues = [to_date(m, "dmy") for m in DATE_NUM.finditer(due_line)] if due_line else []
+    r.raw.update(offered=Oraw, bids=Braw, accepted=Araw, cover=craw, redemptions=rraw,
+                 due_date=due_line.strip() if due_line else None)
     k = len(present)
     if k == 0:
         r.blocking.append("no tenor columns detected")
@@ -346,7 +403,8 @@ def parse_ke_result(text: str) -> ParseResult:
                    A_noncomp=An[i] if An and len(An) > i else None, perf_published=perf[i] if perf and len(perf) > i else None,
                    cover_published=cover[i] if cover and len(cover) > i else None,
                    yield_pct=war[i] if war and len(war) > i and war[i] < 40 else None,
-                   redemptions=red[i] if red and len(red) > i else None, issue_no=ev["issues"].get(t))
+                   redemptions=red[i] if red and len(red) > i else None, issue_no=ev["issues"].get(t),
+                   maturity_date=dues[i] if len(dues) == k else None)
         row["cover_formula"] = published_ratio_formula(row["cover_published"], row["O"], row["B"], row["A"])
         r.rows.append(row)
     _quantity_checks(r, unit_floor=1, unit_cap=1e6, tol=0.02)
@@ -385,7 +443,7 @@ def parse_ke_result(text: str) -> ParseResult:
 
 # =========================================================================== Ghana
 GH_TENOR_ROW = re.compile(
-    r"\b(91|182|364)\s*[- ]?\s*DAY\s+(?:T\s*[/-]\s*)?BILLS?\s+GH\s*[¢₵C]?\s*([\d,.]+)\s+GH\s*[¢₵C]?\s*([\d,.]+)", re.I)
+    r"\b(91|182|364)\s*[- ]?\s*DAY\s+(?:T\s*[/-]\s*)?BILLS?\s+GH\s*[^\s\d]?\s*([\d,.]+)\s+GH\s*[^\s\d]?\s*([\d,.]+)", re.I)
 
 
 def classify_gh(text: str) -> str:
@@ -430,7 +488,7 @@ def parse_gh_result(text: str) -> ParseResult:
     if not ev["held_date"]:
         r.blocking.append("held date not parsed from section 1")
     # units: table heading must state millions
-    ev["units_stated"] = bool(re.search(r"GH\s*[¢₵C]\s*\(\s*M\s*\)|MILLION", sec1))
+    ev["units_stated"] = bool(re.search(r"GH\s*[^\s\d]\s*\(\s*M\s*\)|MILLION", sec1))
     if not ev["units_stated"]:
         r.blocking.append("unit (millions) not stated in section 1")
     rows = {}
@@ -447,25 +505,30 @@ def parse_gh_result(text: str) -> ParseResult:
         rows[t] = (b, a)
     other = re.findall(r"\b(\d+)\s*[- ]?\s*(?:YEAR|YR)\b[^\n]*GH", sec1)
     ev["other_securities_in_section1"] = len(other)
-    tg = re.search(r"TARGET\s+FOR\s+([^\n:]*?)\s*:\s*GH\s*[¢₵C]?\s*([\d,.]+)\s*(MILLION)?", sec1)
+    tg = re.search(r"TARGET\s+FOR\s+([^\n:]*?)\s*:\s*GH\s*[^\s\d]?\s*([\d,.]+)\s*(MILLION)?", sec1)
     r.raw["target"] = tg.group(0).strip() if tg else None
     if not tg:
         r.blocking.append("section-1 target not found")
         return r
     scope = tg.group(1)
     ev["target_scope"] = re.sub(r"\s+", " ", scope).strip()
-    ev["target_bills_only"] = bool(re.search(r"91\s*,?\s*182\s*(?:,|AND)\s*364", scope)) and not re.search(r"YEAR|NOTE|BOND", scope)
+    scope_tenors = sorted({int(x) for x in re.findall(r"\b(91|182|364)\b", scope)})
+    ev["target_tenors"] = scope_tenors
+    ev["target_bills_only"] = bool(scope_tenors) and bool(re.search(r"BILL", scope)) and not re.search(
+        r"YEAR|NOTE|BOND|FXR", scope)
     target = gh_number(tg.group(2))
     if target is None:
         r.blocking.append(f"malformed target {tg.group(2)!r}")
         return r
     ev["O_result"] = target
-    if set(rows) != {91, 182, 364}:
-        r.blocking.append(f"tenor rows found {sorted(rows)}")
-        return r
     if not ev["target_bills_only"]:
         r.blocking.append(f"target scope not bills-only: {ev['target_scope']}")
-    for t in (91, 182, 364):
+        return r
+    if set(rows) != set(scope_tenors):
+        # the combined target must cover exactly the maturities reported in section 1
+        r.blocking.append(f"tenor rows {sorted(rows)} != target scope {scope_tenors}")
+        return r
+    for t in scope_tenors:
         b, a = rows[t]
         r.rows.append(dict(tenor=t, B=b, A=a))
         if a > b + 0.02:
@@ -474,7 +537,8 @@ def parse_gh_result(text: str) -> ParseResult:
     if s2:
         sec2 = up[s2.start(): s3.start() if s3 else len(up)]
         pm = re.search(r"SUMMARY\s+OF\s+TENDER\s*(\d{3,4})\s+HELD\s+ON\s+([^\n]*)", sec2)
-        amts = re.findall(r"GH\s*[¢₵C]?\s*([\d,.]+)\s*MILLION", sec2)
+        bill_line = next((ln for ln in sec2.splitlines() if re.search(r"BILLS?\b", ln) and "MILLION" in ln), "")
+        amts = re.findall(r"GH\s*[^\s\d]?\s*([\d,.]+)\s*MILLION", bill_line)
         ev["prev"] = dict(tender_no=int(pm.group(1)) if pm else None,
                           held_date=to_date(DATE_DMY.search(pm.group(2)), "dmy_name") if pm else None,
                           B_total=gh_number(amts[0]) if len(amts) > 0 else None,
@@ -483,7 +547,7 @@ def parse_gh_result(text: str) -> ParseResult:
     if s3:
         sec3 = up[s3.start(): s3.start() + 600]
         nm = re.search(r"TARGET\s+FOR\s+TENDER\s*(\d{3,4})", sec3)
-        am = re.search(r"T\s*/\s*BILLS?\s+GH\s*[¢₵C]?\s*([\d,.]+)\s*(MILLION)?", sec3)
+        am = re.search(r"BILLS?\s*GH\s*[^\s\d]?\s*([\d,.]+)\s*(MILLION)?", sec3)
         ev["next"] = dict(tender_no=int(nm.group(1)) if nm else None,
                           target=gh_number(am.group(1)) if am else None, raw=re.sub(r"\s+", " ", sec3[:300]))
     tail = up[-500:]

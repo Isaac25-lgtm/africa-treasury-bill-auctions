@@ -51,17 +51,72 @@ def _needs_ocr(country: str, pr: ParseResult, e: Extracted, media_kind: str) -> 
         return True
     if pr.doc_type == "ug_bill_invitation" and "no tenor offers found" in pr.blocking:
         return True
+    # text layer without a readable quantity table (image table, or overlapping template layers as in
+    # the 6 May 2026 release) cannot support a classification: read the rendered page instead
+    import re
+
+    has_rows = re.search(r"^\s*(?:AMOUNT\s+)?OFFERED", e.text, re.M | re.I) and re.search(
+        r"^\s*(?:AMOUNT\s+)?TENDERED", e.text, re.M | re.I)
+    if pr.doc_type in ("ug_bond_other", "ug_other_invitation") and not has_rows:
+        return True
+    # overlapping template layers leave doubled words ("RESULTSRESULTSOFOF", "AUCTIONAUCTION")
+    if re.search(r"\b(RESULTS|AUCTION|TREASURY)\1", e.text[:1500].upper()):
+        return True
     return False
 
 
+def load_corrections(paths: Paths) -> dict[str, list[dict]]:
+    """Reviewed corrections keyed by document hash (``data/review/corrections.csv``)."""
+    p = paths.root / "data" / "review" / "corrections.csv"
+    if not p.is_file():
+        return {}
+    out: dict[str, list[dict]] = {}
+    for r in pd.read_csv(p, dtype=str).to_dict("records"):
+        out.setdefault(r["doc_sha256"], []).append(r)
+    return out
+
+
+def apply_corrections(text: str, entries: list[dict]) -> tuple[str, list[str]]:
+    """Replace the exact old token on the named maturity row only; return text and an audit note per entry."""
+    import re
+
+    notes = []
+    lines = text.splitlines()
+    for c in entries:
+        rx = re.compile(rf"\b{c['tenor']}\s*[- ]?\s*DAY\s+(?:T\s*[/-]\s*)?BILLS?\b", re.I)
+        hit = [i for i, ln in enumerate(lines) if rx.search(ln) and c["old_value"] in ln]
+        if len(hit) != 1:
+            notes.append(f"correction NOT applied ({c['tenor']} {c['field']}): row not uniquely found")
+            continue
+        new = f"{float(c['new_value']):,.2f}"
+        lines[hit[0]] = lines[hit[0]].replace(c["old_value"], new, 1)
+        notes.append(f"correction applied {c['tenor']} {c['field']}: {c['old_value']!r} -> {new} (evidence {c['evidence_url']})")
+    return "\n".join(lines), notes
+
+
 def parse_one(country: str, listed_kind: str, payload: bytes, media_kind: str, name: str, digest: str,
-              ocr_dir) -> tuple[Extracted, ParseResult]:
+              ocr_dir, corrections: dict | None = None) -> tuple[Extracted, ParseResult]:
     e = extract(payload, media_kind, name)
     parser = {"UG": lambda t: _parse_ug(t, listed_kind), "KE": parse_ke_result, "GH": parse_gh_result}[country]
     pr = parser(e.text)
+    if corrections and digest in corrections and pr.blocking:
+        fixed, notes = apply_corrections(e.text, corrections[digest])
+        prc = parser(fixed)
+        if prc.ok and not prc.blocking:
+            e = Extracted(fixed, e.method + "+ledger", e.tool, e.pages, notes=[*e.notes, *notes])
+            prc.flags.extend(notes)
+            return e, prc
     if _needs_ocr(country, pr, e, media_kind) and ocr_available():
         eo = ocr_pdf_page(payload, 0, cache_dir=ocr_dir, digest=digest)
+        # 1) the rendered page alone; 2) text layer + OCR (header fields may survive only in the text layer)
         pro = parser(eo.text)
+        if not (pro.ok and not pro.blocking) and e.text.strip():
+            merged = Extracted(e.text + "\n" + eo.text, eo.method, eo.tool, ocr_page=eo.ocr_page,
+                               ocr_mean_conf=eo.ocr_mean_conf, ocr_min_conf=eo.ocr_min_conf,
+                               notes=[*eo.notes, "parsed on text layer + OCR"])
+            prm = parser(merged.text)
+            if prm.ok and not prm.blocking:
+                eo, pro = merged, prm
         if pro.ok and not pro.blocking:
             eo.notes.append(f"text layer insufficient ({pr.doc_type}; {'; '.join(pr.blocking)})")
             return eo, pro
@@ -94,6 +149,7 @@ def run_parse(paths: Paths, cache: SourceCache, cutoff: str, workers: int = 4) -
     inv = load_inventory(paths)
     inv = inv[inv.in_scope & inv.url.notna()].drop_duplicates("url")
     ocr_dir = paths.cache / "ocr"
+    corrections = load_corrections(paths)
     items = inv.to_dict("records")
 
     def work(item):
@@ -105,7 +161,7 @@ def run_parse(paths: Paths, cache: SourceCache, cutoff: str, workers: int = 4) -
         name = item.get("file_name") or item["url"]
         try:
             e, pr = parse_one(item["country"], item["kind"], payload, rec.get("media_kind"), name, rec["sha256"],
-                              ocr_dir)
+                              ocr_dir, corrections)
         except Exception as exc:  # noqa: BLE001 - recorded, never silent
             return item, rec, None, None, "extract_error", f"{type(exc).__name__}: {exc}"[:300]
         if pr.ok and not pr.blocking:

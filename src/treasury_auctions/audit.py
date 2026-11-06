@@ -136,7 +136,7 @@ def second_extraction(paths: Paths, seed: int = 7, per_stratum: int = 4) -> pd.D
     docs = out.drop_duplicates("url")[["country", "event_id", "url", "sha256", "method", "flags"]].merge(
         ev[["event_id", "held_date"]], on="event_id", how="left")
     docs["year"] = docs.held_date.astype(str).str[:4]
-    unusual = docs[docs.flags.notna() | docs.method.fillna("").str.startswith("ocr")]
+    unusual = docs[docs["flags"].notna() | docs.method.fillna("").str.startswith("ocr")]
     rng = np.random.default_rng(seed)
     sample = docs.groupby(["country", "year"], group_keys=False).apply(
         lambda g: g.iloc[rng.permutation(len(g))[:per_stratum]], include_groups=False)
@@ -159,9 +159,18 @@ def second_extraction(paths: Paths, seed: int = 7, per_stratum: int = 4) -> pd.D
                 engine = "ocr-rapidocr@300dpi"
                 pr = parser[d.country](alt.text)
         else:
-            alt = pdf_text_alt(payload)
+            # independent of the text layer: OCR of the rendered page (pdftotext/Xpdf 4.00 was tried first
+            # and found to shift table rows on some CBK and BoU layouts, so it is not an independent check)
+            alt = ocr_pdf_page(payload, 0, dpi=220, cache_dir=paths.cache / "ocr_audit",
+                               digest=d.sha256) if ocr_available() else pdf_text_alt(payload)
             engine = alt.method if alt else None
             pr = parser[d.country](alt.text) if alt else None
+            if (pr is None or not pr.rows) and alt is not None:
+                alt2 = pdf_text_alt(payload)
+                if alt2 is not None:
+                    pr2 = parser[d.country](alt2.text)
+                    if pr2.rows:
+                        pr, engine = pr2, alt2.method + " (fallback; OCR unparseable)"
         if pr is None or not pr.rows:
             rows.append(dict(url=d.url, country=d.country, event_id=d.event_id, reason=d.reason, engine=engine,
                              status="second engine could not parse"))
@@ -253,6 +262,12 @@ def timing_screen(paths: Paths) -> pd.DataFrame:
     return x
 
 
+def _cnt(df: pd.DataFrame, cols: list[str]) -> dict:
+    if df is None or df.empty:
+        return {}
+    return {"|".join(str(x) for x in k): int(v) for k, v in df.groupby(cols).size().items()}
+
+
 def run_audit(paths: Paths, cutoff: str) -> dict:
     w = waterfall(paths)
     gaps = calendar_gaps(paths, cutoff)
@@ -266,8 +281,8 @@ def run_audit(paths: Paths, cutoff: str) -> dict:
         "events": ev.groupby("country").event_id.nunique().to_dict(),
         "event_span": {c: [g.held_date.min(), g.held_date.max()] for c, g in ev.groupby("country")},
         "events_by_year": {c: g.held_date.str[:4].value_counts().sort_index().to_dict() for c, g in ev.groupby("country")},
-        "calendar_gaps": gaps.groupby(["country", "status"]).size().rename(lambda t: "|".join(t)).to_dict() if not gaps.empty else {},
-        "offer_reconciliation": rec.groupby(["country", "status"]).size().rename(lambda t: "|".join(t)).to_dict() if not rec.empty else {},
+        "calendar_gaps": _cnt(gaps, ["country", "status"]),
+        "offer_reconciliation": _cnt(rec, ["country", "status"]),
         "ratio_definitions": rat.drop(columns="year").groupby("country").sum().to_dict(orient="index")
         if not rat.empty else {},
         "second_extraction": {
@@ -276,7 +291,7 @@ def run_audit(paths: Paths, cutoff: str) -> dict:
             "cells_agree": int(sec.cells_agree.sum()) if "cells_agree" in sec else 0,
             "max_abs_diff": float(sec.max_abs_diff.max()) if "max_abs_diff" in sec and sec.max_abs_diff.notna().any() else None,
         },
-        "pilot_comparison": pil.groupby(["country", "status"]).size().rename(lambda t: "|".join(t)).to_dict() if not pil.empty else {},
+        "pilot_comparison": _cnt(pil, ["country", "status"]),
         "timing": {"release_before_held": int(tim.release_before_held.sum()),
                    "median_release_lag_days": tim.groupby("country").release_lag_days.median().to_dict()},
         "waterfall_totals": w.drop(columns="year").groupby("country").sum().to_dict(orient="index"),

@@ -44,15 +44,19 @@ def load_panel(paths: Paths) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
 
 
 def announced_offer(off: pd.DataFrame, ev: pd.DataFrame) -> pd.DataFrame:
-    """Latest offer version first public on or before the event's held (bid) date.
+    """Latest pre-close offer version for each event x tenor.
 
-    Versions published after the auction date are never used as 'announced'.
+    A version dated after the auction date is never 'announced'. An invitation without a printed
+    date is still a pre-close document (it invites bids for that auction), so it is kept for
+    *measurement*; its ``first_public_date`` stays empty and the forecasting stage therefore never
+    treats it as known at a forecast origin.
     """
     if off.empty:
-        return pd.DataFrame(columns=["event_id", "tenor", "O_announced", "announced_version", "announced_url"])
+        return pd.DataFrame(columns=["event_id", "tenor", "O_announced", "announced_version", "announced_url",
+                                     "n_distinct_versions", "first_public_date"])
     m = off.merge(ev[["event_id", "held_date"]], on="event_id", how="inner")
-    m = m[m.first_public_date.notna() & (m.first_public_date <= m.held_date)]
-    m = m.sort_values(["event_id", "tenor", "first_public_date", "version"])
+    m = m[m.first_public_date.isna() | (m.first_public_date <= m.held_date)]
+    m = m.assign(_d=m.first_public_date.fillna("0000")).sort_values(["event_id", "tenor", "_d", "version"]).drop(columns="_d")
     last = m.groupby(["event_id", "tenor"]).tail(1)
     n_versions = m.groupby(["event_id", "tenor"]).O_announced.nunique().rename("n_distinct_versions")
     last = last.merge(n_versions.reset_index(), on=["event_id", "tenor"])
@@ -85,7 +89,7 @@ def event_panel(paths: Paths) -> pd.DataFrame:
     agg = t.groupby(["country", "event_id"]).agg(
         held_date=("held_date", "first"), O_result=("O_result", "sum"), B=("B", "sum"), A=("A", "sum"),
         O_announced=("O_announced", lambda s: s.sum() if s.notna().all() else np.nan),
-        first_public_date=("first_public_date", "max"),
+        first_public_date=("first_public_date", lambda s: s.astype(str).max() if s.notna().all() else np.nan),
         ocr=("ocr", "max"), conflict=("conflict", "max")).reset_index()
     gh = out[(out.country == "GH") & (out.tenor == "total")].copy()
     gh = gh.merge(ev[["event_id", "held_date"]].rename(columns={"held_date": "h"}), on="event_id", how="left")
@@ -349,8 +353,8 @@ def run_measure(paths: Paths, offer_version: str = "announced_or_result", seed: 
     dec = run_decomposition(paths, seed)
     mask = masking_table(paths)
     mev, mat = maturity_table(paths)
-    rob = robustness(paths, seed)
-    mb = missingness_bound(paths)
+    robustness(paths, seed)
+    missingness_bound(paths)
     make_figures(paths)
     key = dec[(dec.window == "common_2023-01-13_2026-10-30") & (dec.tol == 0) & (dec.offer_version == "result")]
     print(key[["country", "level", "n_events", "n_miss", "n_miss_B_ge_O", "volume_share_D", "ci95_lo_b8",

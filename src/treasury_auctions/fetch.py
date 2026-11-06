@@ -41,6 +41,8 @@ def sniff(payload: bytes) -> str:
     text = payload[:2048].lstrip().lower()
     if text.startswith(b"<!doctype html") or text.startswith(b"<html") or b"<html" in text[:600]:
         return "html"
+    if text.startswith(b"<?xml"):
+        return "xml"
     if text.startswith(b"{") or text.startswith(b"["):
         return "json"
     if text.startswith(b"{\\rtf"):
@@ -168,12 +170,18 @@ class SourceCache:
                 if declared and declared.isdigit() and int(declared) != len(payload) and "gzip" not in r.headers.get("Content-Encoding", ""):
                     raise OSError(f"truncated transfer {len(payload)} of {declared}")
                 got = sniff(payload)
+                note = None
                 if want and got != want:
-                    return self._fail(url, r.status_code, f"content mismatch: expected {want}, got {got}",
-                                      content_type=r.headers.get("Content-Type"))
+                    # an HTML/unknown body where a document was expected is an error page: fail.
+                    # a different *document* type (e.g. PDF bytes behind an .xls link) is kept and noted.
+                    if got not in ("pdf", "zip", "ole") or want in ("json", "html"):
+                        return self._fail(url, r.status_code, f"content mismatch: expected {want}, got {got}",
+                                          content_type=r.headers.get("Content-Type"))
+                    note = f"extension suggests {want}, content is {got}"
                 digest = self._store(payload)
                 rec = FetchRecord(url, "fetched", digest, len(payload), got, r.headers.get("Content-Type"),
-                                  datetime.now(UTC).isoformat(timespec="seconds"), r.status_code, final_url=r.url)
+                                  datetime.now(UTC).isoformat(timespec="seconds"), r.status_code, detail=note,
+                                  final_url=r.url)
                 with self._lock:
                     self.index[url] = asdict(rec)
                 return rec

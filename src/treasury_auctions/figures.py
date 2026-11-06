@@ -48,8 +48,9 @@ def fig_decomposition(paths: Paths) -> None:
     d = pd.DataFrame(rows)
     d.to_csv(paths.figures / "fig1_decomposition_source.csv", index=False)
     order = [("UG", "auction_wide"), ("UG", "tenor"), ("KE", "auction_wide"), ("KE", "tenor"), ("GH", "auction_wide")]
+    # (rows are drawn top to bottom in this order)
     labels = {"auction_wide": "auction-wide", "tenor": "by maturity"}
-    fig, axes = plt.subplots(1, 2, figsize=(7.2, 3.4), sharey=True)
+    fig, axes = plt.subplots(1, 2, figsize=(8.6, 3.6), sharey=True)
     for ax, (w, title) in zip(axes, [("common_2023-01-13_2026-10-30", "Common window\n13 Jan 2023 – 30 Oct 2026"),
                                      ("recent_2025-01-01_2026-10-30", "Recent window\n1 Jan 2025 – 30 Oct 2026")]):
         x = d[d.window == w]
@@ -66,10 +67,10 @@ def fig_decomposition(paths: Paths) -> None:
             if np.isfinite(r.lo):
                 ax.errorbar(r.share_D * 100, i, xerr=[[max(r.share_D - r.lo, 0) * 100], [max(r.hi - r.share_D, 0) * 100]],
                             fmt="none", ecolor=INK, elinewidth=0.9, capsize=2.5)
-            ax.text(101, i, f"{r.share_D * 100:.0f}%  (misses {int(r.n_miss)}/{int(r.n_events)})", va="center",
-                    fontsize=7.5, color=INK2)
+            what = "maturity misses" if lev == "tenor" else "auction misses"
+            ax.text(102, i, f"{r.share_D * 100:.0f}%\n{int(r.n_miss)} {what},\n{int(r.n_events)} auctions", va="center",
+                    fontsize=6.6, color=INK2, linespacing=1.05)
         ax.set_yticks(ys, ticks)
-        ax.invert_yaxis()
         ax.set_xlim(0, 100)
         ax.set_xlabel("Share of shortfall volume (%)")
         ax.set_title(title, fontsize=9, color=INK, loc="left")
@@ -77,10 +78,11 @@ def fig_decomposition(paths: Paths) -> None:
     axes[0].legend(handles=[plt.Rectangle((0, 0), 1, 1, color=BLUE), plt.Rectangle((0, 0), 1, 1, color=ORANGE)],
                    labels=["Bids short of offer (D)", "Bids not accepted (R)"], loc="lower left",
                    bbox_to_anchor=(0, -0.42), ncol=2, frameon=False, fontsize=8)
-    fig.text(0, -0.08, "Ratio of sums within country (native currency); whiskers: 95% moving-block bootstrap (8-auction blocks).\n"
-             "Text: volume share from insufficient bids, then misses / auctions (auction-wide) or misses / auctions (maturity rows).",
+    axes[0].invert_yaxis()  # shared y-axis: invert once so the first entry (Uganda auction-wide) is on top
+    fig.text(0, -0.08, "Share = sum of D / sum of S over missed offers, within country (native currency; never pooled).\n"
+             "Whiskers: 95% moving-block bootstrap (8-auction blocks). Offer = amount printed with results; exact threshold.",
              fontsize=7, color=INK2)
-    fig.subplots_adjust(wspace=0.55)
+    fig.subplots_adjust(wspace=0.75)
     _save(fig, paths, "fig1_decomposition")
 
 
@@ -91,18 +93,18 @@ def fig_maturity(paths: Paths) -> None:
         paths.figures / "fig2_maturity_source.csv", index=False)
     fig, ax = plt.subplots(figsize=(6.2, 3.0))
     rng = np.random.default_rng(3)
+    labels = []
     for i, c in enumerate(["UG", "KE"]):
         v = ev[ev.country == c].shift_nominal.to_numpy()
+        labels.append(f"{NAMES[c]}\nn = {len(v)}, median {np.median(v):+.1f} d" if len(v) else NAMES[c])
         if not len(v):
             continue
         ax.boxplot(v, positions=[i], vert=False, widths=0.5, showfliers=False,
                    medianprops=dict(color=INK, linewidth=1.6), boxprops=dict(color=INK2),
                    whiskerprops=dict(color=INK2), capprops=dict(color=INK2))
         ax.scatter(v, i + rng.uniform(-0.18, 0.18, len(v)), s=9, color=BLUE, alpha=0.55, linewidths=0)
-        ax.text(ax.get_xlim()[1] if False else 0, i + 0.38, f"n = {len(v)}, median {np.median(v):+.1f} days",
-                fontsize=7.5, color=INK2, ha="center")
     ax.axvline(0, color=INK2, linewidth=0.8, linestyle=(0, (3, 3)))
-    ax.set_yticks([0, 1], ["Uganda", "Kenya"])
+    ax.set_yticks([0, 1], labels)
     ax.set_xlabel("Accepted minus offered face-value-weighted maturity (days, nominal 91/182/364)")
     ax.set_title("Maturity shift in auctions that met the overall offer, 13 Jan 2023 – 30 Oct 2026",
                  fontsize=9, loc="left")
@@ -129,10 +131,11 @@ def fig_timeline(paths: Paths) -> None:
     ex = u[u.event_id == "UG-1237"]
     if not ex.empty:
         d0 = pd.to_datetime(ex.held_date.iloc[0])
-        axes[0].annotate("#1237", (d0, ex.fill_pct.iloc[0]), xytext=(-40, 14), textcoords="offset points",
-                         fontsize=7.5, color=INK, arrowprops=dict(arrowstyle="-", color=INK2, lw=0.7))
+        axes[0].annotate(f"#1237 (4 Nov 2026): {ex.fill_pct.iloc[0]:.0f}% filled", (d0, ex.fill_pct.iloc[0]),
+                         xytext=(-30, 42), textcoords="offset points", fontsize=7.5, color=INK, ha="right",
+                         arrowprops=dict(arrowstyle="-", color=INK2, lw=0.7))
         axes[1].annotate(f"#1237: {ex.shift_nominal.iloc[0]:+.0f} days", (d0, ex.shift_nominal.iloc[0]),
-                         xytext=(-80, -4), textcoords="offset points", fontsize=7.5, color=INK,
+                         xytext=(-30, 30), textcoords="offset points", fontsize=7.5, color=INK, ha="right",
                          arrowprops=dict(arrowstyle="-", color=INK2, lw=0.7))
     axes[0].set_title("Uganda: overall fill and accepted maturity mix, each bill auction (2022 onward, observed)",
                       fontsize=9, loc="left")

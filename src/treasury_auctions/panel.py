@@ -83,8 +83,17 @@ def build_ug(paths: Paths, cutoff: str):
     for c in ["O", "B", "A", "B_comp", "B_noncomp", "A_comp", "A_noncomp"]:
         r[c] = r[c] / 1e9  # UGX -> UGX bn
     r["conflict"] = False
-    r, dups = _dedupe(r, "auction_no", QCOLS, tol=1e-6)
-    r["event_id"] = "UG-" + r.auction_no.astype(str)
+    # A printed auction number shared by documents with *different* held dates denotes distinct auctions
+    # with a numbering typo (e.g. the 18 Nov 2020 release prints 1086, as does 4 Nov 2020). The earliest
+    # keeps UG-<no>; later ones are keyed UG-<no>-<held date> and flagged. The number is never guessed.
+    first_date = r.groupby("auction_no").held_date.transform("min")
+    r["number_reused"] = r.groupby("auction_no").held_date.transform("nunique") > 1
+    r["ev_key"] = np.where(r.held_date == first_date, r.auction_no.astype(str),
+                           r.auction_no.astype(str) + "-" + r.held_date.astype(str))
+    r, dups = _dedupe(r, "ev_key", QCOLS, tol=1e-6)
+    r["event_id"] = "UG-" + r.ev_key.astype(str)
+    r["flags"] = np.where(r.number_reused, (r["flags"].fillna("") + " | printed auction number also used for another "
+                                            "held date").str.strip(" |"), r["flags"])
     r["country"] = "UG"
     r["tenor"] = r.tenor.astype(int)
     r["days_to_maturity"] = (pd.to_datetime(r.maturity_date) - pd.to_datetime(r.settlement_date)).dt.days
@@ -177,15 +186,23 @@ def build_ke(paths: Paths, cutoff: str):
                     continue
                 iss = json.loads(row.next_issues_json or "{}")
                 tenors = sorted(int(t) for t in iss) if iss else [91, 182, 364][: max(0, len(vals) - 1)]
-                if len(vals) < len(tenors):
+                if len(vals) == 4:
+                    # full header "91 DAYS 182 DAYS 364 DAYS TOTAL": map by column, keep the issued tenors only
+                    colmap = dict(zip([91, 182, 364], vals[:3]))
+                    pairs = [(t, colmap[t]) for t in tenors]
+                    total = vals[3]
+                elif len(vals) >= len(tenors):
+                    pairs = list(zip(tenors, vals))
+                    total = vals[len(tenors)] if len(vals) > len(tenors) else None
+                else:
                     continue
-                for i, t in enumerate(tenors):
-                    offer_rows.append(dict(country="KE", event_id=f"KE-{vd}", tenor=t, O_announced=vals[i], version=ver,
+                for t, val in pairs:
+                    offer_rows.append(dict(country="KE", event_id=f"KE-{vd}", tenor=t, O_announced=val, version=ver,
                                            first_public_date=row.this_signed_date,
                                            first_public_basis="signature date of preceding results notice (date only)",
                                            deadline_date=row.next_closure_date, deadline_time_text=row.next_deadline_time_text,
                                            source_url=row.url, sha256=row.sha256, method=row.method,
-                                           announced_total=vals[len(tenors)] if len(vals) > len(tenors) else None))
+                                           announced_total=total))
     else:
         ev["held_date"] = None
     # if no preceding announcement: held date unknown; fall back to signed date for the event calendar only
@@ -200,6 +217,8 @@ def build_ke(paths: Paths, cutoff: str):
     r = r[r.event_id.isin(ev.event_id)]
     r = r.merge(ev[["event_id", "held_date"]], on="event_id", how="left")
     r["settlement_date"] = r.value_date
+    if "maturity_date" in r:
+        r["days_to_maturity"] = (pd.to_datetime(r.maturity_date) - pd.to_datetime(r.value_date)).dt.days
     offers = pd.DataFrame(offer_rows)
     if not offers.empty:
         offers = offers[offers.event_id.isin(ev.event_id) | (offers.first_public_date <= cutoff)]
@@ -227,22 +246,31 @@ def build_gh(paths: Paths, cutoff: str):
     ev = g[["event_id", "country", "tender_no", "held_date", "settlement_date", "signed_date", "notice_no", "posted_utc",
             "posted_local", "url", "sha256", "method", "conflict", "flags", "target_scope"]].rename(
         columns={"url": "result_url", "sha256": "result_sha256"}).drop_duplicates("event_id")
-    # release: earliest of archive posting time (UTC, from WordPress metadata) and signature date
-    ev["release_date"] = ev.posted_local.str[:10].where(ev.posted_local.notna(), ev.signed_date)
-    ev["release_basis"] = np.where(ev.posted_local.notna(), "archive post time (BoG WordPress date)",
-                                   "signature date (date only)")
+    # release: archive post date when it is within 7 days of the signature date; posts made later are
+    # archive back-fills (e.g. 2018 tenders uploaded in July 2019) and fall back to the signature date
+    post = pd.to_datetime(ev.posted_local.str[:10], errors="coerce")
+    sig = pd.to_datetime(ev.signed_date.fillna(ev.held_date), errors="coerce")
+    timely = post.notna() & sig.notna() & ((post - sig).dt.days.between(0, 7))
+    ev["release_date"] = np.where(timely, ev.posted_local.str[:10], ev.signed_date.fillna(ev.held_date))
+    ev["release_basis"] = np.where(timely, "archive post date (BoG WordPress, within 7 days of signature)",
+                                   "signature date (archive post is a later back-fill or missing)")
+    ev["archive_backfill"] = post.notna() & ~timely
     ev["available_from"] = ev.release_date.map(_next_business_day)
     ev["n_tenors"] = 3
     # announced combined target: previous notice section 3, keyed by tender number
     nxt = g[g.next_tender_no.notna()][["tender_no", "next_tender_no", "next_target", "url", "sha256", "signed_date",
                                        "posted_local", "method"]].copy()
+    # a notice cannot announce its own tender: self-references (source typo, e.g. tender 1655) are
+    # excluded rather than re-assigned to a guessed tender number
+    selfref = nxt[nxt.next_tender_no.astype(int) <= nxt.tender_no.astype(int)]
+    nxt = nxt[nxt.next_tender_no.astype(int) > nxt.tender_no.astype(int)].copy()
     nxt["event_id"] = "GH-" + nxt.next_tender_no.astype(int).astype(str)
     nxt = nxt.sort_values(["event_id", "tender_no"])
     nxt["version"] = nxt.groupby("event_id").cumcount() + 1
     offers = pd.DataFrame(dict(country="GH", event_id=nxt.event_id, tenor="total", O_announced=nxt.next_target,
                                version=nxt.version,
-                               first_public_date=nxt.posted_local.str[:10].where(nxt.posted_local.notna(), nxt.signed_date),
-                               first_public_basis="previous notice section 3 (archive post date)",
+                               first_public_date=nxt.signed_date,
+                               first_public_basis="previous notice section 3 (signature date of that notice)",
                                deadline_date=None, deadline_time_text=None, source_url=nxt.url, sha256=nxt.sha256,
                                method=nxt.method))
     rows = []
@@ -263,6 +291,10 @@ def build_gh(paths: Paths, cutoff: str):
     rc["A_diff"] = rc.prev_A_total - rc.A
     rc["check"] = np.where(rc.prev_B_total.isna(), "no following notice",
                            np.where((rc.B_diff.abs() <= 0.011 * 3) & (rc.A_diff.abs() <= 0.011 * 3), "match", "mismatch"))
+    if not selfref.empty:
+        rc = pd.concat([rc, pd.DataFrame(dict(event_id="GH-" + selfref.tender_no.astype(int).astype(str),
+                                              check="section-3 announcement references its own tender number (excluded)",
+                                              following_notice_url=selfref.url))], ignore_index=True)
     recon = rc
     return ev, outcomes, offers, recon, dups
 

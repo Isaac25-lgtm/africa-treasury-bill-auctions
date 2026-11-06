@@ -1,0 +1,114 @@
+"""Programmatic verification of generated tables and the reproducibility record.
+
+Checks (each recorded pass/fail in ``outputs/reports/verification.json``):
+* decomposition identity sum_S = sum_D + sum_R and n_miss = n(B>=O) + n(B<O) in every T1 row
+* volume shares in [0, 1] or undefined; no row pools currencies (one country per row)
+* recomputing the headline T1 cells directly from ``data/derived`` reproduces the table
+* every figure has its source CSV and the source rows trace to auction event ids present in the panel
+* maturity table counts equal the number of eligible events
+* derived files hashed; package/tool versions, git commit and command recorded
+"""
+
+from __future__ import annotations
+
+import hashlib
+import json
+import platform
+import subprocess
+import sys
+from datetime import UTC, datetime
+from importlib.metadata import version
+
+import numpy as np
+import pandas as pd
+
+from .config import SNAPSHOT_CUTOFF, Paths
+
+
+def _sha(p) -> str:
+    return hashlib.sha256(p.read_bytes()).hexdigest()
+
+
+def _git(paths: Paths, *args) -> str | None:
+    try:
+        return subprocess.run(["git", *args], cwd=paths.root, capture_output=True, text=True, timeout=20).stdout.strip()
+    except (OSError, subprocess.SubprocessError):
+        return None
+
+
+def verify(paths: Paths) -> dict:
+    from .analysis import event_panel, window, with_offer
+    from .measures import shortfall_parts, volume_share
+
+    checks = {}
+    t1 = pd.read_csv(paths.tables / "T1_decomposition.csv")
+    checks["T1_identity_S_eq_D_plus_R"] = bool(np.allclose(t1.sum_S, t1.sum_D + t1.sum_R, atol=1e-6))
+    checks["T1_counts_reconcile"] = bool((t1.n_miss == t1.n_miss_B_ge_O + t1.n_miss_B_lt_O).all())
+    vs = t1.volume_share_D.dropna()
+    checks["T1_shares_in_unit_interval"] = bool(((vs >= -1e-12) & (vs <= 1 + 1e-12)).all())
+    checks["T1_undefined_when_no_shortfall"] = bool(t1[t1.sum_S == 0].volume_share_D.isna().all())
+    # independent recomputation of the headline cells
+    e = window(with_offer(event_panel(paths), "result"), "common_2023-01-13_2026-10-30")
+    ok = True
+    for c, g in e.groupby("country"):
+        S, D, R = shortfall_parts(g.O, g.B, g.A)
+        m = (g.A < g.O).to_numpy()
+        share = volume_share(D[m], S[m])
+        row = t1[(t1.country == c) & (t1.offer_version == "result") & (t1.window == "common_2023-01-13_2026-10-30")
+                 & (t1.tol == 0) & (t1.level == "auction_wide")]
+        if row.empty or int(row.n_miss.iloc[0]) != int(m.sum()) or not (
+                (np.isnan(share) and np.isnan(row.volume_share_D.iloc[0])) or abs(share - row.volume_share_D.iloc[0]) < 1e-12):
+            ok = False
+    checks["T1_headline_recomputed"] = ok
+    ev = pd.read_csv(paths.root / "data" / "derived" / "auction_events.csv")
+    ids = set(ev.event_id)
+    for f in ("fig1_decomposition", "fig2_maturity_shift", "fig3_uganda_timeline"):
+        checks[f"{f}_rendered"] = (paths.figures / f"{f}.png").is_file() and (paths.figures / f"{f}.pdf").is_file()
+    src2 = pd.read_csv(paths.figures / "fig2_maturity_source.csv")
+    src3 = pd.read_csv(paths.figures / "fig3_uganda_timeline_source.csv")
+    checks["fig2_rows_trace_to_events"] = bool(src2.event_id.isin(ids).all())
+    checks["fig3_rows_trace_to_events"] = bool(src3.event_id.isin(ids).all())
+    checks["fig1_source_present"] = (paths.figures / "fig1_decomposition_source.csv").is_file()
+    mt = pd.read_csv(paths.tables / "T4_maturity_shift.csv")
+    me = pd.read_csv(paths.tables / "maturity_events.csv")
+    okm = True
+    for _, r in mt.iterrows():
+        x = window(me[me.country == r.country], r.window)
+        x = x[x.met] if r.subset == "met" else x
+        okm &= int(x.shift_nominal.notna().sum()) == int(r.n)
+    checks["T4_counts_match_events"] = bool(okm)
+    out = pd.read_csv(paths.root / "data" / "derived" / "auction_outcomes.csv", dtype={"tenor": str})
+    checks["units_one_per_country"] = bool(out.groupby("country").unit.nunique().eq(1).all())
+    checks["no_zero_filled_quantities"] = bool(not ((out.B == 0) & (out.A == 0) & out.O_result.isna()).any())
+    return checks
+
+
+def run_report(paths: Paths) -> bool:
+    checks = verify(paths)
+    derived = paths.root / "data" / "derived"
+    files = {p.name: _sha(p) for p in sorted(derived.glob("*.csv"))}
+    tables = {p.name: _sha(p) for p in sorted(paths.tables.glob("*.csv"))}
+    pkgs = {}
+    for pkg in ("pandas", "numpy", "scikit-learn", "scipy", "matplotlib", "pymupdf", "requests", "beautifulsoup4",
+                "lxml", "openpyxl", "rapidocr-onnxruntime", "onnxruntime", "pytest"):
+        try:
+            pkgs[pkg] = version(pkg)
+        except Exception:  # noqa: BLE001
+            pkgs[pkg] = None
+    from .extract import pdftotext_version
+
+    rec = dict(
+        generated_utc=datetime.now(UTC).isoformat(timespec="seconds"), snapshot_cutoff=SNAPSHOT_CUTOFF,
+        python=sys.version.split()[0], platform=platform.platform(), packages=pkgs,
+        pdftotext=pdftotext_version(), git_commit=_git(paths, "rev-parse", "HEAD"),
+        git_dirty=bool(_git(paths, "status", "--porcelain")), derived_sha256=files, table_sha256=tables,
+        verification=checks, all_checks_pass=all(checks.values()),
+    )
+    inv_meta = paths.frozen / "inventory_meta.json"
+    if inv_meta.is_file():
+        rec["inventory"] = json.loads(inv_meta.read_text(encoding="utf-8"))
+    (paths.reports / "verification.json").write_text(json.dumps(checks, indent=1), encoding="utf-8")
+    (paths.reports / "run_record.json").write_text(json.dumps(rec, indent=1, default=str), encoding="utf-8")
+    for k, v in checks.items():
+        print(("PASS " if v else "FAIL ") + k)
+    return rec["all_checks_pass"]
