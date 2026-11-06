@@ -65,37 +65,41 @@
   "UG|no invitation or result found": 13
  },
  "offer_reconciliation": {
-  "GH|agree": 426,
-  "GH|mismatch": 4,
+  "GH|agree": 424,
+  "GH|numeric mismatch": 3,
   "GH|result only (no pre-close notice recovered)": 17,
-  "KE|agree": 1494,
-  "KE|mismatch": 1,
+  "GH|scope mismatch": 2,
+  "GH|unparseable offer amount": 1,
+  "KE|agree": 1485,
+  "KE|numeric mismatch": 1,
   "KE|result only (no pre-close notice recovered)": 75,
   "UG|agree": 605,
-  "UG|mismatch": 1,
+  "UG|numeric mismatch": 1,
   "UG|result only (no pre-close notice recovered)": 75
  },
  "ratio_definitions": {
   "KE": {
    "B/A": 1443,
    "B/O": 0,
-   "ambiguous (A = B)": 39,
+   "ambiguous at printed precision": 39,
    "inconsistent": 0,
    "missing": 88
   },
   "UG": {
    "B/A": 392,
    "B/O": 83,
-   "ambiguous (A = B)": 197,
+   "ambiguous at printed precision": 197,
    "inconsistent": 6,
    "missing": 3
   }
  },
  "second_extraction": {
-  "documents": 117,
-  "compared": 105,
-  "cells": 882,
-  "cells_agree": 882,
+  "documents": 115,
+  "compared": 102,
+  "cells": 869,
+  "cells_expected": 946,
+  "cells_agree": 869,
+  "dates_agree": 102,
   "max_abs_diff": 0.0
  },
  "pilot_comparison": {
@@ -107,6 +111,14 @@
   "UG|match": 524,
   "UG|rebuild only": 156,
   "UG|value difference": 1
+ },
+ "ghana_cross_notice": {
+  "match": 412,
+  "no following notice": 21,
+  "scope mismatch": 8,
+  "numeric mismatch": 6,
+  "following totals unavailable": 1,
+  "section-3 announcement references its own tender number (excluded)": 1
  },
  "timing": {
   "release_before_held": 0,
@@ -141,10 +153,10 @@
   },
   "UG": {
    "listed_documents": 374,
-   "fetched": 374,
-   "fetch_failed": 0,
+   "fetched": 373,
+   "fetch_failed": 1,
    "target_family": 229,
-   "other_family": 145,
+   "other_family": 144,
    "parsed": 229,
    "blocked": 0,
    "extract_error": 0,

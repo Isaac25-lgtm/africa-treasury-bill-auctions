@@ -1,0 +1,68 @@
+{
+ "seed": 20261106,
+ "strict_timing": true,
+ "periods": {
+  "development": [
+   "2020-01-01",
+   "2022-12-31"
+  ],
+  "holdout": [
+   "2023-01-01",
+   "2024-12-31"
+  ],
+  "replication": [
+   "2025-01-01",
+   "2026-10-31"
+  ]
+ },
+ "clip": 1e-06,
+ "nominal_alert_rate": 0.25,
+ "publication_delay_weekdays": 1,
+ "calendar": "weekdays only; bid date is the earlier of held date and recorded deadline",
+ "min_train": 40,
+ "features": {
+  "history": [
+   "cov_last",
+   "fill_last",
+   "acc_last",
+   "cov_med6",
+   "fill_med6",
+   "acc_med6",
+   "miss_rate12",
+   "c1_rate12",
+   "c2_rate12",
+   "prev_class1",
+   "prev_class2",
+   "days_since_last",
+   "n_hist"
+  ],
+  "offer": [
+   "log_offer",
+   "offer_share",
+   "offer_change_vs_last"
+  ],
+  "calendar": [
+   "month_sin",
+   "month_cos",
+   "quarter_end"
+  ]
+ },
+ "models": [
+  "base_blend",
+  "base_recent12",
+  "base_transition",
+  "base_unconditional",
+  "hgb_full",
+  "logit_full",
+  "logit_history",
+  "pooled_logit",
+  "transfer_recalibrated",
+  "transfer_zero_shot"
+ ],
+ "hyperparameters": {
+  "logit": "L2, C=0.5",
+  "hgb": "depth 3, lr 0.05, 150 iter, l2 1.0, min leaf 20",
+  "ridge_alpha": 10.0
+ },
+ "gate4_any_pass_holdout": true
+}

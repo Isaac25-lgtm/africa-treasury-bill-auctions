@@ -10,8 +10,8 @@ After each bill auction, the headline is usually one number: the auction was und
 over-subscribed, or its "bid-to-cover" ratio was high or low. Two auctions with the same headline can
 mean very different things for a debt manager:
 
-1. **Why did it fall short?** Either bids did not reach the amount offered, or enough was bid but not
-   accepted.
+1. **How much of the gap came from bid volume?** Part can come from bids falling short of the offer
+   and part from submitted bids left unaccepted. Both can occur in the same auction.
 2. **Which maturities were sold?** An auction can fill its total target while under-selling some
    maturities and over-selling others — changing when the new debt must be repaid.
 3. **What does the cover ratio divide by?** The published ratio is sometimes bids ÷ accepted and
@@ -19,20 +19,21 @@ mean very different things for a debt manager:
 
 ## What the notices show (13 January 2023 – 30 October 2026)
 
-**Shortfalls have different causes in different markets.**
+**The accounting split differs across the three markets.**
 
 | | Auctions | Fell short of offer | Share of shortfall volume because bids did not reach the offer |
 |---|---:|---:|---:|
 | Uganda | 91 | 34 | **0%** — every shortfall had enough bids |
 | Kenya | 198 | 70 | **81%** |
-| Ghana | 189 | 79 | **74%** (falling to 64% in 2025–26) |
+| Ghana | 199 | 81 | **74.5%** (falling to 64% in 2025–26) |
 
 **Filled totals hide maturity misses.** Of auctions that met the overall offer, **88% in Uganda** and
 **85% in Kenya** still missed the offer on at least one maturity.
 
 **The maturity of new debt moved away from the plan.** In fully funded auctions the accepted mix was
-on median **27 days longer** than advertised in Uganda (40 days in 2025–26) and **46 days shorter** in
-Kenya (17 days shorter in 2025–26).
+on median **27 days longer** than the mix in the results notice in Uganda (40 days in 2025–26) and
+**46 days shorter** in Kenya (17 days shorter in 2025–26). Comparing with the original invitations
+where available gives the same directions.
 
 **The cover ratio is not one measure.** Uganda's published ratio matched bids ÷ offered in most 2020
 releases and bids ÷ accepted from 2021; Kenya's matches bids ÷ accepted, with a separate
@@ -59,10 +60,8 @@ portfolio's average maturity. Three markets and these years do not establish pat
 
 ## Can a model warn in advance?
 
-Not reliably, with public information. In a pre-registered test, simple rules based on recent auctions
-were as good as or better than statistical and machine-learning models in most cases. A gain for
-Kenyan maturity-level warnings in 2023–24 did not repeat in 2025–26. Monitoring should rely on clear
-reporting and recent history, not on a prediction product.
+Some models improved probability forecasts in the historical holdout. The evidence across periods
+and alert thresholds is insufficient to establish a reliable warning rule for operational use.
 
 ## Recommendations for public auction reporting
 

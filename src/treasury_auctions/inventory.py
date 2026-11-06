@@ -16,7 +16,7 @@ import pandas as pd
 
 from .config import SNAPSHOT_CUTOFF, Paths
 from .discovery import bog_attachments, discover_bog, discover_bou, discover_cbk
-from .fetch import SourceCache
+from .fetch import SourceCache, sha256
 
 INVENTORY_COLUMNS = [
     "asset_id", "country", "issuer", "kind", "category", "family_hint", "url", "referrer", "title", "file_name",
@@ -110,6 +110,28 @@ def fetch_inventory(paths: Paths, cache: SourceCache, countries=("UG", "KE", "GH
 
 def fetch_summary(man: pd.DataFrame) -> pd.DataFrame:
     return man.groupby(["country", "fetch_status"]).size().unstack(fill_value=0)
+
+
+def verify_frozen_sources(paths: Paths, cache: SourceCache, workers: int = 4) -> int:
+    """Bind parsing to the manifest's bytes and retrieval metadata without rewriting the freeze."""
+    manifest = pd.read_csv(paths.frozen / "fetch_manifest.csv", dtype=str).fillna("")
+    inv = load_inventory(paths)
+    expected_urls = set(inv.loc[inv.in_scope & inv.url.notna(), "url"])
+    if manifest.url.duplicated().any() or set(manifest.url) != expected_urls:
+        raise ValueError("Frozen fetch manifest and in-scope inventory URLs disagree")
+    pinned = manifest.set_index("url").rename(columns={"fetch_status": "status"}).to_dict(orient="index")
+    expected = {url: row["sha256"] for url, row in pinned.items() if row["sha256"]}
+    missing = [url for url, digest in expected.items() if not cache.blob_path(digest).is_file()]
+    if missing and not cache.offline:
+        cache.get_many(missing, workers=workers)
+    for digest in set(expected.values()):
+        blob = cache.blob_path(digest)
+        if not blob.is_file() or sha256(blob.read_bytes()) != digest:
+            url = next(url for url, value in expected.items() if value == digest)
+            raise ValueError(f"Frozen source is missing or has changed: {url} (expected {digest})")
+    cache.index = {url: {**row, "bytes": int(float(row["bytes"])) if row["bytes"] else None}
+                   for url, row in pinned.items()}
+    return len(expected)
 
 
 def write_text(path: Path, text: str) -> None:

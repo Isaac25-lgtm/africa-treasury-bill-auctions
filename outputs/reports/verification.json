@@ -13,5 +13,7 @@
  "readme_story_figures_rendered": true,
  "T4_counts_match_events": true,
  "units_one_per_country": true,
- "no_zero_filled_quantities": true
+ "no_zero_filled_quantities": true,
+ "GH_totals_cover_all_valid_events": true,
+ "T5_excludes_offer_mismatches": true
 }

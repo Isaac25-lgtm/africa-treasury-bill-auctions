@@ -16,7 +16,9 @@
   ]
  },
  "clip": 1e-06,
- "alert_budget": 0.25,
+ "nominal_alert_rate": 0.25,
+ "publication_delay_weekdays": 0,
+ "calendar": "weekdays only; bid date is the earlier of held date and recorded deadline",
  "min_train": 40,
  "features": {
   "history": [

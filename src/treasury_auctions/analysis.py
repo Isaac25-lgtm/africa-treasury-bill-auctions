@@ -53,16 +53,23 @@ def announced_offer(off: pd.DataFrame, ev: pd.DataFrame) -> pd.DataFrame:
     """
     if off.empty:
         return pd.DataFrame(columns=["event_id", "tenor", "O_announced", "announced_version", "announced_url",
-                                     "n_distinct_versions", "first_public_date"])
+                                     "n_distinct_versions", "first_public_date", "scope_status"])
     m = off.merge(ev[["event_id", "held_date"]], on="event_id", how="inner")
     m = m[m.first_public_date.isna() | (m.first_public_date <= m.held_date)]
     m = m.assign(_d=m.first_public_date.fillna("0000")).sort_values(["event_id", "tenor", "_d", "version"]).drop(columns="_d")
     last = m.groupby(["event_id", "tenor"]).tail(1)
     n_versions = m.groupby(["event_id", "tenor"]).O_announced.nunique().rename("n_distinct_versions")
     last = last.merge(n_versions.reset_index(), on=["event_id", "tenor"])
+    last["scope_status"] = "not applicable"
+    if "target_tenors" in last and "target_tenors" in ev:
+        result_scope = last.event_id.map(ev.set_index("event_id").target_tenors)
+        gh = last.event_id.str.startswith("GH-")
+        last.loc[gh, "scope_status"] = np.select(
+            [last.target_tenors.isna(), last.target_tenors.eq(result_scope)],
+            ["scope unavailable", "same scope"], default="scope mismatch")[gh]
     return last.rename(columns={"version": "announced_version", "source_url": "announced_url"})[
         ["event_id", "tenor", "O_announced", "announced_version", "announced_url", "n_distinct_versions",
-         "first_public_date"]]
+         "first_public_date", "scope_status"]]
 
 
 def tenor_panel(paths: Paths) -> pd.DataFrame:
@@ -95,6 +102,8 @@ def event_panel(paths: Paths) -> pd.DataFrame:
     gh = gh.merge(ev[["event_id", "held_date"]].rename(columns={"held_date": "h"}), on="event_id", how="left")
     gh["held_date"] = gh.h.fillna(gh.held_date)
     ann = announced_offer(off[off.country == "GH"] if not off.empty else off, ev)
+    if not ann.empty:
+        ann.loc[ann.scope_status != "same scope", "O_announced"] = np.nan
     gh = gh.merge(ann[["event_id", "O_announced", "first_public_date"]], on="event_id", how="left")
     gh["ocr"] = gh.method.fillna("").str.startswith("ocr")
     gh["conflict"] = gh.conflict.fillna(False).astype(bool)
@@ -228,8 +237,8 @@ def masking_table(paths: Paths) -> pd.DataFrame:
 
 
 # ------------------------------------------------------------------ maturity
-def maturity_table(paths: Paths) -> tuple[pd.DataFrame, pd.DataFrame]:
-    tp = with_offer(tenor_panel(paths), "result")
+def maturity_table(paths: Paths, version: str = "result") -> tuple[pd.DataFrame, pd.DataFrame]:
+    tp = with_offer(tenor_panel(paths), version)
     full = tp.groupby("event_id").tenor.nunique()
     tp = tp[tp.event_id.isin(full[full == 3].index)].copy()
     tp["days_actual"] = tp.days_to_maturity.where(tp.days_to_maturity.between(80, 380))
@@ -249,7 +258,8 @@ def maturity_table(paths: Paths) -> tuple[pd.DataFrame, pd.DataFrame]:
             rec["share364_shift"] = float(A[nom == 364].sum() / A.sum() - O[nom == 364].sum() / O.sum())
         rows.append(rec)
     ev = pd.DataFrame(rows)
-    ev.to_csv(paths.tables / "maturity_events.csv", index=False)
+    if version == "result":
+        ev.to_csv(paths.tables / "maturity_events.csv", index=False)
     summ = []
     for wname in WINDOWS:
         for c in ("UG", "KE"):
@@ -269,15 +279,20 @@ def maturity_table(paths: Paths) -> tuple[pd.DataFrame, pd.DataFrame]:
                                  n_actual=int(x.shift_actual.notna().sum()) if "shift_actual" in x else 0,
                                  median_share364_shift=x.share364_shift.median()))
     s = pd.DataFrame(summ)
-    s.to_csv(paths.tables / "T4_maturity_shift.csv", index=False)
-    by_year = ev[ev.met & ev.shift_nominal.notna()].assign(year=lambda z: z.held_date.str[:4]).groupby(
-        ["country", "year"]).shift_nominal.agg(["size", "median", "mean"]).reset_index()
-    by_year.to_csv(paths.tables / "T4b_maturity_shift_by_year.csv", index=False)
+    if version == "result":
+        s.to_csv(paths.tables / "T4_maturity_shift.csv", index=False)
+        by_year = ev[ev.met & ev.shift_nominal.notna()].assign(year=lambda z: z.held_date.str[:4]).groupby(
+            ["country", "year"]).shift_nominal.agg(["size", "median", "mean"]).reset_index()
+        by_year.to_csv(paths.tables / "T4b_maturity_shift_by_year.csv", index=False)
+    else:
+        s.to_csv(paths.tables / "T4c_maturity_shift_announced.csv", index=False)
     return ev, s
 
 
 # ------------------------------------------------------------------ robustness
 def robustness(paths: Paths, seed: int = 20261106) -> pd.DataFrame:
+    from .audit import offer_reconciliation
+
     rng = np.random.default_rng(seed + 1)
     evp = with_offer(event_panel(paths), "result")
     tp = with_offer(tenor_panel(paths), "result")
@@ -288,9 +303,8 @@ def robustness(paths: Paths, seed: int = 20261106) -> pd.DataFrame:
     specs.append(("exclude_ocr_rows", base[~base.ocr], tb[~tb.ocr]))
     matched_e = base[base.O_announced.notna()]
     specs.append(("matched_invitation_result_offer", matched_e, tb[tb.O_announced.notna()]))
-    agree_t = tb[tb.O_announced.notna() & (np.abs(tb.O_announced - tb.O) <= 1e-6 * tb.O)]
-    agree_ids = set(agree_t.event_id)
-    mism = set(tb[tb.O_announced.notna() & ~tb.event_id.isin(agree_ids)].event_id)
+    rec = offer_reconciliation(paths, write=False)
+    mism = set(rec.loc[rec.status.isin(["numeric mismatch", "scope mismatch"]), "event_id"]) if not rec.empty else set()
     specs.append(("exclude_offer_mismatch_events", base[~base.event_id.isin(mism)], tb[~tb.event_id.isin(mism)]))
     for y in sorted(set(base.held_date.str[:4])):
         specs.append((f"leave_out_{y}", base[base.held_date.str[:4] != y], tb[tb.held_date.str[:4] != y]))
@@ -321,12 +335,7 @@ def robustness(paths: Paths, seed: int = 20261106) -> pd.DataFrame:
 
 
 def missingness_bound(paths: Paths) -> pd.DataFrame:
-    """How much unobserved volume-driven shortfall would reverse the Uganda/Kenya contrast?
-
-    For Uganda (near-zero D) report how many hypothetical missing auctions, each carrying the
-    median Kenyan volume-driven shortfall *relative to offer*, would lift Uganda's common-window
-    volume share to 50%. Expressed in units of Uganda events, using Uganda's own median offer.
-    """
+    """Report typical-size and zero-bid invitation scenarios for missing auctions."""
     evp = window(with_offer(event_panel(paths), "result"), "common_2023-01-13_2026-10-30")
     rows = []
     for c in ("UG", "KE", "GH"):
@@ -334,7 +343,7 @@ def missingness_bound(paths: Paths) -> pd.DataFrame:
         S, D, R = shortfall_parts(x.O, x.B, x.A)
         sS, sD = S.sum(), D.sum()
         med_O = x.O.median()
-        # worst case: each missing auction fully volume-driven with shortfall = median offer x median miss depth
+        # Illustrative scenario using the same country's median offer and miss depth.
         miss = x.A < x.O
         depth = float(np.median((S / x.O.to_numpy())[miss.to_numpy()])) if miss.any() else np.nan
         add = med_O * depth if np.isfinite(depth) else np.nan
@@ -343,6 +352,24 @@ def missingness_bound(paths: Paths) -> pd.DataFrame:
                          median_offer=med_O, median_miss_depth=depth,
                          hypothetical_missing_fully_volume_driven_events_to_reach_50pct=need))
     out = pd.DataFrame(rows)
+    ev, _, off = load_panel(paths)
+    if not off.empty and "auction_date" in off:
+        lo, hi = WINDOWS["common_2023-01-13_2026-10-30"]
+        inv = off[(off.country == "UG") & ~off.event_id.isin(ev.event_id)].copy()
+        inv["scheduled"] = inv.auction_date.fillna(inv.source_url.str.extract(
+            r"scheduled_for_(\d{1,2}_[a-zA-Z]+_\d{4})", expand=False).map(
+                lambda s: pd.to_datetime(s.replace("_", " "), format="mixed").date().isoformat()
+                if pd.notna(s) else None))
+        observed_dates = ev.loc[ev.country == "UG", "held_date"]
+        inv = inv[inv.scheduled.between(lo, hi) & ~inv.scheduled.isin(observed_dates)]
+        inv = inv.sort_values("version").drop_duplicates(["event_id", "tenor"], keep="last")
+        complete = inv.groupby("event_id").filter(lambda g: set(g.tenor) == {"91", "182", "364"})
+        missing_offer = complete.O_announced.sum()
+        ug = out.country == "UG"
+        out.loc[ug, "missing_invitation_count"] = complete.event_id.nunique()
+        out.loc[ug, "missing_invitation_offer"] = missing_offer
+        out.loc[ug, "zero_bids_at_invitation_targets_share"] = (
+            (out.loc[ug, "sum_D"] + missing_offer) / (out.loc[ug, "sum_S"] + missing_offer))
     out.to_csv(paths.tables / "T6_missingness_bound.csv", index=False)
     return out
 
@@ -353,6 +380,7 @@ def run_measure(paths: Paths, offer_version: str = "announced_or_result", seed: 
     dec = run_decomposition(paths, seed)
     mask = masking_table(paths)
     mev, mat = maturity_table(paths)
+    maturity_table(paths, "announced")
     robustness(paths, seed)
     missingness_bound(paths)
     make_figures(paths)

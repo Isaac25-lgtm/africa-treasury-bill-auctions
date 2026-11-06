@@ -218,7 +218,9 @@ def run_parse(paths: Paths, cache: SourceCache, cutoff: str, workers: int = 4) -
             prev, nxt = ev.get("prev") or {}, ev.get("next") or {}
             row.update(prev_tender_no=prev.get("tender_no"), prev_held_date=prev.get("held_date"),
                        prev_B_total=prev.get("B_total"), prev_A_total=prev.get("A_total"),
+                       prev_tenors=";".join(map(str, prev.get("tenors", []))),
                        next_tender_no=nxt.get("tender_no"), next_target=nxt.get("target"),
+                       next_tenors=";".join(map(str, nxt.get("tenors", []))),
                        next_raw=nxt.get("raw"), prev_raw=prev.get("raw"))
             gh.append(row)
 

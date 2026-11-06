@@ -90,7 +90,7 @@ def calendar_gaps(paths: Paths, cutoff: str) -> pd.DataFrame:
     return out
 
 
-def offer_reconciliation(paths: Paths) -> pd.DataFrame:
+def offer_reconciliation(paths: Paths, *, write: bool = True) -> pd.DataFrame:
     from .analysis import announced_offer
 
     ev = _derived(paths, "auction_events")
@@ -99,16 +99,21 @@ def offer_reconciliation(paths: Paths) -> pd.DataFrame:
     if off.empty:
         return pd.DataFrame()
     ann = announced_offer(off, ev)
-    res = out[["country", "event_id", "tenor", "O_result"]].dropna(subset=["O_result"])
+    res = out.loc[~out.conflict, ["country", "event_id", "tenor", "O_result"]].dropna(subset=["O_result"])
+    ann = ann[~ann.event_id.isin(ev.loc[ev.conflict, "event_id"])]
     m = res.merge(ann, on=["event_id", "tenor"], how="outer", indicator=True)
     m["country"] = m.country.fillna(m.event_id.str[:2])
     m["status"] = np.select(
-        [m._merge == "left_only", m._merge == "right_only",
+        [m._merge == "left_only", m._merge == "right_only", m.O_announced.isna(),
+         m.scope_status.eq("scope mismatch"), m.scope_status.eq("scope unavailable"),
          (m.O_announced - m.O_result).abs() <= 1e-6 * m.O_result.abs() + 0.005],
-        ["result only (no pre-close notice recovered)", "announcement only (result not in panel)", "agree"],
-        default="mismatch")
+        ["result only (no pre-close notice recovered)", "announcement only (result not in panel)",
+         "unparseable offer amount", "scope mismatch", "scope unavailable", "agree"],
+        default="numeric mismatch")
     m = m.drop(columns="_merge").merge(ev[["event_id", "held_date"]], on="event_id", how="left")
-    m.sort_values(["country", "held_date", "tenor"]).to_csv(paths.tables / "A3_offer_reconciliation.csv", index=False)
+    m = m.sort_values(["country", "held_date", "tenor"])
+    if write:
+        m.to_csv(paths.tables / "A3_offer_reconciliation.csv", index=False)
     return m
 
 
@@ -116,17 +121,18 @@ def ratio_definitions(paths: Paths) -> pd.DataFrame:
     out = _derived(paths, "auction_outcomes", dtype={"tenor": str})
     x = out[out.cover_formula.notna()].copy()
     x["year"] = x.held_date.astype(str).str[:4]
-    x["formula"] = x.cover_formula.str.replace(r"ambiguous:.*", "ambiguous (A = B)", regex=True)
+    x["formula"] = x.cover_formula.str.replace(r"ambiguous:.*", "ambiguous at printed precision", regex=True)
     t = x.groupby(["country", "year", "formula"]).size().unstack(fill_value=0).reset_index()
     t.to_csv(paths.tables / "A4_ratio_definitions.csv", index=False)
     return t
 
 
 def second_extraction(paths: Paths, seed: int = 7, per_stratum: int = 3) -> pd.DataFrame:
-    """Re-extract with an independent engine (pdftotext -layout; OCR for OCR-derived rows) and compare."""
+    """Compare expected cells and dates after a second text extraction using the same parsers."""
     from .extract import ocr_available, ocr_pdf_page, pdf_text, pdf_text_alt, pdf_text_plumber
-    from .fetch import SourceCache
+    from .fetch import SourceCache, sha256
     from .parsers import parse_gh_result, parse_ke_result, parse_ug_result
+    from .pipeline import apply_corrections, load_corrections
 
     cache = SourceCache(paths.cache, offline=True)
     out = _derived(paths, "auction_outcomes", dtype={"tenor": str})
@@ -136,25 +142,37 @@ def second_extraction(paths: Paths, seed: int = 7, per_stratum: int = 3) -> pd.D
     docs = out.drop_duplicates("url")[["country", "event_id", "url", "sha256", "method", "flags"]].merge(
         ev[["event_id", "held_date"]], on="event_id", how="left")
     docs["year"] = docs.held_date.astype(str).str[:4]
-    unusual = docs[docs["flags"].notna() | docs.method.fillna("").str.startswith("ocr")]
+    flagged = set(_derived(paths, "source_documents").query("flags.notna()", engine="python").url)
+    unusual = docs[docs.url.isin(flagged) | docs.method.fillna("").str.startswith("ocr")]
     rng = np.random.default_rng(seed)
     sample = docs.groupby(["country", "year"], group_keys=False).apply(
         lambda g: g.iloc[rng.permutation(len(g))[:per_stratum]], include_groups=False)
     sample = docs.loc[sample.index] if not sample.empty else sample
     chosen = pd.concat([sample.assign(reason="stratified sample"), unusual.assign(reason="unusual row")]).drop_duplicates("url")
     parser = {"UG": parse_ug_result, "KE": parse_ke_result, "GH": parse_gh_result}
+    corrections = load_corrections(paths)
+    dates = ev.set_index("event_id")
     rows = []
     for _, d in chosen.iterrows():
-        payload = cache.read(d.url)
+        mine = out[out.url == d.url].set_index("tenor")
+        fields = (("O", "O_result"), ("B", "B"), ("A", "A"))
+        expected = sum(mine[col].notna().sum() for _, col in fields)
+        if d.country == "GH":
+            # The combined total B/A are sums, so only the printed combined target is an additional cell.
+            expected -= mine.loc["total", ["B", "A"]].notna().sum()
+        metadata = dict(url=d.url, country=d.country, event_id=d.event_id, reason=d.reason, cells_expected=expected)
+        blob = cache.blob_path(d.sha256)
+        payload = blob.read_bytes() if blob.is_file() else None
+        if payload is not None and sha256(payload) != d.sha256:
+            raise ValueError(f"Cached source does not match the parsed document hash: {d.url}")
         if payload is None or not payload.startswith(b"%PDF"):
-            rows.append(dict(url=d.url, country=d.country, event_id=d.event_id, reason=d.reason, engine=None,
-                             status="not a PDF or missing from cache (DOCX/XLSX re-parsed from XML only)"))
+            rows.append(dict(**metadata, engine=None, status="not a PDF or missing from cache"))
             continue
         if str(d.method).startswith("ocr"):
             alt = pdf_text(payload)  # text layer as the independent check of OCR
             engine = alt.method
             pr = parser[d.country](alt.text)
-            if not pr.rows and ocr_available():
+            if (not pr.rows or pr.blocking) and ocr_available():
                 alt = ocr_pdf_page(payload, 0, dpi=300)  # different resolution, uncached
                 engine = "ocr-rapidocr@300dpi"
                 pr = parser[d.country](alt.text)
@@ -164,25 +182,29 @@ def second_extraction(paths: Paths, seed: int = 7, per_stratum: int = 3) -> pd.D
             alt = pdf_text_plumber(payload) or pdf_text_alt(payload)
             engine = alt.method if alt else None
             pr = parser[d.country](alt.text) if alt else None
-        if pr is None or not pr.rows:
-            rows.append(dict(url=d.url, country=d.country, event_id=d.event_id, reason=d.reason, engine=engine,
-                             status="second engine could not parse"))
+        if pr and pr.blocking and d.sha256 in corrections:
+            fixed, _ = apply_corrections(alt.text, corrections[d.sha256])
+            pr = parser[d.country](fixed)
+            engine += "+ledger"
+        if pr is None or not pr.rows or pr.blocking:
+            rows.append(dict(**metadata, engine=engine, status="second engine could not validate"))
             continue
-        mine = out[out.url == d.url]
         scale = 1e9 if d.country == "UG" else 1.0
         cells = 0
         agree = 0
         maxabs = 0.0
-        for row in pr.rows:
+        alt_rows = pr.rows
+        if d.country == "GH":
+            alt_rows = [*alt_rows, {"tenor": "total", "O": pr.event["O_result"]}]
+        for row in alt_rows:
             t = str(row["tenor"])
-            m = mine[mine.tenor == t]
-            if m.empty:
+            if t not in mine.index:
                 continue
-            for k_alt, k_mine in (("O", "O_result"), ("B", "B"), ("A", "A")):
-                if k_alt not in row or k_mine not in m:
+            for k_alt, k_mine in fields:
+                if k_alt not in row:
                     continue
                 a = row[k_alt] / scale
-                b = m[k_mine].iloc[0]
+                b = mine.loc[t, k_mine]
                 if pd.isna(b):
                     continue
                 cells += 1
@@ -190,9 +212,10 @@ def second_extraction(paths: Paths, seed: int = 7, per_stratum: int = 3) -> pd.D
                 maxabs = max(maxabs, diff)
                 agree += diff <= 1e-9 + 1e-9 * abs(b)
         date_alt = pr.event.get("held_date") or pr.event.get("value_date")
-        rows.append(dict(url=d.url, country=d.country, event_id=d.event_id, reason=d.reason, engine=engine,
-                         status="compared", cells=cells, cells_agree=agree, max_abs_diff=maxabs,
-                         date_second=date_alt))
+        date_expected = dates.loc[d.event_id, "value_date" if d.country == "KE" else "held_date"]
+        rows.append(dict(**metadata, engine=engine, status="compared", cells=cells, cells_agree=agree,
+                         max_abs_diff=maxabs, date_second=date_alt, date_expected=date_expected,
+                         date_agrees=date_alt == date_expected))
     a = pd.DataFrame(rows)
     a.to_csv(paths.tables / "A5_second_extraction.csv", index=False)
     return a
@@ -251,6 +274,11 @@ def timing_screen(paths: Paths) -> pd.DataFrame:
     x["release_after_settlement"] = x.release_date > x.settlement_date
     x["value_date_after_release"] = x.settlement_date > x.release_date
     x["release_lag_days"] = (pd.to_datetime(x.release_date) - pd.to_datetime(x.held_date)).dt.days
+    for field in ("deadline_date", "invitation_auction_date", "held_date_basis"):
+        if field in ev:
+            x[field] = ev[field]
+    if "deadline_date" in x:
+        x["deadline_differs_from_held"] = x.deadline_date.notna() & x.deadline_date.ne(x.held_date)
     x.to_csv(paths.tables / "A7_timing_screen.csv", index=False)
     return x
 
@@ -262,6 +290,8 @@ def _cnt(df: pd.DataFrame, cols: list[str]) -> dict:
 
 
 def run_audit(paths: Paths, cutoff: str) -> dict:
+    from .analysis import event_panel, tenor_panel, with_offer
+
     w = waterfall(paths)
     gaps = calendar_gaps(paths, cutoff)
     rec = offer_reconciliation(paths)
@@ -270,6 +300,12 @@ def run_audit(paths: Paths, cutoff: str) -> dict:
     pil = pilot_comparison(paths)
     tim = timing_screen(paths)
     ev = _derived(paths, "auction_events")
+    coverage = ev.groupby("country").event_id.nunique().rename("inventory_events").to_frame()
+    for label, panel in (("auction_wide", event_panel(paths)), ("tenor", tenor_panel(paths))):
+        for version in ("result", "announced"):
+            coverage[f"{label}_{version}"] = with_offer(panel, version).groupby("country").event_id.nunique()
+    coverage.to_csv(paths.tables / "A8_analytical_coverage.csv")
+    cross = _derived(paths, "ghana_cross_notice")
     summary = {
         "events": ev.groupby("country").event_id.nunique().to_dict(),
         "event_span": {c: [g.held_date.min(), g.held_date.max()] for c, g in ev.groupby("country")},
@@ -281,10 +317,13 @@ def run_audit(paths: Paths, cutoff: str) -> dict:
         "second_extraction": {
             "documents": int(len(sec)), "compared": int((sec.status == "compared").sum()) if not sec.empty else 0,
             "cells": int(sec.cells.sum()) if "cells" in sec else 0,
+            "cells_expected": int(sec.cells_expected.sum()) if "cells_expected" in sec else 0,
             "cells_agree": int(sec.cells_agree.sum()) if "cells_agree" in sec else 0,
+            "dates_agree": int(sec.date_agrees.sum()) if "date_agrees" in sec else 0,
             "max_abs_diff": float(sec.max_abs_diff.max()) if "max_abs_diff" in sec and sec.max_abs_diff.notna().any() else None,
         },
         "pilot_comparison": _cnt(pil, ["country", "status"]),
+        "ghana_cross_notice": cross.check.value_counts().to_dict() if not cross.empty else {},
         "timing": {"release_before_held": int(tim.release_before_held.sum()),
                    "median_release_lag_days": tim.groupby("country").release_lag_days.median().to_dict()},
         "waterfall_totals": w.drop(columns="year").groupby("country").sum().to_dict(orient="index"),

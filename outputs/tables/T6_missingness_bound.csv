@@ -1,4 +1,4 @@
-country,n_events,sum_S,sum_D,share,median_offer,median_miss_depth,hypothetical_missing_fully_volume_driven_events_to_reach_50pct
-UG,91,2332.8137,0.0,0.0,355.0,0.20688732394366205,31.762729933964184
-KE,198,497121.98,403348.1,0.8113664577856726,24000.0,0.27865208333333336,0.0
-GH,189,94374.91,70209.17,0.7439389346172621,4565.0,0.19894161146202433,0.0
+country,n_events,sum_S,sum_D,share,median_offer,median_miss_depth,hypothetical_missing_fully_volume_driven_events_to_reach_50pct,missing_invitation_count,missing_invitation_offer,zero_bids_at_invitation_targets_share
+UG,91,2332.8137,0.0,0.0,355.0,0.20688732394366205,31.762729933964184,2.0,645.0,0.21660186464989398
+KE,198,497121.98,403348.1,0.8113664577856726,24000.0,0.27865208333333336,0.0,,,
+GH,199,94898.65,70732.91,0.7453521203937044,4400.0,0.19528498427672958,0.0,,,

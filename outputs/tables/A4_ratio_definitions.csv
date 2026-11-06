@@ -1,4 +1,4 @@
-country,year,B/A,B/O,ambiguous (A = B),inconsistent,missing
+country,year,B/A,B/O,ambiguous at printed precision,inconsistent,missing
 KE,2014,0,0,0,0,2
 KE,2016,0,0,0,0,42
 KE,2017,90,0,3,0,44

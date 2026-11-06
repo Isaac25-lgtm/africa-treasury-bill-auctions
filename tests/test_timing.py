@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 
-from treasury_auctions.forecast import _features, alert_budget, fit_predict, prev_business_day
+from treasury_auctions.forecast import _features, _top_share, alert_budget, baselines, fit_predict, prev_business_day
 
 
 def rows():
@@ -28,6 +28,21 @@ def test_future_result_excluded_and_old_lag_used():
     assert f.loc["e3", "cov_last"] == 2.0
     # same-auction outcome never used: e1 has no history at all
     assert f.loc["e1", "n_hist"] == 0 and np.isnan(f.loc["e1", "cov_last"])
+
+
+def test_earlier_deadline_sets_origin_and_simple_rules_share_public_history():
+    raw = rows()
+    raw.loc[1, "available_from"] = "2024-01-18"
+    raw.loc[2, "deadline_date"] = "2024-01-25"
+    f = _features(raw, strict=True).set_index("event_id")
+    assert f.loc["e3", "origin"] == "2024-01-24"
+    assert f.loc["e3", "n_hist"] == 2
+    assert np.allclose(baselines(f, f.loc[["e3"]])["base_recent12"], [[0.4, 0.4, 0.2]])
+
+
+def test_top_quartile_averages_ties_at_boundary():
+    rows = pd.DataFrame({"p_miss": [0.9, 0.9, 0.1, 0.1], "S": [10.0, 30.0, 0.0, 0.0]})
+    assert _top_share(rows, 0.25) == _top_share(rows.iloc[::-1], 0.25) == 0.5
 
 
 def test_announcement_after_origin_ignored():

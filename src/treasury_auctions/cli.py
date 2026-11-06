@@ -56,7 +56,12 @@ def cmd_fetch(args, paths) -> int:
 def cmd_parse(args, paths) -> int:
     from .pipeline import run_parse
 
-    run_parse(paths, _cache(args, paths), cutoff=args.cutoff, workers=args.workers)
+    cache = _cache(args, paths)
+    if args.frozen:
+        from .inventory import verify_frozen_sources
+
+        print(f"Verified {verify_frozen_sources(paths, cache, args.workers)} frozen source URLs")
+    run_parse(paths, cache, cutoff=args.cutoff, workers=args.workers)
     return 0
 
 
@@ -70,7 +75,7 @@ def cmd_audit(args, paths) -> int:
 def cmd_measure(args, paths) -> int:
     from .analysis import run_measure
 
-    run_measure(paths, offer_version=args.offer_version)
+    run_measure(paths, offer_version=args.offer_version, seed=args.seed)
     return 0
 
 
@@ -78,7 +83,7 @@ def cmd_evaluate(args, paths) -> int:
     from .forecast import run_evaluate
 
     run_evaluate(paths, seed=args.seed, strict_timing=not args.lenient_timing,
-                 reuse_predictions=args.reuse_predictions)
+                 reuse_predictions=args.reuse_predictions, publication_delay=args.publication_delay_weekdays)
     return 0
 
 
@@ -109,6 +114,18 @@ def cmd_build(args, paths) -> int:
     return 0
 
 
+def cmd_rebuild_outputs(args, paths) -> int:
+    """Regenerate analysis products from the released derived tables."""
+    from .audit import offer_reconciliation
+
+    offer_reconciliation(paths)
+    for fn in (cmd_measure, cmd_evaluate, cmd_report):
+        rc = fn(args, paths)
+        if rc:
+            return rc
+    return 0
+
+
 def cmd_fixtures(args, paths) -> int:
     from .fixtures_run import run_fixtures
 
@@ -120,6 +137,8 @@ def main(argv=None) -> int:
                                 formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument("--root", type=Path, help="project root (default: auto-detect / TBA_ROOT)")
     p.add_argument("--offline", action="store_true", help="never contact the network; use cache only")
+    p.add_argument("--frozen", action="store_true",
+                   help="parse/build: verify or recover the exact manifest bytes without refreshing the inventory")
     p.add_argument("--workers", type=int, default=4, help="bounded concurrency (max 6)")
     p.add_argument("--cutoff", default=SNAPSHOT_CUTOFF, help="research snapshot cutoff date (YYYY-MM-DD)")
     p.add_argument("--seed", type=int, default=20261106)
@@ -130,13 +149,17 @@ def main(argv=None) -> int:
                    choices=["result", "announced", "announced_or_result"])
     p.add_argument("--lenient-timing", action="store_true",
                    help="exploratory: allow date-only availability proxies in forecasting")
+    p.add_argument("--publication-delay-weekdays", type=int, default=0, choices=range(0, 6),
+                   help="evaluate: delay result availability and offer publicity in the weekday sensitivity")
     p.add_argument("--reuse-predictions", action="store_true",
                    help="evaluate: rescore saved walk-forward predictions instead of refitting")
     p.add_argument("command", choices=["inventory", "fetch", "parse", "audit", "measure", "evaluate", "report",
-                                       "story", "build", "fixtures"])
+                                       "story", "build", "rebuild-outputs", "fixtures"])
     args = p.parse_args(argv)
+    if args.publication_delay_weekdays and (args.command != "evaluate" or args.lenient_timing):
+        p.error("--publication-delay-weekdays requires evaluate with strict timing")
     paths = get_paths(args.root).ensure()
-    fn = globals()[f"cmd_{args.command}"]
+    fn = globals()[f"cmd_{args.command.replace('-', '_')}"]
     try:
         return fn(args, paths)
     except Exception as exc:  # noqa: BLE001

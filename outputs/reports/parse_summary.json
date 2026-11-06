@@ -8,8 +8,8 @@
   "KE|blocked": 3,
   "KE|not_target_family": 2,
   "KE|parsed": 1591,
-  "UG|fetch_failed": 2,
-  "UG|not_target_family": 316,
+  "UG|fetch_failed": 3,
+  "UG|not_target_family": 315,
   "UG|parsed": 456
  },
  "doc_types": {
@@ -20,7 +20,7 @@
   "UG|ug_bill_result": 229,
   "UG|ug_bond_invitation": 124,
   "UG|ug_bond_other": 18,
-  "UG|ug_bond_result": 117,
+  "UG|ug_bond_result": 116,
   "UG|ug_empty_text": 50,
   "UG|ug_matrix": 3,
   "UG|ug_unclassified": 4

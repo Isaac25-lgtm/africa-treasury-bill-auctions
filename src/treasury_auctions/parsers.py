@@ -469,6 +469,12 @@ def gh_number(s: str) -> float | None:
     return None  # e.g. 1.141.12 -> requires review
 
 
+def gh_bill_scope(label: str) -> list[int]:
+    if not re.search(r"BILL", label) or re.search(r"YEAR|NOTE|BOND|FXR", label):
+        return []
+    return sorted({int(t) for t in re.findall(r"(?<!\d)(91|182|364)(?!\d)", label)})
+
+
 def parse_gh_result(text: str) -> ParseResult:
     r = ParseResult(classify_gh(text))
     if r.doc_type != "gh_bill_result":
@@ -518,10 +524,9 @@ def parse_gh_result(text: str) -> ParseResult:
     scope = tg.group(1)
     ev["target_scope"] = re.sub(r"\s+", " ", scope).strip()
     # digit lookarounds, not \b: scopes such as "91AND182 T/BILL" (tender 1671) have no word boundary
-    scope_tenors = sorted({int(x) for x in re.findall(r"(?<!\d)(91|182|364)(?!\d)", scope)})
+    scope_tenors = gh_bill_scope(scope)
     ev["target_tenors"] = scope_tenors
-    ev["target_bills_only"] = bool(scope_tenors) and bool(re.search(r"BILL", scope)) and not re.search(
-        r"YEAR|NOTE|BOND|FXR", scope)
+    ev["target_bills_only"] = bool(scope_tenors)
     target = gh_number(tg.group(2))
     if target is None:
         r.blocking.append(f"malformed target {tg.group(2)!r}")
@@ -549,13 +554,16 @@ def parse_gh_result(text: str) -> ParseResult:
                           held_date=to_date(DATE_DMY.search(pm.group(2)), "dmy_name") if pm else None,
                           B_total=gh_number(amts[0]) if len(amts) > 0 else None,
                           A_total=gh_number(amts[1]) if len(amts) > 1 else None,
+                          tenors=gh_bill_scope(bill_line.split("GH", 1)[0]),
                           raw=re.sub(r"\s+", " ", sec2[:400]))
     if s3:
         sec3 = up[s3.start(): s3.start() + 600]
         nm = re.search(r"TARGET\s+FOR\s+TENDER\s*(\d{3,4})", sec3)
-        am = re.search(r"BILLS?\s*GH\s*[^\s\d]?\s*([\d,.]+)\s*(MILLION)?", sec3)
+        am = re.search(r"([^\n]*BILLS?)\s*GH\s*[^\s\d]?\s*([\d,.]+)\s*(MILLION)?", sec3)
         ev["next"] = dict(tender_no=int(nm.group(1)) if nm else None,
-                          target=gh_number(am.group(1)) if am else None, raw=re.sub(r"\s+", " ", sec3[:300]))
+                          target=gh_number(am.group(2)) if am else None,
+                          tenors=gh_bill_scope(am.group(1)) if am else [],
+                          raw=re.sub(r"\s+", " ", sec3[:300]))
     tail = up[-500:]
     ms = list(DATE_DMY.finditer(tail))
     ev["signed_date"] = to_date(ms[-1], "dmy_name") if ms else None

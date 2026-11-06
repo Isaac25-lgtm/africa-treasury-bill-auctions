@@ -21,6 +21,12 @@ are listed, not guessed.
 
 ## Snapshot and vintage
 
+Use `python -m treasury_auctions --frozen build` for a replay from the committed inventory and
+manifest. It fetches only missing bytes from previously successful sources and checks each
+against the frozen hash. Add `--offline` to use an existing cache. The ten frozen failures remain
+excluded even if their URLs later start working. The source archive itself remains with the
+central banks.
+
 * Research freeze: discovery and fetch on **6 November 2026**; snapshot cutoff 6 November 2026 (no
   event after it enters the analysis).
 * Official archives change. A rerun of `inventory`/`fetch` on a later date produces a new vintage; the

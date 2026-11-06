@@ -235,8 +235,11 @@ def build_gh(paths: Paths, cutoff: str):
         return events, outcomes, offers, recon, dups
     g = g[g.status == "parsed"].copy()
     g = g[g.held_date <= cutoff]
-    g["B"] = g[["B_91", "B_182", "B_364"]].sum(axis=1, min_count=3)
-    g["A"] = g[["A_91", "A_182", "A_364"]].sum(axis=1, min_count=3)
+    g["scope"] = g.target_tenors.map(json.loads)
+    g["target_tenors"] = g.scope.map(lambda ts: ";".join(map(str, ts)))
+    for field in ("B", "A"):
+        g[field] = g.apply(lambda row, field=field: row.reindex([f"{field}_{t}" for t in row.scope]).sum(
+            min_count=len(row.scope)), axis=1)
     g["O"] = g.O_result
     g["tenor"] = 0  # placeholder for dedupe helper
     g["conflict"] = False
@@ -244,7 +247,7 @@ def build_gh(paths: Paths, cutoff: str):
     g["event_id"] = "GH-" + g.tender_no.astype(int).astype(str)
     g["country"] = "GH"
     ev = g[["event_id", "country", "tender_no", "held_date", "settlement_date", "signed_date", "notice_no", "posted_utc",
-            "posted_local", "url", "sha256", "method", "conflict", "flags", "target_scope"]].rename(
+            "posted_local", "url", "sha256", "method", "conflict", "flags", "target_scope", "target_tenors"]].rename(
         columns={"url": "result_url", "sha256": "result_sha256"}).drop_duplicates("event_id")
     # release: archive post date when it is within 7 days of the signature date; posts made later are
     # archive back-fills (e.g. 2018 tenders uploaded in July 2019) and fall back to the signature date
@@ -256,10 +259,12 @@ def build_gh(paths: Paths, cutoff: str):
                                    "signature date (archive post is a later back-fill or missing)")
     ev["archive_backfill"] = post.notna() & ~timely
     ev["available_from"] = ev.release_date.map(_next_business_day)
-    ev["n_tenors"] = 3
+    ev["n_tenors"] = ev.target_tenors.str.count(";") + 1
     # announced combined target: previous notice section 3, keyed by tender number
-    nxt = g[g.next_tender_no.notna()][["tender_no", "next_tender_no", "next_target", "url", "sha256", "signed_date",
-                                       "posted_local", "method"]].copy()
+    nxt = g[g.next_tender_no.notna()][["tender_no", "next_tender_no", "next_target", "next_tenors",
+                                       "next_raw", "url", "sha256", "method"]].copy()
+    publication = ev.release_date.where(ev.release_date >= ev.held_date, ev.held_date)
+    nxt["release_date"] = nxt.url.map(pd.Series(publication.to_numpy(), index=ev.result_url))
     # a notice cannot announce its own tender: self-references (source typo, e.g. tender 1655) are
     # excluded rather than re-assigned to a guessed tender number
     selfref = nxt[nxt.next_tender_no.astype(int) <= nxt.tender_no.astype(int)]
@@ -269,13 +274,14 @@ def build_gh(paths: Paths, cutoff: str):
     nxt["version"] = nxt.groupby("event_id").cumcount() + 1
     offers = pd.DataFrame(dict(country="GH", event_id=nxt.event_id, tenor="total", O_announced=nxt.next_target,
                                version=nxt.version,
-                               first_public_date=nxt.signed_date,
-                               first_public_basis="previous notice section 3 (signature date of that notice)",
+                               first_public_date=nxt.release_date,
+                               first_public_basis="publication proxy of the preceding results notice",
+                               target_tenors=nxt.next_tenors, raw=nxt.next_raw,
                                deadline_date=None, deadline_time_text=None, source_url=nxt.url, sha256=nxt.sha256,
                                method=nxt.method))
     rows = []
     for _, x in g.iterrows():
-        for t in (91, 182, 364):
+        for t in x.scope:
             rows.append(dict(country="GH", event_id=x.event_id, tenor=str(t), O=np.nan, B=x[f"B_{t}"], A=x[f"A_{t}"],
                              url=x.url, sha256=x.sha256, method=x.method, raw=x.raw, conflict=x.conflict,
                              held_date=x.held_date, settlement_date=x.settlement_date))
@@ -284,13 +290,19 @@ def build_gh(paths: Paths, cutoff: str):
                          settlement_date=x.settlement_date))
     outcomes = pd.DataFrame(rows)
     # cross-notice reconciliation: next notice's section 2 vs this notice's sums
-    prev = g[g.prev_tender_no.notna()][["prev_tender_no", "prev_B_total", "prev_A_total", "url"]].copy()
+    prev = g[g.prev_tender_no.notna()][["prev_tender_no", "prev_B_total", "prev_A_total", "prev_tenors", "url"]].copy()
     prev["event_id"] = "GH-" + prev.prev_tender_no.astype(int).astype(str)
-    rc = g[["event_id", "B", "A"]].merge(prev.rename(columns={"url": "following_notice_url"}), on="event_id", how="left")
+    rc = g[["event_id", "B", "A", "target_tenors"]].merge(
+        prev.rename(columns={"url": "following_notice_url"}), on="event_id", how="left")
     rc["B_diff"] = rc.prev_B_total - rc.B
     rc["A_diff"] = rc.prev_A_total - rc.A
-    rc["check"] = np.where(rc.prev_B_total.isna(), "no following notice",
-                           np.where((rc.B_diff.abs() <= 0.011 * 3) & (rc.A_diff.abs() <= 0.011 * 3), "match", "mismatch"))
+    tolerance = 0.005 * (rc.target_tenors.str.count(";") + 2) + 1e-9
+    rc["check"] = np.select(
+        [rc.following_notice_url.isna(), rc.prev_B_total.isna() | rc.prev_A_total.isna(),
+         rc.prev_tenors.isna(), rc.prev_tenors.ne(rc.target_tenors),
+         rc.B_diff.abs().le(tolerance) & rc.A_diff.abs().le(tolerance)],
+        ["no following notice", "following totals unavailable", "following scope unavailable",
+         "scope mismatch", "match"], default="numeric mismatch")
     if not selfref.empty:
         rc = pd.concat([rc, pd.DataFrame(dict(event_id="GH-" + selfref.tender_no.astype(int).astype(str),
                                               check="section-3 announcement references its own tender number (excluded)",

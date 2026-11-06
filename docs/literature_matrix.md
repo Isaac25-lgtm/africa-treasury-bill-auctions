@@ -49,6 +49,19 @@ and Ghanaian bill work found in this run concerns yields or rates, not issuance 
 deep-market auction literature (US, Eurozone, Canada) studies cover ratios, tails and bidder
 behaviour with richer data; it supports our restraint about mechanisms.
 
-**Pending before title lock:** OECD 2025/2026 chapters; CUK repository
-record; Google Scholar / RePEc / SSRN forward-citation pass on items 1–3; practitioner leads
-(Afronomics record, USIU dissertation, IISTE Ghana paper).
+## Additional checks during the revision
+
+- The OECD 2025 African markets chapter measures variation in bond auction sizes and auction
+  intervals and discusses predictability relative to issuance plans. This overlaps with the
+  transparency motivation. Figure 5.18 does not provide the bill-level shortfall decomposition.
+  [OECD 2025, chapter 5](https://www.oecd.org/en/publications/africa-capital-markets-report-2025_7d26e1d3-en/full-report/local-currency-bond-markets-for-development-financing-in-africa_b9d9f859.html)
+- The OECD 2026 sovereign borrowing chapter discusses limitations of reading demand from
+  bid volumes and illustrates bids divided by allotments in G7 bond auctions. This is relevant
+  to ratio interpretation. [OECD 2026, box 1.5](https://www.oecd.org/en/publications/global-debt-report-2026_e9d80efd-en/full-report/sovereign-borrowing-outlook_4470147b.html)
+- An earlier IMF study describes bill auction arrangements in Ghana and Kenya among its cases.
+  Its institutional comparisons include target–allotment divergence and tranche flexibility.
+  The revised novelty claim centres on the notice-level evidence across the three markets.
+  [IMF, Treasury Bill Auctions](https://www.elibrary.imf.org/view/journals/001/1994/135/article-A001-en.xml)
+
+**Pending before title lock** CUK repository record, forward-citation searches and the listed
+practitioner leads. This is a targeted literature comparison.

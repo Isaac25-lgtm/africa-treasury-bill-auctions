@@ -30,6 +30,7 @@ DOCS = [
     ("KE", "result", "https://www.centralbank.go.ke/uploads/91_day_historical_treasury_bill_results/fixture_ke.pdf",
      "ke_2026-10-26_result.txt"),
     ("GH", "result", "https://www.bog.gov.gh/wp-content/uploads/2024/03/fixture-1892.pdf", "gh_1892_joined_date.txt"),
+    ("GH", "result", "https://www.bog.gov.gh/wp-content/uploads/2024/03/fixture-1893.pdf", "gh_1893_two_tenors.txt"),
 ]
 
 
@@ -46,6 +47,8 @@ def text_to_pdf(text: str) -> bytes:
 
 
 def run_fixtures(_paths: Paths | None = None, keep: Path | None = None) -> bool:
+    from .analysis import event_panel, with_offer
+    from .audit import offer_reconciliation
     from .fetch import SourceCache, sha256
     from .pipeline import run_parse
 
@@ -87,7 +90,16 @@ def run_fixtures(_paths: Paths | None = None, keep: Path | None = None) -> bool:
     checks["malformed_blocked"] = docs.loc[docs.url.str.contains("malformed"), "status"].tolist() == ["blocked"]
     k = out[out.country == "KE"]
     checks["ke_cells"] = sorted(k.A.round(2).tolist()) == sorted([14334.18, 7685.02, 6773.91])
-    checks["gh_date"] = ev.loc[ev.country == "GH", "held_date"].tolist() == ["2024-03-01"]
+    checks["gh_date"] = ev.loc[ev.event_id == "GH-1892", "held_date"].tolist() == ["2024-03-01"]
+    gh = with_offer(event_panel(paths), "result").set_index("event_id")
+    checks["gh_two_tenors_enter_analysis"] = (
+        abs(gh.loc["GH-1893", "B"] - 3700.02) < 1e-9 and abs(gh.loc["GH-1893", "A"] - 3677.02) < 1e-9
+        and ev.loc[ev.event_id == "GH-1893", "n_tenors"].tolist() == [2]
+        and set(out.loc[out.event_id == "GH-1893", "tenor"]) == {"91", "182", "total"})
+    rec = offer_reconciliation(paths, write=False)
+    checks["gh_same_amount_different_scope"] = (
+        rec.loc[rec.event_id == "GH-1893", "status"].tolist() == ["scope mismatch"]
+        and pd.isna(gh.loc["GH-1893", "O_announced"]))
     off = pd.read_csv(d / "offer_versions.csv", dtype={"tenor": str})
     checks["ug_invitation_offer"] = (not off.empty) and set(
         off[off.event_id == "UG-1236"].O_announced.round(6)) == {15.0, 35.0, 300.0}

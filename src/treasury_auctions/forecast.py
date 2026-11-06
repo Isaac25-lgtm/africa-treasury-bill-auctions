@@ -2,8 +2,9 @@
 
 Pre-registered design (docs/protocol.md, frozen before any evaluation was run):
 
-* Forecast origin: close of the business day before the bid/held date (native calendar).
-* A past result is eligible only if ``available_from`` (next business day after its date-only
+* Forecast origin: close of the preceding weekday, based on the earlier of the recorded bid
+  deadline and held date when both exist. Weekdays are a proxy for market business days.
+* A past result is eligible only if ``available_from`` (next weekday after its date-only
   release proxy) is on or before the origin. Announced offers are eligible only if first public
   on or before the origin. Same-auction B, A, cut-offs, yields and redemptions are never features.
 * Walk-forward monthly refits; train on rows whose labels were available before the month start.
@@ -54,7 +55,7 @@ def prev_business_day(d: str) -> str:
 
 
 # ----------------------------------------------------------------- data assembly
-def build_rows(paths: Paths, strict: bool = True) -> tuple[pd.DataFrame, pd.DataFrame]:
+def build_rows(paths: Paths, strict: bool = True, publication_delay: int = 0) -> tuple[pd.DataFrame, pd.DataFrame]:
     from .analysis import event_panel, tenor_panel
 
     tp = tenor_panel(paths)
@@ -66,19 +67,28 @@ def build_rows(paths: Paths, strict: bool = True) -> tuple[pd.DataFrame, pd.Data
     ep = ep.merge(ev[["event_id", "available_from", "release_date"]], on="event_id", how="left")
     ep["series"] = ep.country + "-total"
     ep["tenor"] = "total"
-    return _features(tp, strict), _features(ep, strict)
+    deadlines = ev.set_index("event_id").get("deadline_date", pd.Series(dtype=str))
+    if publication_delay:
+        for frame in (tp, ep):
+            for col in ("available_from", "first_public_date"):
+                dates = pd.to_datetime(frame[col])
+                frame[col] = (dates + pd.offsets.BDay(publication_delay)).dt.strftime("%Y-%m-%d")
+    return (_features(tp.assign(deadline_date=tp.event_id.map(deadlines)), strict),
+            _features(ep.assign(deadline_date=ep.event_id.map(deadlines)), strict))
 
 
 def _features(df: pd.DataFrame, strict: bool) -> pd.DataFrame:
     df = df.sort_values(["series", "held_date"]).reset_index(drop=True)
-    df["origin"] = df.held_date.map(prev_business_day) if strict else df.held_date
+    deadline = df.get("deadline_date", df.held_date).fillna(df.held_date)
+    df["bid_date_proxy"] = df.held_date.where(df.held_date <= deadline, deadline)
+    df["origin"] = df.bid_date_proxy.map(prev_business_day) if strict else df.held_date
     df["label"] = outcome_class(df.O_result, df.B, df.A, 0.0)
     df["S"] = np.maximum(df.O_result - df.A, 0)
     df["cov"] = df.B / df.O_result
     df["fill"] = df.A / df.O_result
     df["acc"] = np.where(df.B > 0, df.A / df.B.where(df.B > 0), np.nan)
     avail = df.available_from if strict else df.release_date
-    df["label_available"] = avail.fillna(df.held_date)
+    df["label_available"] = avail.fillna("9999-12-31") if strict else avail.fillna(df.held_date)
     feats = []
     for _, g in df.groupby("series", sort=False):
         g = g.reset_index()
@@ -125,7 +135,7 @@ def baselines(train: pd.DataFrame, test: pd.DataFrame) -> dict[str, np.ndarray]:
                                                     "base_blend")}
     for j, (_, r) in enumerate(test.iterrows()):
         h = train[(train.series == r.series)]
-        h = h[h.label_available <= r.origin] if "origin" in r else h
+        h = h[(h.label_available <= r.origin) & (h.held_date < r.held_date)]
         out["base_unconditional"][j] = _freq(h.label)
         out["base_recent12"][j] = _freq(h.label.tail(12))
         if len(h) > 1 and pd.notna(r.get("prev_class")):
@@ -185,7 +195,8 @@ def walk_forward(rows: pd.DataFrame, level: str, seed: int) -> pd.DataFrame:
             train = train_all[train_all.country == c]
             other = train_all[train_all.country != c]
             cand = {}
-            cand.update(baselines(train, test))
+            # The fitted models and simple rules see the same public history at each origin.
+            cand.update(baselines(rows[rows.country == c], test))
             cand["logit_history"] = fit_predict(train, test, HIST_FEATS, "logit", seed)
             cand["logit_full"] = fit_predict(train, test, full, "logit", seed)
             cand["hgb_full"] = fit_predict(train, test, full, "hgb", seed)
@@ -314,7 +325,7 @@ def score(preds: pd.DataFrame, seed: int) -> tuple[pd.DataFrame, pd.DataFrame, p
 
 
 def alert_budget(preds: pd.DataFrame, budget: float = ALERT_BUDGET) -> pd.DataFrame:
-    """Fixed alert budget with the probability threshold chosen from training-period predictions only.
+    """Historical alert threshold targeting a nominal rate with no cap on realised alerts.
 
     For each fold the threshold is the (1 - budget) quantile of the model's predicted P(miss) on rows
     from earlier folds of the same country/level (the model's own past predictions); folds without
@@ -355,13 +366,16 @@ def _top_share(x: pd.DataFrame, budget: float) -> float:
     if tot <= 0 or len(x) == 0:
         return np.nan
     k = max(1, int(round(budget * len(x))))
-    top = x.sort_values("p_miss", ascending=False, kind="mergesort").head(k)
-    return float(top.S.sum() / tot)
+    cutoff = x.p_miss.nlargest(k).iloc[-1]
+    above = x.p_miss > cutoff
+    tied = x.p_miss == cutoff
+    # Equal chance within the boundary tie, irrespective of row order.
+    return float((x.S[above].sum() + (k - above.sum()) * x.S[tied].mean()) / tot)
 
 
 # ----------------------------------------------------------------- maturity shift magnitude
-def maturity_forecast(paths: Paths, seed: int, strict: bool = True) -> pd.DataFrame:
-    tp, _ = build_rows(paths, strict)
+def maturity_forecast(paths: Paths, seed: int, strict: bool = True, publication_delay: int = 0) -> pd.DataFrame:
+    tp, _ = build_rows(paths, strict, publication_delay)
     full = tp.groupby("event_id").tenor.nunique()
     tp = tp[tp.event_id.isin(full[full == 3].index)]
     e = tp.groupby(["country", "event_id"]).apply(lambda g: pd.Series(dict(
@@ -407,20 +421,23 @@ def maturity_forecast(paths: Paths, seed: int, strict: bool = True) -> pd.DataFr
     o["abs_err"] = (o.pred - o.actual).abs()
     s = o.dropna(subset=["period"]).groupby(["country", "period", "model"]).agg(
         n=("abs_err", "size"), mae=("abs_err", "mean"), p90_abs_err=("abs_err", lambda v: v.quantile(0.9))).reset_index()
-    s.to_csv(paths.tables / "F4_maturity_forecast.csv", index=False)
-    o.to_csv(paths.tables / "F4_maturity_predictions.csv", index=False)
+    suffix = f"_delay{publication_delay}" if publication_delay else "" if strict else "_lenient"
+    s.to_csv(paths.tables / f"F4_maturity_forecast{suffix}.csv", index=False)
+    o.to_csv(paths.tables / f"F4_maturity_predictions{suffix}.csv", index=False)
     return s
 
 
 def run_evaluate(paths: Paths, seed: int = 20261106, strict_timing: bool = True,
-                 reuse_predictions: bool = False) -> None:
+                 reuse_predictions: bool = False, publication_delay: int = 0) -> None:
     tag = "strict" if strict_timing else "lenient"
+    if publication_delay:
+        tag += f"_delay{publication_delay}"
     f0 = paths.tables / f"F0_predictions_{tag}.csv"
     if reuse_predictions and f0.is_file():
         preds = pd.read_csv(f0, dtype={"tenor": str})
         print(f"reusing {f0.name} ({len(preds)} rows)")
     else:
-        tp, ep = build_rows(paths, strict_timing)
+        tp, ep = build_rows(paths, strict_timing, publication_delay)
         tp.to_csv(paths.interim / f"features_tenor_{tag}.csv", index=False)
         ep.to_csv(paths.interim / f"features_auction_{tag}.csv", index=False)
         p_t = walk_forward(tp, "tenor", seed)
@@ -433,7 +450,7 @@ def run_evaluate(paths: Paths, seed: int = 20261106, strict_timing: bool = True,
     cmp_.to_csv(paths.tables / f"F2_paired_differences_{tag}.csv", index=False)
     cal.to_csv(paths.tables / f"F3_calibration_{tag}.csv", index=False)
     ab.to_csv(paths.tables / f"F5_alert_budget_{tag}.csv", index=False)
-    mf = maturity_forecast(paths, seed, strict_timing)
+    mf = maturity_forecast(paths, seed, strict_timing, publication_delay)
     # Gate 4 decision on the locked holdout
     gate = []
     for per in ("holdout", "replication"):
@@ -441,6 +458,7 @@ def run_evaluate(paths: Paths, seed: int = 20261106, strict_timing: bool = True,
             abm = ab[(ab.level == lev) & (ab.country == c) & (ab.period == per)].set_index("model")
             base_names = [m for m in abm.index if m.startswith("base_")]
             best_base_vol = abm.loc[base_names, "shortfall_volume_captured_share"].max() if base_names else np.nan
+            best_base_top = abm.loc[base_names, "retro_top25_volume_share"].max() if base_names else np.nan
             for _, r in g.iterrows():
                 vm = abm.shortfall_volume_captured_share.get(r.model, np.nan)
                 vb = abm.shortfall_volume_captured_share.get(r.baseline, np.nan)
@@ -449,6 +467,7 @@ def run_evaluate(paths: Paths, seed: int = 20261106, strict_timing: bool = True,
                 passes = ll_ok and bool(np.isfinite(vm) and np.isfinite(vb) and vm >= vb)
                 # post-hoc stricter sensitivity (deviation log): volume vs the best of all four baselines
                 passes_strict = ll_ok and bool(np.isfinite(vm) and np.isfinite(best_base_vol) and vm >= best_base_vol)
+                top = abm.retro_top25_volume_share.get(r.model, np.nan)
                 gate.append(dict(period=per, level=lev, country=c, model=r.model, baseline=r.baseline,
                                  n_events=r.n_events, logloss_diff=r.mean_diff, ci95_lo_b8=r.ci95_lo_b8,
                                  ci95_hi_b8=r.ci95_hi_b8, logloss_criterion=ll_ok,
@@ -456,12 +475,17 @@ def run_evaluate(paths: Paths, seed: int = 20261106, strict_timing: bool = True,
                                  alert_rate_baseline=abm.alert_rate.get(r.baseline, np.nan),
                                  volume_captured_model=vm, volume_captured_baseline=vb,
                                  volume_best_of_baselines=best_base_vol,
-                                 retro_top25_model=abm.retro_top25_volume_share.get(r.model, np.nan),
+                                 retro_top25_model=top,
                                  retro_top25_baseline=abm.retro_top25_volume_share.get(r.baseline, np.nan),
-                                 passes_gate4=passes, passes_gate4_strict_volume=passes_strict))
+                                 retro_top25_best_baseline=best_base_top,
+                                 passes_gate4=passes, passes_gate4_strict_volume=passes_strict,
+                                 passes_gate4_positive_volume=passes_strict and vm > 0,
+                                 passes_logloss_and_equal_rate_ranking=ll_ok and top > 0 and top >= best_base_top))
     g = pd.DataFrame(gate)
     g.to_csv(paths.tables / f"F6_gate4_{tag}.csv", index=False)
-    meta = dict(seed=seed, strict_timing=strict_timing, periods=PERIODS, clip=CLIP, alert_budget=ALERT_BUDGET,
+    meta = dict(seed=seed, strict_timing=strict_timing, periods=PERIODS, clip=CLIP, nominal_alert_rate=ALERT_BUDGET,
+                publication_delay_weekdays=publication_delay,
+                calendar="weekdays only; bid date is the earlier of held date and recorded deadline",
                 min_train=MIN_TRAIN, features=dict(history=HIST_FEATS, offer=OFFER_FEATS, calendar=CAL_FEATS),
                 models=sorted(preds.model.unique()),
                 hyperparameters=dict(logit="L2, C=0.5", hgb="depth 3, lr 0.05, 150 iter, l2 1.0, min leaf 20",

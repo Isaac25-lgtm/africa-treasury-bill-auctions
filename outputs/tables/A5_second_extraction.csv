@@ -1,118 +1,116 @@
-url,country,event_id,reason,engine,status,cells,cells_agree,max_abs_diff,date_second
-https://www.bog.gov.gh/wp-content/uploads/2019/07/Auctresults-1581.pdf,GH,GH-1581,stratified sample,pdfplumber,compared,4.0,4.0,0.0,2018-03-16
-https://www.bog.gov.gh/wp-content/uploads/2019/07/Auctresults-1617.pdf,GH,GH-1617,stratified sample,pdfplumber,second engine could not parse,,,,
-https://www.bog.gov.gh/wp-content/uploads/2019/07/Auctresults-1597.pdf,GH,GH-1597,stratified sample,pdfplumber,compared,4.0,4.0,0.0,2018-07-06
-https://www.bog.gov.gh/wp-content/uploads/2019/07/Auctresults-1630.pdf,GH,GH-1630,stratified sample,pdfplumber,second engine could not parse,,,,
-https://www.bog.gov.gh/wp-content/uploads/2019/12/Auctresults-1673.pdf,GH,GH-1673,stratified sample,pdfplumber,second engine could not parse,,,,
-https://www.bog.gov.gh/wp-content/uploads/2019/07/Auctresults-1628.pdf,GH,GH-1628,stratified sample,pdfplumber,compared,6.0,6.0,0.0,2019-02-08
-https://www.bog.gov.gh/wp-content/uploads/2020/04/Auctresults-1691.pdf,GH,GH-1691,stratified sample,pdfplumber,second engine could not parse,,,,
-https://www.bog.gov.gh/wp-content/uploads/2020/07/Auctresults-1703.pdf,GH,GH-1703,stratified sample,pdfplumber,second engine could not parse,,,,
-https://www.bog.gov.gh/wp-content/uploads/2020/01/Auctresults-1677.pdf,GH,GH-1677,stratified sample,pdfplumber,second engine could not parse,,,,
-https://www.bog.gov.gh/wp-content/uploads/2021/01/Auctresults-1728-2.pdf,GH,GH-1728,stratified sample,pdfplumber,second engine could not parse,,,,
-https://www.bog.gov.gh/wp-content/uploads/2021/12/Auctresults-1776.pdf,GH,GH-1776,stratified sample,pdfplumber,compared,6.0,6.0,0.0,2021-12-10
-https://www.bog.gov.gh/wp-content/uploads/2021/03/Auctresults-1736.pdf,GH,GH-1736,stratified sample,pdfplumber,second engine could not parse,,,,
-https://www.bog.gov.gh/wp-content/uploads/2022/02/Auctresults-1785.pdf,GH,GH-1785,stratified sample,pdfplumber,compared,6.0,6.0,0.0,2022-02-11
-https://www.bog.gov.gh/wp-content/uploads/2022/04/Auctresults-1793.pdf,GH,GH-1793,stratified sample,pdfplumber,compared,6.0,6.0,0.0,2022-04-08
-https://www.bog.gov.gh/wp-content/uploads/2022/06/Auctresults-1802.pdf,GH,GH-1802,stratified sample,pdfplumber,second engine could not parse,,,,
-https://www.bog.gov.gh/wp-content/uploads/2023/07/Auctresults-1860.pdf,GH,GH-1860,stratified sample,pdfplumber,compared,6.0,6.0,0.0,2023-07-21
-https://www.bog.gov.gh/wp-content/uploads/2023/10/Auctresults-1872.pdf,GH,GH-1872,stratified sample,pdfplumber,second engine could not parse,,,,
-https://www.bog.gov.gh/wp-content/uploads/2023/09/Auctresults-1868.pdf,GH,GH-1868,stratified sample,pdfplumber,second engine could not parse,,,,
-https://www.bog.gov.gh/wp-content/uploads/2024/12/Auctresults-1935.pdf,GH,GH-1935,stratified sample,pdfplumber,compared,6.0,6.0,0.0,2024-12-27
-https://www.bog.gov.gh/wp-content/uploads/2024/11/Auctresults-1927.pdf,GH,GH-1927,stratified sample,pdfplumber,compared,6.0,6.0,0.0,2024-11-01
-https://www.bog.gov.gh/wp-content/uploads/2024/05/Auctresults-1903.pdf,GH,GH-1903,stratified sample,pdfplumber,compared,6.0,6.0,0.0,2024-05-17
-https://www.bog.gov.gh/wp-content/uploads/2025/01/Auctresults-1939.pdf,GH,GH-1939,stratified sample,pdfplumber,compared,6.0,6.0,0.0,2025-01-24
-https://www.bog.gov.gh/wp-content/uploads/2025/06/Auctresults-1959-2.pdf,GH,GH-1959,stratified sample,pdfplumber,compared,6.0,6.0,0.0,2025-06-13
-https://www.bog.gov.gh/wp-content/uploads/2025/02/Auctresults-1941.pdf,GH,GH-1941,stratified sample,pdfplumber,compared,4.0,4.0,0.0,2025-02-07
-https://www.bog.gov.gh/wp-content/uploads/2026/10/Auctresults-2028.pdf,GH,GH-2028,stratified sample,pdfplumber,compared,6.0,6.0,0.0,2026-10-09
-https://www.bog.gov.gh/wp-content/uploads/2026/08/Auctresult2022.pdf,GH,GH-2022,stratified sample,pdfplumber,compared,6.0,6.0,0.0,2026-08-28
-https://www.bog.gov.gh/wp-content/uploads/2026/03/Auctresults-2000.pdf,GH,GH-2000,stratified sample,pdfplumber,compared,6.0,6.0,0.0,2026-03-27
-https://www.centralbank.go.ke/uploads/182_day_historical_treasury_bill_results/1715446388_RESULTS 2053 -182 & 1974-364 dated 08-09-14.pdf,KE,KE-2014-09-08,stratified sample,pdfplumber,compared,6.0,6.0,0.0,2014-09-08
-https://www.centralbank.go.ke/uploads/182_day_historical_treasury_bill_results/449231891_Results 2167-182 & 2094-364 dated 14.11.2014.pdf,KE,KE-2016-11-14,stratified sample,pdfplumber,compared,6.0,6.0,0.0,2016-11-14
-https://www.centralbank.go.ke/uploads/182_day_historical_treasury_bill_results/483673491_Results 2161-182 & 2088-364 dated 03.10.2016.pdf,KE,KE-2016-10-03,stratified sample,pdfplumber,compared,6.0,6.0,0.0,2016-10-03
-https://www.centralbank.go.ke/uploads/91_day_historical_treasury_bill_results/891371776_Results 2177-91 Dated 12.09.2016...pdf,KE,KE-2016-09-12,stratified sample,pdfplumber,second engine could not parse,,,,
-https://www.centralbank.go.ke/uploads/182_day_historical_treasury_bill_results/449220311_Results 2241-91 2214-182 2153-364 Dated 4.12.2017.pdf,KE,KE-2017-12-04,stratified sample,pdfplumber,compared,9.0,9.0,0.0,2017-12-04
-https://www.centralbank.go.ke/uploads/182_day_historical_treasury_bill_results/1391203100_Results 2244-91 2217-182 &2156-364 Dated 25.12.2017.xlsx.pdf,KE,KE-2017-12-25,stratified sample,pdfplumber,compared,9.0,9.0,0.0,2017-12-25
-"https://www.centralbank.go.ke/uploads/182_day_historical_treasury_bill_results/1662799665_Results 2230-91, 2203-182 & 2141-364 Dated 18.09.2017.pdf",KE,KE-2017-09-18,stratified sample,pdfplumber,compared,9.0,9.0,0.0,2017-09-18
-https://www.centralbank.go.ke/uploads/182_day_historical_treasury_bill_results/2145073907_Results 2257-091 2230-182 2170-364 Dated 26-03-2018.pdf,KE,KE-2018-03-26,stratified sample,pdfplumber,compared,9.0,9.0,0.0,2018-03-26
-https://www.centralbank.go.ke/uploads/182_day_historical_treasury_bill_results/125446724_Results 2248-91 2221-182 & 2161-364 dated 22.01.2018.pdf,KE,KE-2018-01-22,stratified sample,pdfplumber,compared,9.0,9.0,0.0,2018-01-22
-"https://www.centralbank.go.ke/uploads/182_day_historical_treasury_bill_results/1163501779_Results 2284-91,2257-182 & 2198-364 Dated 01.10. 2018.pdf",KE,KE-2018-10-01,stratified sample,pdfplumber,compared,9.0,9.0,0.0,2018-10-01
-https://www.centralbank.go.ke/uploads/182_day_historical_treasury_bill_results/166595601_Results 2344-91 2317-182 2261-364 Dated 25.11.2019.pdf,KE,KE-2019-11-25,stratified sample,pdfplumber,compared,9.0,9.0,0.0,2019-11-25
-https://www.centralbank.go.ke/uploads/182_day_historical_treasury_bill_results/2129334525_Results 2345-91 2318-182 2263-364 Dated 02.12.2019.pdf,KE,KE-2019-12-02,stratified sample,pdfplumber,compared,9.0,9.0,0.0,2019-12-02
-https://www.centralbank.go.ke/uploads/182_day_historical_treasury_bill_results/982415054_Results 2341-91 2314-182 2258-364 Dated 04.11.2019.pdf,KE,KE-2019-11-04,stratified sample,pdfplumber,compared,9.0,9.0,0.0,2019-11-04
-https://www.centralbank.go.ke/uploads/182_day_historical_treasury_bill_results/328911673_Results 2372-91 2345-182 2292-364 Dated 8.06.2020.pdf,KE,KE-2020-06-08,stratified sample,pdfplumber,compared,9.0,9.0,0.0,2020-06-08
-https://www.centralbank.go.ke/uploads/182_day_historical_treasury_bill_results/940741123_Results 2380-91 2353-182 2300-364 Dated 03.08.2020.pdf,KE,KE-2020-08-03,stratified sample,pdfplumber,compared,9.0,9.0,0.0,2020-08-03
-https://www.centralbank.go.ke/uploads/182_day_historical_treasury_bill_results/834173114_Results 2398-91 2371-182 2318-364 Dated 07-12-2020.pdf,KE,KE-2020-12-07,stratified sample,pdfplumber,compared,9.0,9.0,0.0,2020-12-07
-https://www.centralbank.go.ke/uploads/182_day_historical_treasury_bill_results/1949584645_Results 2450-91 2423-182 2375-364 Dated 06.12.2021.pdf,KE,KE-2021-12-06,stratified sample,pdfplumber,compared,9.0,9.0,0.0,2021-12-06
-https://www.centralbank.go.ke/uploads/182_day_historical_treasury_bill_results/1644462071_Results 2410-91 2383-182 2332-364 dated 25.02.2021.pdf,KE,KE-2021-03-01,stratified sample,pdfplumber,compared,9.0,9.0,0.0,2021-03-01
-https://www.centralbank.go.ke/uploads/182_day_historical_treasury_bill_results/1181748043_Results 2437-91 2410-182 2360-364 Dated 06.09.2021.pdf,KE,KE-2021-09-06,stratified sample,pdfplumber,compared,9.0,9.0,0.0,2021-09-06
-https://www.centralbank.go.ke/uploads/182_day_historical_treasury_bill_results/964553243_Results 2478-91 2451-182 2403-364 dated 20-06-2022.xlsx...pdf,KE,KE-2022-06-20,stratified sample,pdfplumber,compared,9.0,9.0,0.0,2022-06-20
-https://www.centralbank.go.ke/uploads/182_day_historical_treasury_bill_results/1225396050_Results 2487-91 2460-182 2412-364 dated 22-08-2022.pdf,KE,KE-2022-08-22,stratified sample,pdfplumber,compared,9.0,9.0,0.0,2022-08-22
-https://www.centralbank.go.ke/uploads/182_day_historical_treasury_bill_results/2100043134_Results 2458-91 2431-182 2383-364 dated 31.01.2022.pdf,KE,KE-2022-01-31,stratified sample,pdfplumber,compared,9.0,9.0,0.0,2022-01-31
-https://www.centralbank.go.ke/uploads/182_day_historical_treasury_bill_results/961468938_RESULTS 2541-091 2514-182 2467-364 DATED 04-09-23.pdf,KE,KE-2023-09-04,stratified sample,pdfplumber,compared,9.0,9.0,0.0,2023-09-04
-https://www.centralbank.go.ke/uploads/182_day_historical_treasury_bill_results/209942294_Results 2512-091 2485-182 2438-364 DTD 13-02-2023.pdf,KE,KE-2023-02-13,stratified sample,pdfplumber,compared,9.0,9.0,0.0,2023-02-13
-https://www.centralbank.go.ke/uploads/182_day_historical_treasury_bill_results/1065626580_RESULTS 2553-091 2526-182 2479-364 DATED 27-11-23.pdf,KE,KE-2023-11-27,stratified sample,pdfplumber,compared,9.0,9.0,0.0,2023-11-27
-https://www.centralbank.go.ke/uploads/182_day_historical_treasury_bill_results/858037923_RESULTS 2586-091 2559-182 2513-364 DATED 15.07.2024.pdf,KE,KE-2024-07-15,stratified sample,pdfplumber,compared,9.0,9.0,0.0,2024-07-15
-https://www.centralbank.go.ke/uploads/182_day_historical_treasury_bill_results/339127312_RESULTS 2609-091 2582-182 2537-364 DATED 23.12.2024.pdf,KE,KE-2024-12-23,stratified sample,pdfplumber,compared,9.0,9.0,0.0,2024-12-23
-https://www.centralbank.go.ke/uploads/182_day_historical_treasury_bill_results/215151802_RESULTS 2566-091 2539-182 2493-364  DATED 26-02-24.pdf,KE,KE-2024-02-26,stratified sample,pdfplumber,compared,9.0,9.0,0.0,2024-02-26
-https://www.centralbank.go.ke/uploads/182_day_historical_treasury_bill_results/2122003861_RESULTS 2640-091 2614-182 2568-364 DATED 28-07-2025.pdf,KE,KE-2025-07-28,stratified sample,pdfplumber,compared,9.0,9.0,0.0,2025-07-28
-https://www.centralbank.go.ke/uploads/182_day_historical_treasury_bill_results/758254474_RESULTS 2642-091 2616-182 2570-364 DATED 11-08-2025.pdf,KE,KE-2025-08-11,stratified sample,pdfplumber,compared,9.0,9.0,0.0,2025-08-11
-https://www.centralbank.go.ke/uploads/182_day_historical_treasury_bill_results/754682833_RESULTS 2639-091 2613-182 2567-364 DATED 21-07-2025.pdf,KE,KE-2025-07-21,stratified sample,pdfplumber,compared,9.0,9.0,0.0,2025-07-21
-https://www.centralbank.go.ke/uploads/182_day_historical_treasury_bill_results/393773995_RESULTS 2664-091 2638-182 2593-364 DATED 12-01-2026.pdf,KE,KE-2026-01-12,stratified sample,pdfplumber,compared,9.0,9.0,0.0,2026-01-12
-https://www.centralbank.go.ke/uploads/182_day_historical_treasury_bill_results/476753200_RESULTS 2682-091 2656-182 2611-364 DATED 18-05-2026.xlsx.pdf,KE,KE-2026-05-18,stratified sample,pdfplumber,compared,9.0,9.0,0.0,2026-05-18
-https://www.centralbank.go.ke/uploads/182_day_historical_treasury_bill_results/1413157017_RESULTS 2693-091 2667-182 2622-364 DATED 03-08-2026.pdf,KE,KE-2026-08-03,stratified sample,pdfplumber,compared,9.0,9.0,0.0,2026-08-03
-https://bou.or.ug/uploads/PRESS_RELEASE_T_BILL_AUCTION_DATE_15_FEB_2017_0875da737f.pdf,UG,UG-991,stratified sample,pdfplumber,compared,9.0,9.0,0.0,2017-02-15
-https://bou.or.ug/uploads/PRESS_RELEASE_1006_11_OCTOBER_2017_T_BILL_c495a18cd2.pdf,UG,UG-1006,stratified sample,pdfplumber,compared,9.0,9.0,0.0,2017-10-11
-https://bou.or.ug/uploads/18_JAN_2017_Treasury_bills_Results_ISSUE_NUMBER_989_1069eca7c3.pdf,UG,UG-989,stratified sample,pdfplumber,compared,9.0,9.0,0.0,2017-01-18
-https://bou.or.ug/uploads/PRESS_RELEASE_T_BILL_RESULTS_ISSUE_NO_1018_473aae4586.pdf,UG,UG-1018,stratified sample,pdfplumber,compared,9.0,9.0,0.0,2018-03-28
-https://bou.or.ug/uploads/Press_Release_T_Bills_Issue_1034_154d6bd0b8.pdf,UG,UG-1034,stratified sample,pdfplumber,compared,9.0,9.0,0.0,2018-11-07
-https://bou.or.ug/uploads/PRESS_RELEASE_T_BILL_ISSUE_1019_a9bf9fd77b.pdf,UG,UG-1019,stratified sample,pdfplumber,compared,9.0,9.0,0.0,2018-04-11
-https://bou.or.ug/uploads/Press_Release_T_Bills_Issue_1039_3d47b986ef.pdf,UG,UG-1039,stratified sample,pdfplumber,compared,9.0,9.0,0.0,2019-01-16
-https://bou.or.ug/uploads/Press_Release_T_Bills_Issue_Number_1046_a8b2674d16.pdf,UG,UG-1046,stratified sample,pdfplumber,compared,9.0,9.0,0.0,2019-04-24
-https://bou.or.ug/uploads/Press_Release_T_Bills_Issue_Number_1041_9de8132e0d.pdf,UG,UG-1041,stratified sample,pdfplumber,compared,9.0,9.0,0.0,2019-02-13
-https://bou.or.ug/uploads/PRESS_RELEASE_1071_8_APR_2020_e477700be3.pdf,UG,UG-1071,stratified sample,pdfplumber,compared,9.0,9.0,0.0,2020-04-08
-https://bou.or.ug/uploads/Press_Release_T_Bill_Issue_Number_1082_1bc452c311.pdf,UG,UG-1082,stratified sample,pdfplumber,compared,9.0,9.0,0.0,2020-09-09
-https://bou.or.ug/uploads/PRESS_RELEASE_1070_25_March_2020_67523171a2.pdf,UG,UG-1070,stratified sample,ocr-rapidocr@300dpi,compared,9.0,9.0,0.0,2020-03-25
-https://bou.or.ug/uploads/PRESS_RELEASE_15_SEP_2021_e1bbe610d1.pdf,UG,UG-1109,stratified sample,pdfplumber,compared,9.0,9.0,0.0,2021-09-15
-https://bou.or.ug/uploads/Press_Release_T_Bill_Auction_21_APR_2021_55668c1bb0.pdf,UG,UG-1098,stratified sample,pdfplumber,compared,9.0,9.0,0.0,2021-04-21
-https://bou.or.ug/uploads/PRESS_RELEASE_18_AUG_2021_93dd05579b.pdf,UG,UG-1107,stratified sample,pdfplumber,compared,9.0,9.0,0.0,2021-08-18
-https://bou.or.ug/uploads/T_BILLS_PRESS_RELEASE_ISSUE_1123_30_MAR_22_96c9a060f1.pdf,UG,UG-1123,stratified sample,pdfplumber,compared,9.0,9.0,0.0,2022-03-30
-https://bou.or.ug/uploads/T_BILLS_PRESS_RELEASE_ISSUE_1132_02_AUG_2022_89a22b2aaa.pdf,UG,UG-1132,stratified sample,pdfplumber,compared,9.0,9.0,0.0,2022-08-03
-https://bou.or.ug/uploads/PRESS_RELEASE_TBILL_ISSUE_1142_21_DEC_2022_fc22ef6c61.pdf,UG,UG-1142,stratified sample,pdfplumber,compared,9.0,9.0,0.0,2022-12-21
-https://bou.or.ug/uploads/PRESS_RELEASE_TBILL_ISSUE_1143_04_JAN_2023_ccfcdbdd98.pdf,UG,UG-1143,stratified sample,pdfplumber,compared,9.0,9.0,0.0,2023-01-04
-https://bou.or.ug/uploads/PRESS_RELEASE_TBILL_ISSUE_1152_10_MAY_2023_4e2d023c2d.pdf,UG,UG-1152,stratified sample,pdfplumber,compared,9.0,9.0,0.0,2023-05-10
-https://bou.or.ug/uploads/PRESS_RELEASE_TBILL_ISSUE_1156_05_JULY_2023_3fd6cf730c.pdf,UG,UG-1156,stratified sample,pdfplumber,compared,9.0,9.0,0.0,2023-07-05
-https://bou.or.ug/uploads/PRESS_RELEASE_T_BILL_AUCTION_RESULTS_6efe2586f3.pdf,UG,UG-1190,stratified sample,pdfplumber,compared,9.0,9.0,0.0,2024-10-23
-https://bou.or.ug/uploads/Press_Release_Bills_Results_Issue_Number_1177_cf50c4e528.pdf,UG,UG-1177,stratified sample,pdfplumber,compared,9.0,9.0,0.0,2024-04-24
-https://bou.or.ug/uploads/PRESS_RELEASE_TBILLS_11_APRIL_2024_a19c46b98f.pdf,UG,UG-1176,stratified sample,pdfplumber,compared,9.0,9.0,0.0,2024-04-11
-https://bou.or.ug/uploads/Press_Release_T_bill_Auction_Results_27th_August_2025_9adc27dd0d.pdf,UG,UG-1212,stratified sample,pdfplumber,compared,9.0,9.0,0.0,2025-08-27
-https://bou.or.ug/uploads/Press_Release_T_bill_Auction_Results_08th_October_2025_9e96b226f9.pdf,UG,UG-1215,stratified sample,pdfplumber,compared,9.0,9.0,0.0,2025-10-08
-https://bou.or.ug/uploads/PRESS_RELEASE_RESULTS_FOR_TBILL_AUCTION_29_JAN_2025_11d2900765.pdf,UG,UG-1197,stratified sample,pdfplumber,compared,9.0,9.0,0.0,2025-01-29
-https://bou.or.ug/uploads/Press_Release_for_T_Bills_Auction_08_JULY_2026_ba58aa6de7.pdf,UG,UG-1232,stratified sample,ocr-rapidocr@300dpi,compared,9.0,9.0,0.0,2026-07-08
-https://bou.or.ug/uploads/Bo_U_Press_release_T_bill_20_MAY_2026_7eef225271.pdf,UG,UG-1229,stratified sample,pdfplumber,compared,9.0,9.0,0.0,2026-05-20
-https://bou.or.ug/uploads/Press_Release_Report_for_the_91_Days_182_Days_364_Days_T_Bills_Auction_02_SEP_2026_4ab21d0a51.pdf,UG,UG-1234,stratified sample,ocr-rapidocr@300dpi,compared,9.0,9.0,0.0,2026-09-02
-https://www.centralbank.go.ke/uploads/182_day_historical_treasury_bill_results/862733584_Results 2494-91 2467-182 2419-364 dated 10-10-2022.pdf,KE,KE-2022-10-10,unusual row,pdfplumber,compared,9.0,9.0,0.0,2022-10-10
-https://www.centralbank.go.ke/uploads/182_day_historical_treasury_bill_results/1758063329_RESULTS 2610-091 2583-182 2538-364 DATED 30.12.2024.pdf,KE,KE-2024-12-30,unusual row,pdfplumber,compared,9.0,9.0,0.0,2024-12-30
-https://www.centralbank.go.ke/uploads/182_day_historical_treasury_bill_results/2106331531_RESULTS 2628-091 2602-182 2556-364 DATED 05-05-2025...pdf,KE,KE-2025-05-05,unusual row,pdfplumber,compared,9.0,9.0,0.0,2025-05-05
-https://www.centralbank.go.ke/uploads/182_day_historical_treasury_bill_results/450559664_RESULTS 2656-091 2630-182 2584-364 DATED 17-11-2025.pdf,KE,KE-2025-11-17,unusual row,pdfplumber,compared,9.0,9.0,0.0,2025-11-17
-https://www.centralbank.go.ke/uploads/182_day_historical_treasury_bill_results/1514518100_RESULTS 2658-091 2632-182 2587-364 DATED 01-12-2025.pdf,KE,KE-2025-12-01,unusual row,pdfplumber,compared,9.0,9.0,0.0,2025-12-01
-https://www.centralbank.go.ke/uploads/182_day_historical_treasury_bill_results/554444787_RESULTS 2662-091 2636-182 2591-364 DATED 29-12-2025.pdf,KE,KE-2025-12-29,unusual row,pdfplumber,compared,9.0,9.0,0.0,2025-12-29
-https://bou.or.ug/uploads/Press_Release_T_Bills_Issue_1040_3e2cd5b2d6.pdf,UG,UG-1040,unusual row,pdfplumber,compared,9.0,9.0,0.0,2019-01-30
-https://bou.or.ug/uploads/Press_Release_T_Bills_Issue_Number_1044_532e06c140.pdf,UG,UG-1044,unusual row,pdfplumber,compared,9.0,9.0,0.0,2019-03-27
-https://bou.or.ug/uploads/PRESS_RELEASE_1072_22_APRIL_2020_c2a2e365ea.pdf,UG,UG-1072,unusual row,pdfplumber,compared,9.0,9.0,0.0,2020-04-22
-https://bou.or.ug/uploads/Press_Release_T_Bill_Auction_04_NOV_2020_22f74ddab3.pdf,UG,UG-1086,unusual row,pdfplumber,compared,9.0,9.0,0.0,2020-11-04
-https://bou.or.ug/uploads/Press_Release_T_Bill_Auction_18_NOV_2020_6a8742312c.pdf,UG,UG-1086-2020-11-18,unusual row,pdfplumber,compared,9.0,9.0,0.0,2020-11-18
-https://bou.or.ug/uploads/TBILLS_PRESS_RELEASE_ISSUE_1119_02_FEB_22_26aa7b27de.pdf,UG,UG-1119,unusual row,ocr-rapidocr@300dpi,compared,9.0,9.0,0.0,2022-02-02
-https://bou.or.ug/uploads/T_BILLS_PRESS_RELEASE_ISSUE_1124_13_APR_22_c7b8ad7f1f.pdf,UG,UG-1124,unusual row,pdfplumber,compared,9.0,9.0,0.0,2022-04-13
-https://bou.or.ug/uploads/T_BILLS_PRESS_RELEASE_ISSUE_1125_27_APR_22_ba7c2bc833.pdf,UG,UG-1125,unusual row,pdfplumber,compared,9.0,9.0,0.0,2022-04-27
-https://bou.or.ug/uploads/Press_Release_Bills_Results_Issue_Number_1171_eac671c946.pdf,UG,UG-1171,unusual row,pdfplumber,compared,9.0,9.0,0.0,2024-01-31
-https://bou.or.ug/uploads/Press_Release_Bills_Results_Issue_Number_1172_582b5072eb.pdf,UG,UG-1171-2024-02-14,unusual row,pdfplumber,compared,9.0,9.0,0.0,2024-02-14
-https://bou.or.ug/uploads/Press_release_Tbill_auction_17th_Dec_2025_5c8fe3fc54.pdf,UG,UG-1220,unusual row,ocr-rapidocr@300dpi,compared,9.0,9.0,0.0,2025-12-17
-https://bou.or.ug/uploads/Press_release_Tbill_auction_11th_FEB_2026_11ca30c210.pdf,UG,UG-1222,unusual row,ocr-rapidocr@300dpi,compared,9.0,9.0,0.0,2026-02-11
-https://bou.or.ug/uploads/Press_Release_T_Bills_auction_25_Feb_2026_e30af1d8cc.pdf,UG,UG-1223,unusual row,ocr-rapidocr@300dpi,compared,9.0,9.0,0.0,2026-02-25
-https://bou.or.ug/uploads/Press_Release_T_Bills_auction_11_Mar_2026_79d38ad496.pdf,UG,UG-1224,unusual row,ocr-rapidocr@300dpi,compared,9.0,9.0,0.0,2026-03-11
-https://bou.or.ug/uploads/Press_Release_for_T_Bills_Auction_25_March_2026_a41027e3bf.pdf,UG,UG-1225,unusual row,ocr-rapidocr@300dpi,compared,9.0,9.0,0.0,2026-03-25
-https://bou.or.ug/uploads/Press_Release_for_T_Bills_Auction_08_April_2026_2ae21f349b.pdf,UG,UG-1226,unusual row,ocr-rapidocr@300dpi,compared,9.0,9.0,0.0,2026-04-08
-https://bou.or.ug/uploads/Press_Release_for_T_Bills_Auction_22_April_2026_0d90c8e643.pdf,UG,UG-1227,unusual row,ocr-rapidocr@300dpi,compared,9.0,9.0,0.0,2026-04-22
-https://bou.or.ug/uploads/Press_release_T_bill_06_MAY_2026_d00c70b816.pdf,UG,UG-1228,unusual row,ocr-rapidocr@300dpi,compared,9.0,9.0,0.0,2026-05-06
-https://bou.or.ug/uploads/Press_Release_for_T_Bills_Auction_17_JUNE_2026_ffe7ee1c36.pdf,UG,UG-1231,unusual row,ocr-rapidocr@300dpi,compared,9.0,9.0,0.0,2026-06-17
-https://bou.or.ug/uploads/Press_Release_for_T_Bills_Auction_05_AUG_2026_6ba0898abb.pdf,UG,UG-1233,unusual row,ocr-rapidocr@300dpi,compared,9.0,9.0,0.0,2026-08-05
+url,country,event_id,reason,cells_expected,engine,status,cells,cells_agree,max_abs_diff,date_second,date_expected,date_agrees
+https://www.bog.gov.gh/wp-content/uploads/2019/07/Auctresults-1581.pdf,GH,GH-1581,stratified sample,5,pdfplumber,compared,5.0,5.0,0.0,2018-03-16,2018-03-16,True
+https://www.bog.gov.gh/wp-content/uploads/2019/07/Auctresults-1617.pdf,GH,GH-1617,stratified sample,5,pdfplumber,second engine could not validate,,,,,,
+https://www.bog.gov.gh/wp-content/uploads/2019/07/Auctresults-1597.pdf,GH,GH-1597,stratified sample,5,pdfplumber,compared,5.0,5.0,0.0,2018-07-06,2018-07-06,True
+https://www.bog.gov.gh/wp-content/uploads/2019/07/Auctresults-1630.pdf,GH,GH-1630,stratified sample,5,pdfplumber,second engine could not validate,,,,,,
+https://www.bog.gov.gh/wp-content/uploads/2019/12/Auctresults-1673.pdf,GH,GH-1673,stratified sample,7,pdfplumber,second engine could not validate,,,,,,
+https://www.bog.gov.gh/wp-content/uploads/2019/07/Auctresults-1628.pdf,GH,GH-1628,stratified sample,7,pdfplumber,compared,7.0,7.0,0.0,2019-02-08,2019-02-08,True
+https://www.bog.gov.gh/wp-content/uploads/2020/04/Auctresults-1691.pdf,GH,GH-1691,stratified sample,7,pdfplumber,second engine could not validate,,,,,,
+https://www.bog.gov.gh/wp-content/uploads/2020/07/Auctresults-1703.pdf,GH,GH-1703,stratified sample,5,pdfplumber,second engine could not validate,,,,,,
+https://www.bog.gov.gh/wp-content/uploads/2020/01/Auctresults-1677.pdf,GH,GH-1677,stratified sample,5,pdfplumber,second engine could not validate,,,,,,
+https://www.bog.gov.gh/wp-content/uploads/2021/01/Auctresults-1728-2.pdf,GH,GH-1728,stratified sample,5,pdfplumber,second engine could not validate,,,,,,
+https://www.bog.gov.gh/wp-content/uploads/2021/12/Auctresults-1776.pdf,GH,GH-1776,stratified sample,7,pdfplumber,compared,7.0,7.0,0.0,2021-12-10,2021-12-10,True
+https://www.bog.gov.gh/wp-content/uploads/2021/03/Auctresults-1736.pdf,GH,GH-1736,stratified sample,7,pdfplumber,second engine could not validate,,,,,,
+https://www.bog.gov.gh/wp-content/uploads/2022/02/Auctresults-1785.pdf,GH,GH-1785,stratified sample,7,pdfplumber,compared,7.0,7.0,0.0,2022-02-11,2022-02-11,True
+https://www.bog.gov.gh/wp-content/uploads/2022/04/Auctresults-1793.pdf,GH,GH-1793,stratified sample,7,pdfplumber,compared,7.0,7.0,0.0,2022-04-08,2022-04-08,True
+https://www.bog.gov.gh/wp-content/uploads/2022/06/Auctresults-1802.pdf,GH,GH-1802,stratified sample,7,pdfplumber,second engine could not validate,,,,,,
+https://www.bog.gov.gh/wp-content/uploads/2023/07/Auctresults-1860.pdf,GH,GH-1860,stratified sample,7,pdfplumber,compared,7.0,7.0,0.0,2023-07-21,2023-07-21,True
+https://www.bog.gov.gh/wp-content/uploads/2023/10/Auctresults-1872.pdf,GH,GH-1872,stratified sample,7,pdfplumber,second engine could not validate,,,,,,
+https://www.bog.gov.gh/wp-content/uploads/2023/09/Auctresults-1868.pdf,GH,GH-1868,stratified sample,7,pdfplumber,second engine could not validate,,,,,,
+https://www.bog.gov.gh/wp-content/uploads/2024/12/Auctresults-1935.pdf,GH,GH-1935,stratified sample,7,pdfplumber,compared,7.0,7.0,0.0,2024-12-27,2024-12-27,True
+https://www.bog.gov.gh/wp-content/uploads/2024/11/Auctresults-1927.pdf,GH,GH-1927,stratified sample,7,pdfplumber,compared,7.0,7.0,0.0,2024-11-01,2024-11-01,True
+https://www.bog.gov.gh/wp-content/uploads/2024/05/Auctresults-1903.pdf,GH,GH-1903,stratified sample,7,pdfplumber,compared,7.0,7.0,0.0,2024-05-17,2024-05-17,True
+https://www.bog.gov.gh/wp-content/uploads/2025/01/Auctresults-1939.pdf,GH,GH-1939,stratified sample,7,pdfplumber,compared,7.0,7.0,0.0,2025-01-24,2025-01-24,True
+https://www.bog.gov.gh/wp-content/uploads/2025/06/Auctresults-1959-2.pdf,GH,GH-1959,stratified sample,7,pdfplumber,compared,7.0,7.0,0.0,2025-06-13,2025-06-13,True
+https://www.bog.gov.gh/wp-content/uploads/2025/02/Auctresults-1941.pdf,GH,GH-1941,stratified sample,5,pdfplumber,compared,5.0,5.0,0.0,2025-02-07,2025-02-07,True
+https://www.bog.gov.gh/wp-content/uploads/2026/10/Auctresults-2028.pdf,GH,GH-2028,stratified sample,7,pdfplumber,compared,7.0,7.0,0.0,2026-10-09,2026-10-09,True
+https://www.bog.gov.gh/wp-content/uploads/2026/08/Auctresult2022.pdf,GH,GH-2022,stratified sample,7,pdfplumber,compared,7.0,7.0,0.0,2026-08-28,2026-08-28,True
+https://www.bog.gov.gh/wp-content/uploads/2026/03/Auctresults-2000.pdf,GH,GH-2000,stratified sample,7,pdfplumber,compared,7.0,7.0,0.0,2026-03-27,2026-03-27,True
+https://www.centralbank.go.ke/uploads/182_day_historical_treasury_bill_results/1715446388_RESULTS 2053 -182 & 1974-364 dated 08-09-14.pdf,KE,KE-2014-09-08,stratified sample,6,pdfplumber,compared,6.0,6.0,0.0,2014-09-08,2014-09-08,True
+https://www.centralbank.go.ke/uploads/182_day_historical_treasury_bill_results/449231891_Results 2167-182 & 2094-364 dated 14.11.2014.pdf,KE,KE-2016-11-14,stratified sample,6,pdfplumber,compared,6.0,6.0,0.0,2016-11-14,2016-11-14,True
+https://www.centralbank.go.ke/uploads/182_day_historical_treasury_bill_results/483673491_Results 2161-182 & 2088-364 dated 03.10.2016.pdf,KE,KE-2016-10-03,stratified sample,6,pdfplumber,compared,6.0,6.0,0.0,2016-10-03,2016-10-03,True
+https://www.centralbank.go.ke/uploads/91_day_historical_treasury_bill_results/891371776_Results 2177-91 Dated 12.09.2016...pdf,KE,KE-2016-09-12,stratified sample,3,pdfplumber,second engine could not validate,,,,,,
+https://www.centralbank.go.ke/uploads/182_day_historical_treasury_bill_results/449220311_Results 2241-91 2214-182 2153-364 Dated 4.12.2017.pdf,KE,KE-2017-12-04,stratified sample,9,pdfplumber,compared,9.0,9.0,0.0,2017-12-04,2017-12-04,True
+https://www.centralbank.go.ke/uploads/182_day_historical_treasury_bill_results/1391203100_Results 2244-91 2217-182 &2156-364 Dated 25.12.2017.xlsx.pdf,KE,KE-2017-12-25,stratified sample,9,pdfplumber,compared,9.0,9.0,0.0,2017-12-25,2017-12-25,True
+"https://www.centralbank.go.ke/uploads/182_day_historical_treasury_bill_results/1662799665_Results 2230-91, 2203-182 & 2141-364 Dated 18.09.2017.pdf",KE,KE-2017-09-18,stratified sample,9,pdfplumber,compared,9.0,9.0,0.0,2017-09-18,2017-09-18,True
+https://www.centralbank.go.ke/uploads/182_day_historical_treasury_bill_results/2145073907_Results 2257-091 2230-182 2170-364 Dated 26-03-2018.pdf,KE,KE-2018-03-26,stratified sample,9,pdfplumber,compared,9.0,9.0,0.0,2018-03-26,2018-03-26,True
+https://www.centralbank.go.ke/uploads/182_day_historical_treasury_bill_results/125446724_Results 2248-91 2221-182 & 2161-364 dated 22.01.2018.pdf,KE,KE-2018-01-22,stratified sample,9,pdfplumber,compared,9.0,9.0,0.0,2018-01-22,2018-01-22,True
+"https://www.centralbank.go.ke/uploads/182_day_historical_treasury_bill_results/1163501779_Results 2284-91,2257-182 & 2198-364 Dated 01.10. 2018.pdf",KE,KE-2018-10-01,stratified sample,9,pdfplumber,compared,9.0,9.0,0.0,2018-10-01,2018-10-01,True
+https://www.centralbank.go.ke/uploads/182_day_historical_treasury_bill_results/166595601_Results 2344-91 2317-182 2261-364 Dated 25.11.2019.pdf,KE,KE-2019-11-25,stratified sample,9,pdfplumber,compared,9.0,9.0,0.0,2019-11-25,2019-11-25,True
+https://www.centralbank.go.ke/uploads/182_day_historical_treasury_bill_results/2129334525_Results 2345-91 2318-182 2263-364 Dated 02.12.2019.pdf,KE,KE-2019-12-02,stratified sample,9,pdfplumber,compared,9.0,9.0,0.0,2019-12-02,2019-12-02,True
+https://www.centralbank.go.ke/uploads/182_day_historical_treasury_bill_results/982415054_Results 2341-91 2314-182 2258-364 Dated 04.11.2019.pdf,KE,KE-2019-11-04,stratified sample,9,pdfplumber,compared,9.0,9.0,0.0,2019-11-04,2019-11-04,True
+https://www.centralbank.go.ke/uploads/182_day_historical_treasury_bill_results/328911673_Results 2372-91 2345-182 2292-364 Dated 8.06.2020.pdf,KE,KE-2020-06-08,stratified sample,9,pdfplumber,compared,9.0,9.0,0.0,2020-06-08,2020-06-08,True
+https://www.centralbank.go.ke/uploads/182_day_historical_treasury_bill_results/940741123_Results 2380-91 2353-182 2300-364 Dated 03.08.2020.pdf,KE,KE-2020-08-03,stratified sample,9,pdfplumber,compared,9.0,9.0,0.0,2020-08-03,2020-08-03,True
+https://www.centralbank.go.ke/uploads/182_day_historical_treasury_bill_results/834173114_Results 2398-91 2371-182 2318-364 Dated 07-12-2020.pdf,KE,KE-2020-12-07,stratified sample,9,pdfplumber,compared,9.0,9.0,0.0,2020-12-07,2020-12-07,True
+https://www.centralbank.go.ke/uploads/182_day_historical_treasury_bill_results/1949584645_Results 2450-91 2423-182 2375-364 Dated 06.12.2021.pdf,KE,KE-2021-12-06,stratified sample,9,pdfplumber,compared,9.0,9.0,0.0,2021-12-06,2021-12-06,True
+https://www.centralbank.go.ke/uploads/182_day_historical_treasury_bill_results/1644462071_Results 2410-91 2383-182 2332-364 dated 25.02.2021.pdf,KE,KE-2021-03-01,stratified sample,9,pdfplumber,compared,9.0,9.0,0.0,2021-03-01,2021-03-01,True
+https://www.centralbank.go.ke/uploads/182_day_historical_treasury_bill_results/1181748043_Results 2437-91 2410-182 2360-364 Dated 06.09.2021.pdf,KE,KE-2021-09-06,stratified sample,9,pdfplumber,compared,9.0,9.0,0.0,2021-09-06,2021-09-06,True
+https://www.centralbank.go.ke/uploads/182_day_historical_treasury_bill_results/964553243_Results 2478-91 2451-182 2403-364 dated 20-06-2022.xlsx...pdf,KE,KE-2022-06-20,stratified sample,9,pdfplumber,compared,9.0,9.0,0.0,2022-06-20,2022-06-20,True
+https://www.centralbank.go.ke/uploads/182_day_historical_treasury_bill_results/1225396050_Results 2487-91 2460-182 2412-364 dated 22-08-2022.pdf,KE,KE-2022-08-22,stratified sample,9,pdfplumber,compared,9.0,9.0,0.0,2022-08-22,2022-08-22,True
+https://www.centralbank.go.ke/uploads/182_day_historical_treasury_bill_results/2100043134_Results 2458-91 2431-182 2383-364 dated 31.01.2022.pdf,KE,KE-2022-01-31,stratified sample,9,pdfplumber,compared,9.0,9.0,0.0,2022-01-31,2022-01-31,True
+https://www.centralbank.go.ke/uploads/182_day_historical_treasury_bill_results/961468938_RESULTS 2541-091 2514-182 2467-364 DATED 04-09-23.pdf,KE,KE-2023-09-04,stratified sample,9,pdfplumber,compared,9.0,9.0,0.0,2023-09-04,2023-09-04,True
+https://www.centralbank.go.ke/uploads/182_day_historical_treasury_bill_results/209942294_Results 2512-091 2485-182 2438-364 DTD 13-02-2023.pdf,KE,KE-2023-02-13,stratified sample,9,pdfplumber,compared,9.0,9.0,0.0,2023-02-13,2023-02-13,True
+https://www.centralbank.go.ke/uploads/182_day_historical_treasury_bill_results/1065626580_RESULTS 2553-091 2526-182 2479-364 DATED 27-11-23.pdf,KE,KE-2023-11-27,stratified sample,9,pdfplumber,compared,9.0,9.0,0.0,2023-11-27,2023-11-27,True
+https://www.centralbank.go.ke/uploads/182_day_historical_treasury_bill_results/858037923_RESULTS 2586-091 2559-182 2513-364 DATED 15.07.2024.pdf,KE,KE-2024-07-15,stratified sample,9,pdfplumber,compared,9.0,9.0,0.0,2024-07-15,2024-07-15,True
+https://www.centralbank.go.ke/uploads/182_day_historical_treasury_bill_results/339127312_RESULTS 2609-091 2582-182 2537-364 DATED 23.12.2024.pdf,KE,KE-2024-12-23,stratified sample,9,pdfplumber,compared,9.0,9.0,0.0,2024-12-23,2024-12-23,True
+https://www.centralbank.go.ke/uploads/182_day_historical_treasury_bill_results/215151802_RESULTS 2566-091 2539-182 2493-364  DATED 26-02-24.pdf,KE,KE-2024-02-26,stratified sample,9,pdfplumber,compared,9.0,9.0,0.0,2024-02-26,2024-02-26,True
+https://www.centralbank.go.ke/uploads/182_day_historical_treasury_bill_results/2122003861_RESULTS 2640-091 2614-182 2568-364 DATED 28-07-2025.pdf,KE,KE-2025-07-28,stratified sample,9,pdfplumber,compared,9.0,9.0,0.0,2025-07-28,2025-07-28,True
+https://www.centralbank.go.ke/uploads/182_day_historical_treasury_bill_results/758254474_RESULTS 2642-091 2616-182 2570-364 DATED 11-08-2025.pdf,KE,KE-2025-08-11,stratified sample,9,pdfplumber,compared,9.0,9.0,0.0,2025-08-11,2025-08-11,True
+https://www.centralbank.go.ke/uploads/182_day_historical_treasury_bill_results/754682833_RESULTS 2639-091 2613-182 2567-364 DATED 21-07-2025.pdf,KE,KE-2025-07-21,stratified sample,9,pdfplumber,compared,9.0,9.0,0.0,2025-07-21,2025-07-21,True
+https://www.centralbank.go.ke/uploads/182_day_historical_treasury_bill_results/393773995_RESULTS 2664-091 2638-182 2593-364 DATED 12-01-2026.pdf,KE,KE-2026-01-12,stratified sample,9,pdfplumber,compared,9.0,9.0,0.0,2026-01-12,2026-01-12,True
+https://www.centralbank.go.ke/uploads/182_day_historical_treasury_bill_results/476753200_RESULTS 2682-091 2656-182 2611-364 DATED 18-05-2026.xlsx.pdf,KE,KE-2026-05-18,stratified sample,9,pdfplumber,compared,9.0,9.0,0.0,2026-05-18,2026-05-18,True
+https://www.centralbank.go.ke/uploads/182_day_historical_treasury_bill_results/1413157017_RESULTS 2693-091 2667-182 2622-364 DATED 03-08-2026.pdf,KE,KE-2026-08-03,stratified sample,9,pdfplumber,compared,9.0,9.0,0.0,2026-08-03,2026-08-03,True
+https://bou.or.ug/uploads/PRESS_RELEASE_T_BILL_AUCTION_DATE_15_FEB_2017_0875da737f.pdf,UG,UG-991,stratified sample,9,pdfplumber,compared,9.0,9.0,0.0,2017-02-15,2017-02-15,True
+https://bou.or.ug/uploads/PRESS_RELEASE_1006_11_OCTOBER_2017_T_BILL_c495a18cd2.pdf,UG,UG-1006,stratified sample,9,pdfplumber,compared,9.0,9.0,0.0,2017-10-11,2017-10-11,True
+https://bou.or.ug/uploads/18_JAN_2017_Treasury_bills_Results_ISSUE_NUMBER_989_1069eca7c3.pdf,UG,UG-989,stratified sample,9,pdfplumber,compared,9.0,9.0,0.0,2017-01-18,2017-01-18,True
+https://bou.or.ug/uploads/PRESS_RELEASE_T_BILL_RESULTS_ISSUE_NO_1018_473aae4586.pdf,UG,UG-1018,stratified sample,9,pdfplumber,compared,9.0,9.0,0.0,2018-03-28,2018-03-28,True
+https://bou.or.ug/uploads/Press_Release_T_Bills_Issue_1034_154d6bd0b8.pdf,UG,UG-1034,stratified sample,9,pdfplumber,compared,9.0,9.0,0.0,2018-11-07,2018-11-07,True
+https://bou.or.ug/uploads/PRESS_RELEASE_T_BILL_ISSUE_1019_a9bf9fd77b.pdf,UG,UG-1019,stratified sample,9,pdfplumber,compared,9.0,9.0,0.0,2018-04-11,2018-04-11,True
+https://bou.or.ug/uploads/Press_Release_T_Bills_Issue_1039_3d47b986ef.pdf,UG,UG-1039,stratified sample,9,pdfplumber,compared,9.0,9.0,0.0,2019-01-16,2019-01-16,True
+https://bou.or.ug/uploads/Press_Release_T_Bills_Issue_Number_1046_a8b2674d16.pdf,UG,UG-1046,stratified sample,9,pdfplumber,compared,9.0,9.0,0.0,2019-04-24,2019-04-24,True
+https://bou.or.ug/uploads/Press_Release_T_Bills_Issue_Number_1041_9de8132e0d.pdf,UG,UG-1041,stratified sample,9,pdfplumber,compared,9.0,9.0,0.0,2019-02-13,2019-02-13,True
+https://bou.or.ug/uploads/PRESS_RELEASE_1071_8_APR_2020_e477700be3.pdf,UG,UG-1071,stratified sample,9,pdfplumber,compared,9.0,9.0,0.0,2020-04-08,2020-04-08,True
+https://bou.or.ug/uploads/Press_Release_T_Bill_Issue_Number_1082_1bc452c311.pdf,UG,UG-1082,stratified sample,9,pdfplumber,compared,9.0,9.0,0.0,2020-09-09,2020-09-09,True
+https://bou.or.ug/uploads/PRESS_RELEASE_1070_25_March_2020_67523171a2.pdf,UG,UG-1070,stratified sample,9,ocr-rapidocr@300dpi,compared,9.0,9.0,0.0,2020-03-25,2020-03-25,True
+https://bou.or.ug/uploads/PRESS_RELEASE_15_SEP_2021_e1bbe610d1.pdf,UG,UG-1109,stratified sample,9,pdfplumber,compared,9.0,9.0,0.0,2021-09-15,2021-09-15,True
+https://bou.or.ug/uploads/Press_Release_T_Bill_Auction_21_APR_2021_55668c1bb0.pdf,UG,UG-1098,stratified sample,9,pdfplumber,compared,9.0,9.0,0.0,2021-04-21,2021-04-21,True
+https://bou.or.ug/uploads/PRESS_RELEASE_18_AUG_2021_93dd05579b.pdf,UG,UG-1107,stratified sample,9,pdfplumber,compared,9.0,9.0,0.0,2021-08-18,2021-08-18,True
+https://bou.or.ug/uploads/T_BILLS_PRESS_RELEASE_ISSUE_1123_30_MAR_22_96c9a060f1.pdf,UG,UG-1123,stratified sample,9,pdfplumber,compared,9.0,9.0,0.0,2022-03-30,2022-03-30,True
+https://bou.or.ug/uploads/T_BILLS_PRESS_RELEASE_ISSUE_1132_02_AUG_2022_89a22b2aaa.pdf,UG,UG-1132,stratified sample,9,pdfplumber,compared,9.0,9.0,0.0,2022-08-03,2022-08-03,True
+https://bou.or.ug/uploads/PRESS_RELEASE_TBILL_ISSUE_1142_21_DEC_2022_fc22ef6c61.pdf,UG,UG-1142,stratified sample,9,pdfplumber,compared,9.0,9.0,0.0,2022-12-21,2022-12-21,True
+https://bou.or.ug/uploads/PRESS_RELEASE_TBILL_ISSUE_1143_04_JAN_2023_ccfcdbdd98.pdf,UG,UG-1143,stratified sample,9,pdfplumber,compared,9.0,9.0,0.0,2023-01-04,2023-01-04,True
+https://bou.or.ug/uploads/PRESS_RELEASE_TBILL_ISSUE_1152_10_MAY_2023_4e2d023c2d.pdf,UG,UG-1152,stratified sample,9,pdfplumber,compared,9.0,9.0,0.0,2023-05-10,2023-05-10,True
+https://bou.or.ug/uploads/PRESS_RELEASE_TBILL_ISSUE_1156_05_JULY_2023_3fd6cf730c.pdf,UG,UG-1156,stratified sample,9,pdfplumber,compared,9.0,9.0,0.0,2023-07-05,2023-07-05,True
+https://bou.or.ug/uploads/PRESS_RELEASE_T_BILL_AUCTION_RESULTS_6efe2586f3.pdf,UG,UG-1190,stratified sample,9,pdfplumber,compared,9.0,9.0,0.0,2024-10-23,2024-10-23,True
+https://bou.or.ug/uploads/Press_Release_Bills_Results_Issue_Number_1177_cf50c4e528.pdf,UG,UG-1177,stratified sample,9,pdfplumber,compared,9.0,9.0,0.0,2024-04-24,2024-04-24,True
+https://bou.or.ug/uploads/PRESS_RELEASE_TBILLS_11_APRIL_2024_a19c46b98f.pdf,UG,UG-1176,stratified sample,9,pdfplumber,compared,9.0,9.0,0.0,2024-04-11,2024-04-11,True
+https://bou.or.ug/uploads/Press_Release_T_bill_Auction_Results_27th_August_2025_9adc27dd0d.pdf,UG,UG-1212,stratified sample,9,pdfplumber,compared,9.0,9.0,0.0,2025-08-27,2025-08-27,True
+https://bou.or.ug/uploads/Press_Release_T_bill_Auction_Results_08th_October_2025_9e96b226f9.pdf,UG,UG-1215,stratified sample,9,pdfplumber,compared,9.0,9.0,0.0,2025-10-08,2025-10-08,True
+https://bou.or.ug/uploads/PRESS_RELEASE_RESULTS_FOR_TBILL_AUCTION_29_JAN_2025_11d2900765.pdf,UG,UG-1197,stratified sample,9,pdfplumber,compared,9.0,9.0,0.0,2025-01-29,2025-01-29,True
+https://bou.or.ug/uploads/Press_Release_for_T_Bills_Auction_08_JULY_2026_ba58aa6de7.pdf,UG,UG-1232,stratified sample,9,ocr-rapidocr@300dpi,compared,9.0,9.0,0.0,2026-07-08,2026-07-08,True
+https://bou.or.ug/uploads/Bo_U_Press_release_T_bill_20_MAY_2026_7eef225271.pdf,UG,UG-1229,stratified sample,9,pdfplumber,compared,9.0,9.0,0.0,2026-05-20,2026-05-20,True
+https://bou.or.ug/uploads/Press_Release_Report_for_the_91_Days_182_Days_364_Days_T_Bills_Auction_02_SEP_2026_4ab21d0a51.pdf,UG,UG-1234,stratified sample,9,ocr-rapidocr@300dpi,compared,9.0,9.0,0.0,2026-09-02,2026-09-02,True
+https://www.bog.gov.gh/wp-content/uploads/2023/11/Auctresults-1878.pdf,GH,GH-1878,unusual row,7,pdfplumber+ledger,compared,7.0,7.0,0.0,2023-11-24,2023-11-24,True
+https://www.bog.gov.gh/wp-content/uploads/2026/05/Auctresult-2006.pdf,GH,GH-2006,unusual row,7,pdfplumber+ledger,second engine could not validate,,,,,,
+https://www.centralbank.go.ke/uploads/182_day_historical_treasury_bill_results/862733584_Results 2494-91 2467-182 2419-364 dated 10-10-2022.pdf,KE,KE-2022-10-10,unusual row,9,pdfplumber,compared,9.0,9.0,0.0,2022-10-10,2022-10-10,True
+https://www.centralbank.go.ke/uploads/182_day_historical_treasury_bill_results/1758063329_RESULTS 2610-091 2583-182 2538-364 DATED 30.12.2024.pdf,KE,KE-2024-12-30,unusual row,9,pdfplumber,compared,9.0,9.0,0.0,2024-12-30,2024-12-30,True
+https://www.centralbank.go.ke/uploads/182_day_historical_treasury_bill_results/2106331531_RESULTS 2628-091 2602-182 2556-364 DATED 05-05-2025...pdf,KE,KE-2025-05-05,unusual row,9,pdfplumber,compared,9.0,9.0,0.0,2025-05-05,2025-05-05,True
+https://www.centralbank.go.ke/uploads/182_day_historical_treasury_bill_results/450559664_RESULTS 2656-091 2630-182 2584-364 DATED 17-11-2025.pdf,KE,KE-2025-11-17,unusual row,9,pdfplumber,compared,9.0,9.0,0.0,2025-11-17,2025-11-17,True
+https://www.centralbank.go.ke/uploads/182_day_historical_treasury_bill_results/1514518100_RESULTS 2658-091 2632-182 2587-364 DATED 01-12-2025.pdf,KE,KE-2025-12-01,unusual row,9,pdfplumber,compared,9.0,9.0,0.0,2025-12-01,2025-12-01,True
+https://www.centralbank.go.ke/uploads/182_day_historical_treasury_bill_results/554444787_RESULTS 2662-091 2636-182 2591-364 DATED 29-12-2025.pdf,KE,KE-2025-12-29,unusual row,9,pdfplumber,compared,9.0,9.0,0.0,2025-12-29,2025-12-29,True
+https://bou.or.ug/uploads/Press_Release_T_Bills_Issue_1040_3e2cd5b2d6.pdf,UG,UG-1040,unusual row,9,pdfplumber,compared,9.0,9.0,0.0,2019-01-30,2019-01-30,True
+https://bou.or.ug/uploads/Press_Release_T_Bills_Issue_Number_1044_532e06c140.pdf,UG,UG-1044,unusual row,9,pdfplumber,compared,9.0,9.0,0.0,2019-03-27,2019-03-27,True
+https://bou.or.ug/uploads/PRESS_RELEASE_1072_22_APRIL_2020_c2a2e365ea.pdf,UG,UG-1072,unusual row,9,pdfplumber,compared,9.0,9.0,0.0,2020-04-22,2020-04-22,True
+https://bou.or.ug/uploads/TBILLS_PRESS_RELEASE_ISSUE_1119_02_FEB_22_26aa7b27de.pdf,UG,UG-1119,unusual row,9,ocr-rapidocr@300dpi,compared,9.0,9.0,0.0,2022-02-02,2022-02-02,True
+https://bou.or.ug/uploads/T_BILLS_PRESS_RELEASE_ISSUE_1124_13_APR_22_c7b8ad7f1f.pdf,UG,UG-1124,unusual row,9,pdfplumber,compared,9.0,9.0,0.0,2022-04-13,2022-04-13,True
+https://bou.or.ug/uploads/T_BILLS_PRESS_RELEASE_ISSUE_1125_27_APR_22_ba7c2bc833.pdf,UG,UG-1125,unusual row,9,pdfplumber,compared,9.0,9.0,0.0,2022-04-27,2022-04-27,True
+https://bou.or.ug/uploads/Press_release_Tbill_auction_17th_Dec_2025_5c8fe3fc54.pdf,UG,UG-1220,unusual row,9,ocr-rapidocr@300dpi,compared,9.0,9.0,0.0,2025-12-17,2025-12-17,True
+https://bou.or.ug/uploads/Press_release_Tbill_auction_11th_FEB_2026_11ca30c210.pdf,UG,UG-1222,unusual row,9,ocr-rapidocr@300dpi,compared,9.0,9.0,0.0,2026-02-11,2026-02-11,True
+https://bou.or.ug/uploads/Press_Release_T_Bills_auction_25_Feb_2026_e30af1d8cc.pdf,UG,UG-1223,unusual row,9,ocr-rapidocr@300dpi,compared,9.0,9.0,0.0,2026-02-25,2026-02-25,True
+https://bou.or.ug/uploads/Press_Release_T_Bills_auction_11_Mar_2026_79d38ad496.pdf,UG,UG-1224,unusual row,9,ocr-rapidocr@300dpi,compared,9.0,9.0,0.0,2026-03-11,2026-03-11,True
+https://bou.or.ug/uploads/Press_Release_for_T_Bills_Auction_25_March_2026_a41027e3bf.pdf,UG,UG-1225,unusual row,9,ocr-rapidocr@300dpi,compared,9.0,9.0,0.0,2026-03-25,2026-03-25,True
+https://bou.or.ug/uploads/Press_Release_for_T_Bills_Auction_08_April_2026_2ae21f349b.pdf,UG,UG-1226,unusual row,9,ocr-rapidocr@300dpi,compared,9.0,9.0,0.0,2026-04-08,2026-04-08,True
+https://bou.or.ug/uploads/Press_Release_for_T_Bills_Auction_22_April_2026_0d90c8e643.pdf,UG,UG-1227,unusual row,9,ocr-rapidocr@300dpi,compared,9.0,9.0,0.0,2026-04-22,2026-04-22,True
+https://bou.or.ug/uploads/Press_release_T_bill_06_MAY_2026_d00c70b816.pdf,UG,UG-1228,unusual row,9,ocr-rapidocr@300dpi,compared,9.0,9.0,0.0,2026-05-06,2026-05-06,True
+https://bou.or.ug/uploads/Press_Release_for_T_Bills_Auction_17_JUNE_2026_ffe7ee1c36.pdf,UG,UG-1231,unusual row,9,ocr-rapidocr@300dpi,compared,9.0,9.0,0.0,2026-06-17,2026-06-17,True
+https://bou.or.ug/uploads/Press_Release_for_T_Bills_Auction_05_AUG_2026_6ba0898abb.pdf,UG,UG-1233,unusual row,9,ocr-rapidocr@300dpi,compared,9.0,9.0,0.0,2026-08-05,2026-08-05,True

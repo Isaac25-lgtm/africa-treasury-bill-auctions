@@ -1,43 +1,17 @@
-Command: python -m treasury_auctions --offline build   (run 2026-11-06, Windows 11, Python 3.12.10)
+Revised frozen-source analysis, 6 November 2026 (EAT)
 
-status   blocked  fetch_failed  not_target_family  parsed
-country                                                  
-GH             7             7                  0     447
-KE             3             0                  2    1591
-UG             0             2                316     456
-country  doc_type          
-GH       gh_bill_result         454
-KE       ke_bill_result        1594
-         ke_unclassified          2
-UG       ug_bill_invitation     227
-         ug_bill_result         229
-         ug_bond_invitation     124
-         ug_bond_other           18
-         ug_bond_result         117
-         ug_empty_text           50
-         ug_matrix                3
-         ug_unclassified          4
-         events       first        last
-country                                
-GH          447  2018-01-05  2026-10-30
-KE          536  2014-09-03  2026-11-05
-UG          227  2017-01-04  2026-11-04
-[parse] rc=0 198.6s
-[audit] rc=0 360.0s
-[measure] rc=0 74.4s
-[evaluate] rc=0 328.8s
-PASS T1_identity_S_eq_D_plus_R
-PASS T1_counts_reconcile
-PASS T1_shares_in_unit_interval
-PASS T1_undefined_when_no_shortfall
-PASS T1_headline_recomputed
-PASS fig1_decomposition_rendered
-PASS fig2_maturity_shift_rendered
-PASS fig3_uganda_timeline_rendered
-PASS fig2_rows_trace_to_events
-PASS fig3_rows_trace_to_events
-PASS fig1_source_present
-PASS T4_counts_match_events
-PASS units_one_per_country
-PASS no_zero_filled_quantities
-[report] rc=0 2.8s
+Completed stages
+- --offline --frozen parse (2,821 successful source URLs verified)
+- --offline audit
+- measure
+- evaluate
+- --publication-delay-weekdays 1 evaluate
+- report
+
+Validation
+- 50 pytest tests passed
+- Ruff passed
+- 17 report verification checks passed
+
+See run_record.json for code, manifest, data and table hashes.
+The frozen source inventory includes ten previously unavailable inputs. The analysis did not retry them.

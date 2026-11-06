@@ -1,8 +1,7 @@
 # When Treasury Bill Auctions Miss Their Targets: Bid Volumes, Allotments and Maturity Shifts in Uganda, Kenya and Ghana
 
-**Draft for author review — not for circulation.** Generated 6 November 2026 from the tables in
-`outputs/tables/` (run record: `outputs/reports/run_record.json`). Every number below is traceable to
-`outputs/reports/key_numbers.json`.
+**Revised draft for author review.** The frozen source snapshot is 6 November 2026. Analysis tables
+are in `outputs/tables/` and the run record is in `outputs/reports/run_record.json`.
 
 **Authors:** Omoding Isaac¹ (lead and corresponding author) and Kakande Alex²
 ¹ Data Scientist, Ministry of Health. ² Financial Advisor.
@@ -14,33 +13,31 @@
 
 **Purpose.** Headline auction statistics — total accepted versus total offered, and the published
 "bid-to-cover" ratio — do not say *why* a Treasury bill auction falls short of its target, nor whether
-an auction that meets its overall target still departs from the advertised maturity mix. We separate
+an auction that meets its overall target still departs from the offered maturity mix. We separate
 these questions using only official public notices.
 
-**Data.** An audited panel of 1,210 Treasury bill auctions built from every result and invitation
-notice published by the Bank of Uganda (227 auctions, January 2017 – November 2026), the Central Bank
-of Kenya (536, September 2014 – November 2026; weekly and essentially complete from 2017) and the Bank
-of Ghana (447 tenders, January 2018 – October 2026). Each value is linked to the source URL, the
-SHA-256 hash of the parsed bytes and the raw text of the line it came from.
+**Data.** We reconstruct 1,210 event records from the available official notices of the Bank of Uganda
+(227, 2017–2026), Central Bank of Kenya (536, 2014–2026) and Bank of Ghana (447, 2018–2026).
+Analysis denominators differ by market and estimand. The derived data record source URLs, SHA-256
+hashes and parsed text, with a separate ledger for corrections.
 
 **Method.** Each nominal shortfall S = max(O − A, 0) is split exactly into a part attributable to gross
 bids falling short of the offer, D = max(O − B, 0), and a remainder in which enough bids were tendered
 but not accepted, R = S − D. Shares are ratios of sums within a country. We also compare the
-face-value-weighted maturity of accepted and offered amounts, and run a pre-registered, release-aware
-walk-forward test of whether public pre-close information improves warnings.
+face-value-weighted maturity of accepted and offered amounts. A secondary historical walk-forward
+evaluation uses dated proxies for pre-close information and a versioned pre-analysis protocol.
 
 **Findings.** In the common window 13 January 2023 – 30 October 2026, *none* of Uganda's auction-wide
 shortfall volume is attributable to insufficient bids: all 34 auctions that fell short (of 91) had gross
 bids at least equal to the offer. In Kenya 81.1% (95% block-bootstrap interval 70.8–89.5%) of shortfall
-volume reflected insufficient bids (70 shortfalls in 198 auctions), and in Ghana 74.4% (60.1–89.9%;
-79 in 189). The contrast is robust to 5% and 10% materiality thresholds, to using pre-close
+volume reflected insufficient bids (70 shortfalls in 198 auctions), and in Ghana 74.5% (61.0–90.2%;
+81 in 199). The contrast is robust to 5% and 10% materiality thresholds, to using pre-close
 announced offers instead of result-side offers, to excluding OCR-derived rows, and to dropping any
 single year. Totals mask maturity-level misses: 88% of Ugandan and 85% of Kenyan auctions that met
 the overall offer still missed at least one maturity. Among those fully funded auctions, the accepted
-mix was longer than advertised in Uganda (median +26.9 days; 364-day share +13.6 percentage points)
-and shorter in Kenya (median −46.4 days; −13.7 points). Predictively, no model passed the
-pre-registered gate in a way that replicated: logistic models improved maturity-level Kenyan warnings
-in the locked 2023–24 holdout, but the gain disappeared in 2025–26.
+mix was longer than the result-side offer in Uganda (median +26.9 days, 364-day share +13.6 percentage
+points) and shorter in Kenya (median −46.4 days, −13.7 points). The historical forecasting exercise
+does not establish a reliable operational warning rule.
 
 **Implications.** Two auctions with the same overall headline can differ in whether bids were missing
 or not accepted, and in the maturity of new debt. Publishing offer, bids and acceptances per maturity
@@ -69,7 +66,7 @@ This paper measures these three things for Uganda, Kenya and Ghana from official
 with an audit trail designed for reuse by debt offices and researchers. We make four contributions.
 First, an exact accounting decomposition of every shortfall into a volume-driven part and an
 unaccepted-bid part, at auction and maturity level, with interval estimates that respect time
-dependence. Second, evidence on how far the accepted maturity mix departs from the advertised mix,
+dependence. Second, evidence on how far the accepted maturity mix departs from the offered mix,
 including when the total offer is met. Third, a vintage audit showing that the published
 "bid-to-cover" label does not have a fixed denominator in Uganda. Fourth, a release-aware forecasting
 evaluation that asks whether public pre-close information improves warnings beyond strong simple
@@ -94,6 +91,11 @@ contrast, published machine-learning work targets bill *yields* rather than issu
 ratios, auction tails and bidder behaviour with bidder-level or price data (Beetsma et al. 2020;
 Hortaçsu et al. 2018; Tindall and Perez 2021; Gao and Epp 2026).
 
+Earlier IMF work describes bill-auction arrangements in Ghana and Kenya. The OECD studies auction
+size predictability in African bond markets and discusses the limits of cover ratios as demand
+measures in G7 bond auctions. Our empirical contribution is the notice-level quantity and maturity
+comparison across the three bill markets. [IMF, Treasury Bill Auctions](https://www.elibrary.imf.org/view/journals/001/1994/135/article-A001-en.xml) · [OECD 2025](https://www.oecd.org/en/publications/africa-capital-markets-report-2025_7d26e1d3-en/full-report/local-currency-bond-markets-for-development-financing-in-africa_b9d9f859.html) · [OECD 2026](https://www.oecd.org/en/publications/global-debt-report-2026_e9d80efd-en/full-report/sovereign-borrowing-outlook_4470147b.html)
+
 ## 2. Institutional setting
 
 All three central banks run regular primary auctions of 91-, 182- and 364-day bills as fiscal agents.
@@ -113,8 +115,8 @@ limits, auction calendars, reopening practice.]
 * **Ghana.** Bank of Ghana (BoG) weekly tender notices report bids tendered and accepted by maturity
   but a single **combined** target for all bills (section 1), the previous tender's totals (section 2)
   and the next tender's combined target (section 3). Before April 2019 the weekly bill tender covered
-  91- and 182-day bills only. Because maturity-level targets are not published, Ghana enters only the
-  auction-wide analysis; we never apportion its target across maturities.
+  91- and 182-day bills. Two-maturity tenders also appear in later years. Ghana enters the auction-wide
+  analysis with bids and acceptances summed over the maturities explicitly covered by each target.
 
 ## 3. Data
 
@@ -144,32 +146,32 @@ Repeated documents are collapsed only when their values agree. Two BoU releases 
 number already used two weeks earlier (18 November 2020 prints 1086; a February 2024 release prints
 1171); we key such events by held date rather than guess the intended number.
 
-An independent re-extraction with a different PDF parser (pdfminer.six) — and, for OCR-derived rows, the
-text layer or a fresh OCR — of a stratified sample of three documents per country-year plus every
-flagged or OCR-derived document reproduced **all 882 compared cells** (offer, bids and acceptances by
-maturity) in 105 documents; this is a software re-extraction, not human double entry. Every cell of
-the earlier pilot extraction was recovered; the three cells that differ are pilot errors (an OCR digit
-in BoU #1233 checked against the rendered image, a misread decimal comma in BoG tender 1878, and the
-pilot's assignment of tender 1892's values to tender 1891's date). Pre-close and result-side offers
-agree for 605 of 606 matched Ugandan maturity rows, 1,494 of 1,495 Kenyan rows and 426 of 430 Ghanaian
-tenders; the exceptions (Uganda #1235, Kenya 13 July 2026, Ghana 1582, 1710 and 1860) are reported,
-not corrected (`docs/audit_and_limitations.md`).
+A second text-extraction pass uses pdfminer.six for text-layer PDFs and the text layer or a new
+300 dpi OCR pass for OCR-derived notices. It reuses the project parsers and records expected,
+compared and agreeing cells, including Ghana's combined targets, plus a separate date check.
+It measures agreement between extraction passes. The underlying source reconciliation also records
+conflicting totals across successive Ghana notices. The two ledger corrections await human
+sign-off. Of comparable offer rows, 605 of 606 Uganda rows and 1,485 of 1,486 Kenya rows agree.
+In Ghana, 424 offers agree, three differ in amount, two differ in maturity scope, and one announced
+amount cannot be parsed (`docs/audit_and_limitations.md`).
 
 ### 3.3 Coverage
 
-The panel contains 227 Ugandan, 536 Kenyan and 447 Ghanaian auctions. Kenya's weekly series is
-essentially complete from 2017 (51–53 auctions per year); 2014–2016 notices are sparse in the archive.
-Ghana's coverage is 47–52 tenders per year from 2018; seven 2020–2021 attachments return HTTP 404.
-Uganda's archive lacks results for auctions 1047–1059 (2019) and a handful of other numbers; in the
-2023–2026 common window only a few auction numbers are missing.
+The full-period result-side auction-wide samples contain 227 Ugandan, 495 Kenyan and 447 Ghanaian
+auctions (`A8_analytical_coverage.csv`). Of 536 Kenyan event records, 40 lack a full set of three
+maturities and one has conflicting result notices. Kenya's 2014–2016 archive is sparse. Seven Ghana
+attachments returned HTTP 404 and seven fetched notices were blocked on target scope. Uganda's
+2019 archive gap includes auction numbers 1047–1059. The common window has two Uganda invitations
+with no matching results.
 
 ### 3.4 Offer versions
 
 Two offer definitions are kept. The *result* offer is printed with the results and has the widest
 coverage. The *announced* offer is the pre-close version: the BoU invitation to tender, section C of
-the preceding CBK notice, or section 3 of the preceding BoG notice. The latest version first public on
-or before the auction date is used. Disagreements are never silently corrected; they are listed and the
-headline is re-estimated without them.
+the preceding CBK notice, or section 3 of the preceding BoG notice. We select the latest version
+dated on or before the auction date. Undated invitations may contribute to measurement only.
+Ghana's announced target must cover the same maturities as the result. We list numeric and scope
+discrepancies and re-estimate the headline after excluding the affected auctions.
 
 ## 4. Estimands
 
@@ -179,10 +181,12 @@ For offer O, gross bids B and accepted amount A on the same face-value basis:
 * volume-driven shortfall D = max(O − B, 0);
 * unaccepted-bid remainder R = S − D = max(min(O, B) − A, 0).
 
-S = D + R holds whenever A ≤ B. The *volume share* is Σ D / Σ S over the missed auctions of one
+S = D + R holds whenever A ≤ B. The remainder can be positive when B < O and A < B. The *volume
+share* is Σ D / Σ S over the missed auctions of one
 country in one window — a ratio of sums, not a mean of ratios; it is undefined when there is no
 shortfall, and currencies are never pooled. **Auction-wide** measures sum O, B and A over the three
-maturities first; **maturity-level** measures compute S, D and R per maturity and then sum. The two
+maturities first, using the notice-specific target scope for Ghana. **Maturity-level** measures
+compute S, D and R per maturity and then sum. The two
 differ because an over-allotted long bill can offset a short bill's miss in the auction-wide total.
 A three-way class (met; missed with B < O; missed with B ≥ O) is used for frequencies. Materiality
 thresholds of 5% and 10% classify a miss as A < (1 − τ)O while keeping the B ≥ O split.
@@ -191,9 +195,11 @@ The **maturity shift** is Σ A_j d_j / Σ A_j − Σ O_j d_j / Σ O_j with nomin
 with a settlement-to-maturity-days sensitivity. It describes the maturity of that auction's bill
 issuance only — not the portfolio's average maturity and not refinancing cost.
 
-Inference uses a moving-block bootstrap over time-ordered auctions (blocks of 4, 8 and 13 auctions;
-8 reported), keeping the maturity rows of an auction together. The protocol was frozen before results
-were computed (`docs/protocol.md`); deviations are logged there.
+Inference uses a moving-block bootstrap over time-ordered auctions with blocks of 4, 8 and 13
+auctions. The headline uses eight auctions per block, which spans more calendar time in Uganda than
+in the weekly markets. Maturity rows stay together when resampling. These intervals describe
+resampling variation conditional on the observed data. The versioned protocol and subsequent
+revisions are in `docs/protocol.md`.
 
 ## 5. Results
 
@@ -207,7 +213,7 @@ were computed (`docs/protocol.md`); deviations are logged there.
 | Uganda | by maturity | 91 | 163 maturity rows | 161 | 0.3% (0.0–0.7%) |
 | Kenya | auction-wide | 198 | 70 | 12 | 81.1% (70.8–89.5%) |
 | Kenya | by maturity | 198 | 313 maturity rows | 27 | 93.6% (90.5–96.1%) |
-| Ghana | auction-wide | 189 | 79 | 8 | 74.4% (60.1–89.9%) |
+| Ghana | auction-wide | 199 | 81 | 8 | 74.5% (61.0–90.2%) |
 
 Source: `outputs/tables/T1_decomposition.csv`; Figure 1.
 
@@ -218,13 +224,14 @@ the full 2017–2026 series, Uganda had only two auction-wide shortfalls with in
 shortfall volume arose because bids did not reach the offer.
 
 The contrast is stable. At 5% and 10% materiality, Uganda's share stays 0.0% (30 and 25 material
-misses), Kenya's 82.2% and 82.4%, Ghana's 74.3% and 74.5%. Using the pre-close announced offer on the
-matched subset gives 0.0% (Uganda, 89 auctions), 80.9% (Kenya, 197) and 74.4% (Ghana, 189).
+misses), Kenya's 82.2% and 82.4%, Ghana's 74.4% and 74.7%. Using the pre-close announced offer on the
+matched subset gives 0.0% (Uganda, 89 auctions), 80.9% (Kenya, 197) and 74.5% (Ghana, 198).
 Excluding OCR rows, excluding events with offer discrepancies, or leaving out any single year leaves
-Uganda at 0.0% and Kenya and Ghana between roughly 67% and 84% (`T5_robustness.csv`). It is not an
-artefact of coverage: to raise Uganda's common-window share to 50%, roughly 32 additional, unobserved,
-fully volume-driven auctions of typical size would be needed, against only a few missing auction
-numbers in that window (`T6_missingness_bound.csv`).
+Uganda at 0.0% and Kenya and Ghana between roughly 67% and 84% (`T5_robustness.csv`). The two
+missing Uganda invitations total UGX 645 billion. Assuming those announced targets and zero bids
+for both auctions would lift the volume share to 21.7%. This conditional stress test supplements
+the scenario in which roughly 32 typical fully volume-driven misses would be needed to reach 50%
+(`T6_missingness_bound.csv`).
 
 The degree of separation changes over time (`T2_decomposition_by_year.csv`). Ghana's volume share was
 above 90% in each year from 2019 to 2024 but fell to 70% in 2025 and 49% in 2026, when 8 of 19
@@ -253,12 +260,14 @@ pattern: the combined offer was filled, but the 182- and 364-day bills received 
 | Uganda | 1 Jan 2025 – 30 Oct 2026 | 28 | +40.1 (+28.0 to +44.1) | 21 | 0 | +19.1 pp |
 | Kenya | 1 Jan 2025 – 30 Oct 2026 | 70 | −17.0 (−50.3 to +36.1) | 21 | 33 | −3.2 pp |
 
-Source: `outputs/tables/T4_maturity_shift.csv`; Figure 2. Settlement-to-maturity day counts give
-+27.7 (Uganda) and −46.4 days (Kenya) for the common window.
+Source: `outputs/tables/T4_maturity_shift.csv` and Figure 2. Settlement-to-maturity day counts give
++27.7 (Uganda) and −46.4 days (Kenya) for the common window. Using the matched announced offers and
+requiring the announced total to be met gives +29.1 days for Uganda (54 auctions) and −46.4 for
+Kenya (128) in the common window (`T4c_maturity_shift_announced.csv`).
 
-In Uganda, accepted amounts tilted towards the 364-day bill relative to the advertised mix, and the
+In Uganda, accepted amounts tilted towards the 364-day bill relative to the offered mix, and the
 tilt grew in 2025–26 (Figure 3). In Kenya, fully funded auctions typically accepted a shorter mix than
-advertised in 2023–24 — consistent with the maturity-level misses being concentrated in the longer
+offered in 2023–24 — consistent with the maturity-level misses being concentrated in the longer
 bills — but less so in 2025–26. Over the full series the shifts are smaller (Uganda +5.7 days, Kenya
 −11.7 days), so the common-window pattern reflects the recent era. These are statements about the
 face-value maturity of each auction's issuance; we do not infer portfolio maturity, cash proceeds or
@@ -267,40 +276,39 @@ refinancing costs.
 ### 5.4 What the published "bid-to-cover" means
 
 Comparing the printed ratio with B/O and B/A at quoted precision, Uganda's label matched B/O in most
-2020 releases and B/A from 2021 onwards; in 2017–2019 most auctions filled exactly (A = B), so the two
-cannot be told apart (`A4_ratio_definitions.csv`). Kenya's printed ratio matches B/A throughout;
-Kenya's separate "performance rate" equals B/O. A high published ratio can therefore coexist with a
+2020 releases and usually matched B/A from 2021 onwards. The two ratios coincide when the offered
+and accepted amounts are equal (A = O), as in 152 of Uganda's 153 ambiguous maturity rows in
+2017–2019. Rounding can also prevent identification (`A4_ratio_definitions.csv`). Kenya's
+identifiable printed ratios match B/A. Its separate "performance rate" generally equals B/O
+expressed as a percentage. A high published ratio can therefore coexist with a
 low fill, and cross-country comparisons of the label are not like for like.
 
 ### 5.5 Can shortfalls be anticipated from public pre-close information?
 
-The forecasting test was pre-registered (`docs/protocol.md`): forecast origin at the close of the
-business day before bidding; a past result is used only from the business day after its release
-proxy; announced offers only if first public by the origin; walk-forward monthly refits; development
-period 2020–22 (to choose the strongest baseline), locked holdout 2023–24 (never examined by the
-pilot) and a replication period 2025–26 (examined by the pilot, so labelled previously inspected).
-Candidates were L2 logistic regressions (history-only and with announced-offer and calendar
-features), shallow gradient boosting, a pooled model with country terms, zero-shot cross-country
-transfer and locally recalibrated transfer. The gate required a log-loss improvement of at least 0.02
-nats per row with a block-bootstrap interval below zero and at least the baseline's captured shortfall
-volume at a 25% alert budget.
+The revised evaluation uses the preceding weekday before the earlier of the recorded bid deadline
+and held date, where both are available. Past results enter the information set on the weekday after
+their date-only release proxy. Offers enter if their publication proxy is on or before the origin.
+Models are refitted monthly, and models and simple rules can use newly available history at each
+origin. The development period is 2020–22, the historical holdout is 2023–24, and the previously
+inspected comparison is 2025–26. The versioned protocol records the post-evaluation revisions.
 
-The strongest baselines were simple: a blend of trailing frequency and previous-state transition
-(Uganda; Kenya by maturity) or the transition rule (Kenya and Ghana auction-wide). In the locked
-holdout, logistic models improved Kenyan maturity-level probability forecasts by 0.11–0.14 nats per
-row (intervals entirely below zero) and, at the fixed alert budget, captured 73–75% of shortfall volume
-against 63% for the baseline — partly because they alerted more often (38–40% of rows versus 32%); on a
-retrospective top-quartile ranking the difference is small (52% versus 49%). **The improvement did not
-replicate in 2025–26** (differences +0.017 to +0.034 nats, intervals including zero). Two Kenyan
-auction-wide models formally pass in 2025–26, but at realised alert rates of 0–1%, which carries no
-monitoring value; Uganda's pooled maturity-level model passes the pre-registered rule in 2025–26 but not
-the stricter volume comparison. No model improved
-on the baseline for Uganda in the holdout; the pilot's exploratory 2025–26 Ugandan gain is not
-reproduced under strict release timing. Ghana's pooled model passed only the pre-registered rule
-because its comparator issued almost no alerts; it fails a stricter comparison with the best baseline.
-Direct cross-country transfer was very poorly calibrated. For the size of the maturity shift, a rolling
-median of the last six shifts performed as well as ridge regression or boosting (holdout MAE 15.7 vs
-14.5 days in Uganda, 23.6 vs 23.9 in Kenya), and far better than assuming no shift.
+The original gate combines a log-loss improvement of at least 0.02 nats with an eight-auction block
+interval below zero and volume capture at least as high as the development-selected baseline. The
+historical threshold targets a nominal 25% alert rate. We also report realised rates, comparison with
+the baseline with the highest volume capture, and an ex-post ranking at an equal 25% rate.
+
+In the historical holdout, the full logistic model reduced log loss by 0.137 nats at the Kenyan
+maturity level and by 0.127 nats at the Ghana auction level. At their historical thresholds, the
+models captured 73.9% and 43.0% of shortfall volume and alerted on 38.5% and 15.4% of rows, respectively.
+At the equal-rate retrospective ranking, Kenya's model captured 52.2% versus 49.9% for the best simple
+rule, and Ghana's captured 57.4% versus 55.6%. In 2025–26, Kenya's difference was +0.023 nats and
+Ghana's was −0.083, with both intervals crossing zero. Delaying result availability and offer
+publicity by one further weekday leaves that pattern intact. Some Kenyan auction-wide specifications
+meet the original gate in 2025–26 with few alerts and minimal volume captured. These are unadjusted
+comparisons across several candidates and markets (`F1`–`F6` and the delayed-publication tables).
+
+For maturity-shift magnitude, a rolling six-auction median gave holdout mean absolute errors of
+15.7 days in Uganda and 23.6 days in Kenya, close to ridge regression and better than assuming zero shift.
 
 We conclude that, with these public data, a recent-history baseline is the appropriate monitoring
 benchmark, and that the evidence does not support a deployable prediction product.
@@ -333,22 +341,23 @@ can change.
 ## 7. Limitations
 
 * Accounting decomposition only; no bid books, bidder identities or price schedules.
-* Date-only release proxies; same-day intraday timing cannot be verified, so forecasts use the
-  conservative previous-business-day origin.
+* Date-only release proxies and weekday-based forecast origins. Market holidays and verified
+  historical publication timestamps would improve the timing reconstruction.
 * Archive gaps (Uganda 2019; Kenya before 2017; seven Ghana attachments) and two numbering typos in
-  BoU releases; coverage tables and a missingness bound are reported.
+  BoU releases. Coverage tables and conditional missing-auction scenarios are reported.
 * OCR is used for a minority of Uganda documents (image tables); their values pass the same validation
   rules, and one OCR digit was checked against the rendered image (#1233).
 * Face values only: no cash proceeds, cost or fiscal simulations.
-* The forecasting holdout was locked against the pilot but not against the authors' knowledge of the
-  general market; a prospectively frozen runner is provided for genuinely unseen auctions.
+* The 2023–24 forecasting holdout was outside the pilot's scored period. The revised design and
+  previously inspected 2025–26 evaluation remain retrospective.
 
 ## 8. Reproducibility
 
-Code, frozen inventories, hashes, a correction ledger and derived tables are in the project repository
-([REPOSITORY URL AND COMMIT TO BE INSERTED AT RELEASE]). `python -m treasury_auctions --offline build`
-regenerates every table and figure from cached official documents; `python -m treasury_auctions fixtures`
-runs a network-free integration test. Original notices remain the citable sources.
+Code, frozen inventories, hashes, a correction ledger and derived tables are in the project release
+([REVISED RELEASE URL AND COMMIT TO BE INSERTED]). With the exact source bytes available,
+`python -m treasury_auctions --offline --frozen build` verifies the manifest before parsing.
+`python -m treasury_auctions rebuild-outputs` regenerates the measurement and forecast results from
+the released derived tables. The source extraction audit requires the original notices.
 
 ## Declarations
 
@@ -371,5 +380,5 @@ runs a network-free integration test. Original notices remain the citable source
 
 ## References
 
-See `manuscript/references.bib` (verified entries only) and `docs/literature_matrix.md` for the
-closest-work comparison and items still pending verification (the OECD 2025 and 2026 chapters).
+See `manuscript/references.bib` and `docs/literature_matrix.md` for the closest-work comparison,
+the OECD chapters and the remaining literature checks.

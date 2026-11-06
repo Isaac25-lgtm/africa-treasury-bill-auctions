@@ -89,7 +89,7 @@ class Story:
         ax.xaxis.set_visible(False)
         self.clean(ax)
         h = [plt.Rectangle((0, 0), 1, 1, color=BLUE), plt.Rectangle((0, 0), 1, 1, color=ORANGE)]
-        ax.legend(h, ["bids fell short of the offer", "enough bids, but not accepted"], ncol=2,
+        ax.legend(h, ["bids fell short of the offer", "bids within the offer left unaccepted"], ncol=2,
                   loc="upper left", bbox_to_anchor=(0, -0.02), fontsize=9.5, handlelength=1.2)
         self.header(fig, "Same headline, different failure: why Treasury bill auctions fell short",
                     "Share of shortfall volume, auctions that missed their overall offer, 13 Jan 2023 – 30 Oct 2026. "
@@ -126,8 +126,7 @@ class Story:
         ax.text(len(years) - 0.3, -0.5, "auctions", fontsize=8.5, color=INK2, va="bottom")
         n = len(ev)
         self.header(fig, f"{n:,} auctions rebuilt from the central banks' own notices",
-                    "Bill auctions per year in the audited panel. Gaps are real archive gaps (Uganda 2019; "
-                    "Kenya before 2017), not parsing failures.", top=0.74)
+                    "Event records per year. The analysis tables report separate eligibility counts.", top=0.74)
         self.save(fig, "1_coverage")
 
     # ------------------------------------------------------------------ 2 example #1237
@@ -246,8 +245,8 @@ class Story:
                     color=INK, fontweight="bold")
             ax.text(155, y, f"{len(v)} auctions", va="center", fontsize=9.3, color=INK2)
         ax.axvline(0, color=INK2, lw=0.9, ls=(0, (3, 3)))
-        ax.text(2, 1.62, "longer than advertised →", fontsize=8.8, color=INK2)
-        ax.text(-2, 1.62, "← shorter than advertised", fontsize=8.8, color=INK2, ha="right")
+        ax.text(2, 1.62, "longer than offered →", fontsize=8.8, color=INK2)
+        ax.text(-2, 1.62, "← shorter than offered", fontsize=8.8, color=INK2, ha="right")
         ax.set_yticks([0, 1], ["Uganda", "Kenya"], fontsize=11.5)
         ax.set_ylim(1.75, -0.65)
         ax.set_xlim(-150, 200)
@@ -273,7 +272,7 @@ class Story:
         fig, ax = plt.subplots(figsize=(9.2, 3.0))
         cols = {"B/O": ORANGE, "B/A": BLUE, "amb": LIGHT, "inconsistent": GRAY}
         names = {"B/O": "bids ÷ offered", "B/A": "bids ÷ accepted",
-                 "amb": "cannot tell (auction exactly filled)", "inconsistent": "matches neither"}
+                 "amb": "ambiguous at printed precision", "inconsistent": "matches neither"}
         bottom = np.zeros(len(share))
         for k in ("B/O", "B/A", "amb", "inconsistent"):
             ax.bar(share.index, share[k], bottom=bottom, color=cols[k], width=0.72, lw=0, label=names[k])
@@ -316,9 +315,9 @@ class Story:
         self.clean(ax, keep_x=True)
         h = [plt.Line2D([], [], color=cols[p], marker="o", lw=2) for p in ("holdout", "replication")]
         ax.legend(h, ["locked holdout 2023–24", "next period 2025–26"], loc="lower right", fontsize=9)
-        self.header(fig, "A forecasting gain appeared in Kenya in 2023–24, then disappeared",
+        self.header(fig, "Holdout forecasting gains did not clearly persist",
                     "Logistic model with public pre-auction information vs the strongest simple baseline. "
-                    "Lines: 95% moving-block intervals. Pre-registered test.", top=0.78)
+                    "Lines: 95% moving-block intervals. Revised analysis of historical forecasts.", top=0.78)
         self.save(fig, "8_forecasting")
 
     # ------------------------------------------------------------------ 9 audit scorecard
@@ -330,12 +329,12 @@ class Story:
         pil_match = sum(v for k, v in pil.items() if k.endswith("|match"))
         pil_diff = sum(v for k, v in pil.items() if k.endswith("|value difference"))
         rec_agree = sum(v for k, v in rec.items() if k.endswith("|agree"))
-        rec_mis = sum(v for k, v in rec.items() if k.endswith("|mismatch"))
-        rows = [("Second, independent extraction", se["cells_agree"], se["cells"], "values agree"),
-                ("Pilot replay cells recovered", pil_match, pil_match + pil_diff,
-                 f"match ({pil_diff} differ: all pilot errors)"),
-                ("Pre-auction vs published offers", rec_agree, rec_agree + rec_mis,
-                 f"agree ({rec_mis} reported, not corrected)")]
+        rec_mis = sum(v for k, v in rec.items() if k.endswith(("|numeric mismatch", "|scope mismatch")))
+        rows = [("Second text extraction", se["cells_agree"], se["cells_expected"], "expected values agree"),
+                ("Pilot replay rows", pil_match, pil_match + pil_diff,
+                 f"match ({pil_diff} value differences)"),
+                ("Comparable offer records", rec_agree, rec_agree + rec_mis,
+                 f"agree ({rec_mis} discrepancies)")]
         fig, ax = plt.subplots(figsize=(9.2, 2.6))
         for y, (_lab, ok, n, note) in enumerate(rows):
             ax.barh(y, 1, color=LIGHT, height=0.55, lw=0)
@@ -347,9 +346,9 @@ class Story:
         ax.xaxis.set_visible(False)
         self.clean(ax)
         ax.set_xlim(0, 1)
-        self.header(fig, "The data check out before any result is read",
-                    "Audit of the rebuilt panel. Every value links to the official document, its SHA-256 hash and "
-                    "the raw line of text it came from.", top=0.70)
+        self.header(fig, "Three checks on the rebuilt panel",
+                    "The text-extraction check reuses the project parsers. Uncompared cells count in the denominator.",
+                    top=0.70)
         self.save(fig, "9_audit")
 
     def all(self) -> list[str]:

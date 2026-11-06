@@ -56,7 +56,7 @@ def verify(paths: Paths) -> dict:
         share = volume_share(D[m], S[m])
         row = t1[(t1.country == c) & (t1.offer_version == "result") & (t1.window == "common_2023-01-13_2026-10-30")
                  & (t1.tol == 0) & (t1.level == "auction_wide")]
-        if row.empty or int(row.n_miss.iloc[0]) != int(m.sum()) or not (
+        if row.empty or int(row.n_events.iloc[0]) != len(g) or int(row.n_miss.iloc[0]) != int(m.sum()) or not (
                 (np.isnan(share) and np.isnan(row.volume_share_D.iloc[0])) or abs(share - row.volume_share_D.iloc[0]) < 1e-12):
             ok = False
     checks["T1_headline_recomputed"] = ok
@@ -81,6 +81,22 @@ def verify(paths: Paths) -> dict:
     out = pd.read_csv(paths.root / "data" / "derived" / "auction_outcomes.csv", dtype={"tenor": str})
     checks["units_one_per_country"] = bool(out.groupby("country").unit.nunique().eq(1).all())
     checks["no_zero_filled_quantities"] = bool(not ((out.B == 0) & (out.A == 0) & out.O_result.isna()).any())
+    eligible_gh = ev[(ev.country == "GH") & ~ev.conflict]
+    gh_totals = out[(out.country == "GH") & out.tenor.eq("total") & ~out.conflict]
+    gh_tenors = out[(out.country == "GH") & out.tenor.ne("total") & ~out.conflict]
+    sums = gh_tenors.groupby("event_id")[["B", "A"]].sum(min_count=1)
+    gh_totals = gh_totals.set_index("event_id")
+    checks["GH_totals_cover_all_valid_events"] = bool(
+        gh_totals.index.is_unique and set(gh_totals.index) == set(eligible_gh.event_id)
+        and gh_totals[["O_result", "B", "A"]].notna().all().all()
+        and np.allclose(gh_totals[["B", "A"]], sums.reindex(gh_totals.index)))
+    reconciliation = pd.read_csv(paths.tables / "A3_offer_reconciliation.csv", dtype={"tenor": str})
+    mismatches = reconciliation.loc[reconciliation.status.isin(["numeric mismatch", "scope mismatch"]), "event_id"]
+    t5 = pd.read_csv(paths.tables / "T5_robustness.csv")
+    no_mismatch = t5[(t5.spec == "exclude_offer_mismatch_events") & (t5.level == "auction_wide") & (t5.tol == 0)]
+    checks["T5_excludes_offer_mismatches"] = (
+        no_mismatch.set_index("country").n_events.to_dict()
+        == e[~e.event_id.isin(mismatches)].groupby("country").event_id.nunique().to_dict())
     return checks
 
 
@@ -143,8 +159,12 @@ def run_report(paths: Paths) -> bool:
     rec = dict(
         generated_utc=datetime.now(UTC).isoformat(timespec="seconds"), snapshot_cutoff=SNAPSHOT_CUTOFF,
         python=sys.version.split()[0], platform=platform.platform(), packages=pkgs,
-        pdftotext=pdftotext_version(), git_commit=_git(paths, "rev-parse", "HEAD"),
-        git_dirty=bool(_git(paths, "status", "--porcelain")), derived_sha256=files, table_sha256=tables,
+        pdftotext=pdftotext_version(), git_commit=_git(paths, "rev-parse", "HEAD") or None,
+        git_dirty=bool(_git(paths, "status", "--porcelain")) if (paths.root / ".git").exists() else None,
+        source_sha256={p.relative_to(paths.root).as_posix(): _sha(p)
+                       for p in sorted((paths.root / "src").rglob("*.py"))},
+        frozen_manifest_sha256=_sha(paths.frozen / "fetch_manifest.csv"),
+        derived_sha256=files, table_sha256=tables,
         verification=checks, all_checks_pass=all(checks.values()),
     )
     inv_meta = paths.frozen / "inventory_meta.json"

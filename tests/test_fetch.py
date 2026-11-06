@@ -1,6 +1,10 @@
+import pandas as pd
+import pytest
 import requests
 
+from treasury_auctions.config import Paths
 from treasury_auctions.fetch import SourceCache, expected_kind, safe_url, sniff
+from treasury_auctions.inventory import verify_frozen_sources
 
 
 class FakeResp:
@@ -44,6 +48,23 @@ def test_clean_fetch_checksum_and_cache_reuse(tmp_path):
     c2 = make(tmp_path, [])
     r2 = c2.get(U)  # no network call needed
     assert r2.status == "cached" and r2.sha256 == r.sha256 and c2.session.calls == 0
+
+
+def test_frozen_sources_require_pinned_bytes(tmp_path):
+    paths = Paths(tmp_path).ensure()
+    cache = make(paths.cache, [FakeResp(PDF)])
+    record = cache.get(U)
+    pd.DataFrame({"url": [U], "in_scope": [True]}).to_csv(paths.frozen / "inventory_UG.csv", index=False)
+    manifest = paths.frozen / "fetch_manifest.csv"
+    pd.DataFrame({"url": [U], "fetch_status": ["fetched"], "sha256": [record.sha256],
+                  "bytes": [len(PDF)]}).to_csv(manifest, index=False)
+    frozen = manifest.read_bytes()
+    cache.offline = True
+    assert verify_frozen_sources(paths, cache) == 1
+    cache.blob_path(record.sha256).write_bytes(PDF + b"changed")
+    with pytest.raises(ValueError, match="missing or has changed"):
+        verify_frozen_sources(paths, cache)
+    assert manifest.read_bytes() == frozen
 
 
 def test_html_masquerading_as_pdf_is_failure(tmp_path):
