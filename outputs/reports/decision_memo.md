@@ -11,7 +11,8 @@ largely negative result. Do not build or claim a prediction product.**
 The measurement contrast replicates the pilot on an independently rebuilt, audited and larger panel
 and survives every pre-specified robustness check. The forecasting gate fails in the sense that
 matters: the one gain that passed in the locked holdout did not persist in the following period.
-Title lock waits on one open item (Gate 3: the IMF 2026 Uganda chapter could not be read in this run).
+The closest prior work (IMF 2026 Uganda chapter) has now been read and does not contain the split, so
+the contribution stands as stated (Gate 3).
 
 ## Evidence by gate
 
@@ -55,17 +56,19 @@ Common window 13 Jan 2023 – 30 Oct 2026, result-side offer, exact threshold (9
   +40.1 (28), Kenya −17.0 (70). Full series smaller (UG +5.7, KE −11.7) — an era effect.
 * **Masking:** 50/57 Ugandan and 109/128 Kenyan auctions that met the overall offer missed ≥ 1 maturity.
 
-### Gate 3 — advance over closest work: **conditional (open item)**
+### Gate 3 — advance over closest work: **passed (OECD check still open)**
 
-Verified: Kenyan ML work targets *yields* (Njeri et al. 2025; single 80/20 split; reported MASE 1.15);
-US/Eurozone/Canada work studies cover ratios, tails and bidder behaviour with richer data. **Not
-verified:** the IMF 2026 Uganda Selected Issues chapter (closest overlap; eLibrary shows a human-
-verification page) and the OECD 2025/2026 chapters (HTTP 403). Our claim is deliberately narrow: a
-D/R decomposition per auction and maturity on audited official notices in three markets, the maturity
-shift when the total is met, the ratio-definition audit, and a release-aware forecasting test.
-**Action:** an author opens the IMF chapter and records whether it tabulates insufficient-vs-rejected
-splits or tenor-level misses; if it does, narrow the claim to the cross-country comparison and the
-maturity evidence.
+* **IMF 2026 Uganda chapter, read in full** (Qu 2026, Country Report 26/216, pp. 4–16). It reports
+  monthly sold-to-offer ratios for bills and bonds (2015–2025): bonds undersold (≈ 0.9) and bills
+  oversold (≈ 1.1) since the pandemic. It reads this as more active allocation management, and uses
+  the bill ratio only as a control in yield regressions. It has **no** split into bids short of the
+  offer versus bids not accepted, no auction- or maturity-level measures, no accepted-versus-advertised
+  maturity mix, no Kenya/Ghana, no ratio-definition audit and no forecasting. The divergence and the
+  active-allocation reading are cited as prior work and not claimed as new.
+* Kenyan ML work targets *yields* (Njeri et al. 2025; single 80/20 split; reported MASE 1.15).
+  US/Eurozone/Canada work studies cover ratios, tails and bidder behaviour with richer data.
+* **Still unverified:** OECD *Africa Capital Markets Report 2025* and *Global Debt Report 2026*
+  chapters (HTTP 403). They are not expected to change the claim, but should be read before submission.
 
 ### Gate 4 — forecast credibility: **failed for any deployable claim**
 
@@ -99,14 +102,14 @@ extraction engine change (Xpdf row shifts → pdfminer), Uganda reused-number ke
 
 ## Live blockers / decisions for the authors
 
-1. IMF 2026 Uganda chapter and OECD chapters: read and record overlap (Gate 3).
+1. OECD 2025/2026 chapters: read and record any overlap (IMF chapter done; no overlap with the split).
 2. Confirm or revise the Gate-4 gain threshold (does not change conclusions).
 3. Human sign-off on the two ledger corrections.
 4. Authorship, affiliations, institutional review of Section 2, journal targeting (not started).
 
 ## Exact next actions
 
-* Open the IMF eLibrary chapter in a browser; add findings to `docs/literature_matrix.md`.
+* Obtain the two OECD chapters (browser download) and add them to `docs/literature_matrix.md`.
 * Review `manuscript/manuscript_draft.md` §2 (institutional detail) and the policy brief.
 * Run `python -m treasury_auctions inventory && python -m treasury_auctions fetch` after new auctions to
   extend the panel; forecasts for genuinely unseen auctions can then be scored prospectively.

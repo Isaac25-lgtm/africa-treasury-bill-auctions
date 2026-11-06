@@ -78,6 +78,21 @@ We deliberately stop short of causal claims. Aggregate bids include bids at all 
 "enough bids to fill the offer" does not imply that enough could have been raised at an acceptable
 yield. Without bid books we cannot separate issuer pricing choices from bidder behaviour.
 
+**Relation to closest work.** The nearest study is IMF staff's 2026 analysis of Uganda's yield curve
+(Qu 2026). It documents that, before the pandemic, sold amounts tracked offers. Afterwards, in monthly
+aggregates, Treasury bonds were undersold (average sold-to-offer ratio about 0.9) and bills oversold
+(about 1.1). It reads the divergence as more active allocation management that weakens issuance
+predictability. Its core analysis decomposes yields and models the Nelson–Siegel curve, with the bill
+sold-to-offer ratio entering only as a control. The divergence and its active-allocation reading are
+therefore not new. What we add is not in that chapter: the split of each shortfall into bids short of
+the offer and bids not accepted, measured per auction and per maturity; the accepted versus
+advertised maturity mix, including when totals are met; a comparison with Kenya and Ghana; an audit of
+what the published cover ratio divides by; and a release-aware forecasting test. In Kenya, by
+contrast, published machine-learning work targets bill *yields* rather than issuance outcomes
+(Njeri et al. 2025). Deep-market studies of the United States, the euro area and Canada analyse cover
+ratios, auction tails and bidder behaviour with bidder-level or price data (Beetsma et al. 2020;
+Hortaçsu et al. 2018; Tindall and Perez 2021; Gao and Epp 2026).
+
 ## 2. Institutional setting
 
 All three central banks run regular primary auctions of 91-, 182- and 364-day bills as fiscal agents.
@@ -294,9 +309,10 @@ benchmark, and that the evidence does not support a deployable prediction produc
 **What the decomposition says, and does not.** In Uganda, auctions that fall short do so with bids
 on the table; in Kenya and, until recently, Ghana, they fall short mainly because bids did not reach
 the offer. This is consistent with BoU exercising the right it states in every invitation to reject or
-reduce bids, but the notices do not record why bids were not accepted, so we do not attribute the
-pattern to a pricing policy. Gross bids include all submitted prices; enough volume does not mean enough
-volume at an acceptable yield.
+reduce bids. It is also consistent with IMF staff's reading of post-pandemic sold-to-offer divergence as
+more active allocation management (Qu 2026). But the notices do not record why bids were not accepted,
+so we do not attribute the pattern to a pricing policy. Gross bids include all submitted prices; enough
+volume does not mean enough volume at an acceptable yield.
 
 **Why maturity reporting matters.** The same headline fill can describe very different issuance:
 Uganda's filled auctions lengthened the face-value maturity of new bills, Kenya's shortened it. For
@@ -353,5 +369,4 @@ runs a network-free integration test. Original notices remain the citable source
 ## References
 
 See `manuscript/references.bib` (verified entries only) and `docs/literature_matrix.md` for the
-closest-work comparison and items still pending verification (notably the IMF 2026 Uganda Selected
-Issues chapter).
+closest-work comparison and items still pending verification (the OECD 2025 and 2026 chapters).
