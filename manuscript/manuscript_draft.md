@@ -89,14 +89,16 @@ what the published cover ratio divides by; and a release-aware forecasting test.
 contrast, published machine-learning work targets bill *yields* rather than issuance outcomes
 (Njeri et al. 2025). Deep-market studies of the United States, the euro area and Canada analyse cover
 ratios, auction tails and bidder behaviour with bidder-level or price data (Beetsma et al. 2020;
-Hortaçsu et al. 2018; Tindall and Perez 2021; Gao and Epp 2026).
+Hortaçsu et al. 2018; Tindall and Perez 2021; Gao and Epp 2026; Allen et al. 2026). An early
+emerging-market example is an empirical study of Mexico's Treasury bill auction (Umlauf 1993).
 
-Earlier IMF work describes bill-auction arrangements in Ghana and Kenya. The OECD (2025) measures
+Cottarelli and Bartolini (1994) review the design of Treasury bill auctions and describe arrangements
+in 42 industrial and developing countries. The OECD (2025) measures
 how much auction sizes and intervals vary in African local-currency bond markets in 2024. The OECD
 (2026) argues that bid volumes at G7 bond auctions, expressed as bids over allotments, are not a
-sufficient indicator of overall demand. Neither splits within-auction shortfalls or examines bill
-maturity mixes. Our empirical contribution is the notice-level quantity and maturity
-comparison across the three bill markets. [IMF, Treasury Bill Auctions](https://www.elibrary.imf.org/view/journals/001/1994/135/article-A001-en.xml) · [OECD 2025](https://www.oecd.org/en/publications/africa-capital-markets-report-2025_7d26e1d3-en/full-report/local-currency-bond-markets-for-development-financing-in-africa_b9d9f859.html) · [OECD 2026](https://www.oecd.org/en/publications/global-debt-report-2026_e9d80efd-en/full-report/sovereign-borrowing-outlook_4470147b.html)
+sufficient indicator of overall demand. None of these splits within-auction shortfalls or examines
+bill maturity mixes. Our empirical contribution is the notice-level quantity and maturity
+comparison across the three bill markets.
 
 ## 2. Institutional setting
 
