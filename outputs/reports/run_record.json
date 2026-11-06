@@ -1,5 +1,5 @@
 {
- "generated_utc": "2026-11-06T17:30:16+00:00",
+ "generated_utc": "2026-11-06T17:48:55+00:00",
  "snapshot_cutoff": "2026-11-06",
  "python": "3.12.10",
  "platform": "Windows-11-10.0.26200-SP0",
@@ -19,12 +19,12 @@
   "pytest": "9.2.0"
  },
  "pdftotext": "pdftotext version 4.00",
- "git_commit": "c432eab6c7ac116c771ca4364a30826044f88b64",
+ "git_commit": "5f820a0530b60f8d1d57e36c527e577f353e49c8",
  "git_dirty": true,
  "source_sha256": {
   "src/treasury_auctions/__init__.py": "0e3505bddba07210bed5ca0f1d4374aa9852f4f05a6272acd4810bdba53aa9d3",
   "src/treasury_auctions/__main__.py": "935a1c1166b0c1ea35a82256345000bf2c73ded718d77773bc27a71ecce28f7d",
-  "src/treasury_auctions/analysis.py": "8d563d8e4ab32160b73f90c550f92eaf9a0bbeb6c4fc4e84f4fc9f7d8468b3eb",
+  "src/treasury_auctions/analysis.py": "c1bdeb03cb804f86376b91fd4ef5118ceec44aa0cfec7a98e2513c207e8a857c",
   "src/treasury_auctions/audit.py": "c754c3b03689f2b1a2db4e64de8b247f4751925ec917c914c9d0e57f13db8db3",
   "src/treasury_auctions/cli.py": "358b2cc7767a925eddb8b91623799a2ab7a1087c66d340b87ce0999c8f6e775d",
   "src/treasury_auctions/config.py": "2b168bee43c0cc327393977870d974e0f73709c8717214ae59a15b8bc2c0362f",
@@ -39,7 +39,7 @@
   "src/treasury_auctions/panel.py": "e06b2059d550ff65b6ecea81d8f86fe1c7f7be992f6c22e57d97e5f84ce3d664",
   "src/treasury_auctions/parsers.py": "f4306c521e04499a995f99c16e05377fcb262891854b9ec6abda07bf34deda00",
   "src/treasury_auctions/pipeline.py": "34e8e7067c9dd750c774304ff6ab504cc942e4f7d146fcb95b9677588c37a541",
-  "src/treasury_auctions/report.py": "210336d97c0fe6b2d65d73df91051b23f83d716fb86ce462674a5220f19472ab",
+  "src/treasury_auctions/report.py": "d49bb06f45d2fd5cf8dee4fb482095fb84c51b38a09b9de563135ce7a2137eff",
   "src/treasury_auctions/story_figures.py": "677cc6b89dba68609954c4d9ffad433211ed9a65f97b6182a6c313f70a821779"
  },
  "frozen_manifest_sha256": "e915bced0450c3cbc7451e4981f3c0795bed19a98a876bf329e1e926f2f049a3",
@@ -84,6 +84,7 @@
   "T4b_maturity_shift_by_year.csv": "5c5d0e7a7f3316016af33e3a8f0408c02460f46091c254b9fea57fc52e0f0938",
   "T4c_maturity_shift_announced.csv": "e10a028b111847d893120fe5e4430c53324b7fa80904f8c869f5214bf151ca0f",
   "T5_robustness.csv": "5c2be704e3ef6dd0774f1ef40f19d0f780327d19c02a30c619ecf9c872580c67",
+  "T5b_ghana_source_sensitivity.csv": "e06c8b1498847e7c223b2b3d59737a57d238ab0174776a629a9e3805fb1274c3",
   "T6_missingness_bound.csv": "462b21899af5c2e2a0345d90c1803dae14b8607b3bba4db38063a7c8899bbd45"
  },
  "verification": {
@@ -103,7 +104,8 @@
   "units_one_per_country": true,
   "no_zero_filled_quantities": true,
   "GH_totals_cover_all_valid_events": true,
-  "T5_excludes_offer_mismatches": true
+  "T5_excludes_offer_mismatches": true,
+  "GH_discrepancies_have_decisions": true
  },
  "all_checks_pass": true,
  "inventory": {

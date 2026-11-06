@@ -150,8 +150,11 @@ A second text-extraction pass uses pdfminer.six for text-layer PDFs and the text
 300 dpi OCR pass for OCR-derived notices. It reuses the project parsers and records expected,
 compared and agreeing cells, including Ghana's combined targets, plus a separate date check.
 It measures agreement between extraction passes. The underlying source reconciliation also records
-conflicting totals across successive Ghana notices. The two ledger corrections await human
-sign-off. Of comparable offer rows, 605 of 606 Uganda rows and 1,485 of 1,486 Kenya rows agree.
+conflicting totals across successive Ghana notices. Where a result notice's own table and the
+following notice's summary disagree, we use the result notice's table; substituting the summaries
+for all six same-scope amount discrepancies leaves Ghana's shares unchanged at reported precision.
+Two values printed with misplaced separators (#1878, #2006) are corrected in a reviewed ledger that
+keeps the reported and corrected tokens. Of comparable offer rows, 605 of 606 Uganda rows and 1,485 of 1,486 Kenya rows agree.
 In Ghana, 424 offers agree, three differ in amount, two differ in maturity scope, and one announced
 amount cannot be parsed (`docs/audit_and_limitations.md`).
 

@@ -331,6 +331,35 @@ def robustness(paths: Paths, seed: int = 20261106) -> pd.DataFrame:
         by_year.append(dict(country=c, year=y, n_events=len(g), n_miss=int(m.sum()), n_miss_B_ge_O=int((m & (g.B >= g.O)).sum()),
                             share=volume_share(D[m.to_numpy()], S[m.to_numpy()])))
     pd.DataFrame(by_year).to_csv(paths.tables / "T2_decomposition_by_year.csv", index=False)
+    ghana_source_sensitivity(paths, evp)
+    return out
+
+
+def ghana_source_sensitivity(paths: Paths, evp: pd.DataFrame) -> pd.DataFrame:
+    """Swap in the following notice's summary totals for same-scope Ghana numeric discrepancies.
+
+    The primary series keeps each result notice's section-1 rows (data/review/ghana_source_decisions.csv);
+    this alternative shows whether that choice moves the auction-wide decomposition.
+    """
+    p = paths.root / "data" / "derived" / "ghana_cross_notice.csv"
+    cross = pd.read_csv(p) if p.is_file() else pd.DataFrame(columns=["event_id", "check"])
+    alt = cross[cross.check == "numeric mismatch"].drop_duplicates("event_id").set_index("event_id")
+    gh = evp[evp.country == "GH"]
+    swapped = gh.copy()
+    hit = swapped.event_id.isin(alt.index)
+    for field, col in (("B", "prev_B_total"), ("A", "prev_A_total")):
+        swapped.loc[hit, field] = swapped.loc[hit, "event_id"].map(alt[col])
+    rows = []
+    for wname in ("common_2023-01-13_2026-10-30", "full"):
+        for variant, x in (("section_1_primary", gh), ("following_notice_summary", swapped)):
+            x = window(x, wname)
+            S, D, _ = shortfall_parts(x.O, x.B, x.A)
+            m = (x.A < x.O).to_numpy()
+            rows.append(dict(window=wname, variant=variant, n_events=len(x), n_miss=int(m.sum()),
+                             n_events_changed=int(x.event_id.isin(alt.index).sum()) if variant != "section_1_primary" else 0,
+                             sum_S=float(S.sum()), share=volume_share(D[m], S[m])))
+    out = pd.DataFrame(rows)
+    out.to_csv(paths.tables / "T5b_ghana_source_sensitivity.csv", index=False)
     return out
 
 

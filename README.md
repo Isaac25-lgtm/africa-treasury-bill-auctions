@@ -145,7 +145,7 @@ In 2023–24, the full logistic model reduced log loss by 0.137 nats for Kenyan 
 
 ![Audit scorecard for second text extraction, the pilot replay, and offer reconciliation.](outputs/figures/readme/9_audit.png)
 
-A second text-extraction pass reuses the project parsers and counts expected, compared and agreeing cells. The offer audit finds five amount discrepancies and two Ghana scope discrepancies. One Ghana announcement amount is unparseable. See the [source audit](docs/audit_and_limitations.md) for the country denominators and remaining source questions.
+A second text-extraction pass reuses the project parsers and counts expected, compared and agreeing cells. The offer audit finds five amount discrepancies and two Ghana scope discrepancies. One Ghana announcement amount is unparseable. Where a Ghana results table and the next week's summary disagree, the results table is kept. Substituting the summaries for all six amount discrepancies leaves Ghana's shares unchanged ([T5b](outputs/tables/T5b_ghana_source_sensitivity.csv); decisions in [`data/review/ghana_source_decisions.csv`](data/review/ghana_source_decisions.csv)). See the [source audit](docs/audit_and_limitations.md) for the country denominators and remaining source questions.
 
 ## 5. How much weight each finding can carry
 
@@ -176,7 +176,7 @@ A second text-extraction pass reuses the project parsers and counts expected, co
 - Publication and bid-close dates are proxies in parts of the panel. The weekday calendar does not incorporate market holidays.
 - Face values only: no cash raised, cost or fiscal simulation.
 - Three markets and these years cannot establish how common these patterns are across Africa.
-- Two Ghana values were corrected from the following week's totals and await human sign-off.
+- Two Ghana values printed with a misplaced separator were corrected from the following week's totals; the lead author signed off both corrections ([`data/review/corrections.csv`](data/review/corrections.csv)).
 
 ## 7. If you publish or read auction results
 

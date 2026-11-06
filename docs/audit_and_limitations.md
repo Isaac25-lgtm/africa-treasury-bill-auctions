@@ -63,9 +63,20 @@ precision.
 
 Ghana's cross-notice table records six same-scope numeric discrepancies, eight scope
 discrepancies and one unavailable following total. For #1984, the original tenor rows sum to
-GH¢8,019.32m in bids, while #1985 prints GH¢7,209.32m. The accepted total agrees. The primary
-series retains the result notice's section-1 rows. The discrepancy cases and the two ledger
-corrections still require author adjudication.
+GH¢8,019.32m in bids, while #1985 prints GH¢7,209.32m. The accepted total agrees. A 91-day bid
+of GH¢4,095.60m, a transposition of the printed 4,905.60, would reconcile the two; no other single
+row can, because accepted would then exceed bids. Accepted exceeded the offer under either reading.
+
+**Decisions (lead author, 2026-11-06).** The primary series retains each result notice's section-1
+rows for all fourteen discrepancy rows (`data/review/ghana_source_decisions.csv`, one rationale per
+row). In #1671 the following summary prints accepted above bids, which is impossible. In #1633 and
+#1635 the following summary omits the 364-day bill that section 1 and its target include. The other
+scope rows differ only in the tenor label. Substituting the following-notice totals for all six
+same-scope amount discrepancies leaves Ghana's insufficient-bid volume share unchanged at 74.5%
+(common window) and 79.7% (full period); see `outputs/tables/T5b_ghana_source_sensitivity.csv`.
+The two ledger corrections (#1878 182-day bids, comma as decimal point; #2006 364-day accepted,
+full stop as thousands separator) were signed off on the recorded cross-notice arithmetic. The
+reported and corrected tokens both remain in `data/review/corrections.csv`.
 
 In Uganda, the published ratio generally matches B/O in 2020 and B/A from 2021 onward.
 The formulas coincide when accepted equals offered, and rounding can also prevent

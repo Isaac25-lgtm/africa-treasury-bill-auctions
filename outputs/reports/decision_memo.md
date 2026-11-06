@@ -39,12 +39,13 @@ in the pilot.
 The manifest replay verified 2,821 successful source URLs before parsing. A5 compared 869 of
 946 expected quantity cells and 102 dates after a second extraction using the same parsers.
 All compared quantities and dates agreed. The source audit separately records six same-scope
-Ghana numeric discrepancies and eight scope discrepancy rows. The two ledger corrections
-and the disposition of those discrepancy cases require author review.
+Ghana numeric discrepancies and eight scope discrepancy rows. The lead author decided on
+2026-11-06 to retain the section-1 values in all of them and signed off the two ledger
+corrections. Substituting the following-notice totals leaves Ghana's shares unchanged (T5b).
 
 The project contribution is the notice-level decomposition and maturity evidence across the
 three markets. Read it alongside the IMF work on Uganda's sold-to-offer patterns and the OECD
 work on auction predictability and cover ratios. See the literature matrix for scope and links.
 
-The copy remains a draft pending author adjudication, institutional review, final release
+The copy remains a draft pending the Uganda invitation-join checks, institutional review, final release
 identifiers and a genuinely prospective forecast evaluation if an operational claim is pursued.

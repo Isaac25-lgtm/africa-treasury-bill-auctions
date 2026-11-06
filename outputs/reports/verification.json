@@ -15,5 +15,6 @@
  "units_one_per_country": true,
  "no_zero_filled_quantities": true,
  "GH_totals_cover_all_valid_events": true,
- "T5_excludes_offer_mismatches": true
+ "T5_excludes_offer_mismatches": true,
+ "GH_discrepancies_have_decisions": true
 }

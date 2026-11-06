@@ -97,6 +97,13 @@ def verify(paths: Paths) -> dict:
     checks["T5_excludes_offer_mismatches"] = (
         no_mismatch.set_index("country").n_events.to_dict()
         == e[~e.event_id.isin(mismatches)].groupby("country").event_id.nunique().to_dict())
+    # every Ghana cross-notice discrepancy carries a recorded author decision
+    cross = pd.read_csv(paths.root / "data" / "derived" / "ghana_cross_notice.csv")
+    flagged = set(cross.loc[cross.check.isin(["numeric mismatch", "scope mismatch"]), "event_id"])
+    dec_path = paths.root / "data" / "review" / "ghana_source_decisions.csv"
+    decided = pd.read_csv(dec_path) if dec_path.is_file() else pd.DataFrame(columns=["event_id", "decided_by"])
+    checks["GH_discrepancies_have_decisions"] = bool(
+        flagged <= set(decided.event_id) and decided.decided_by.notna().all())
     return checks
 
 

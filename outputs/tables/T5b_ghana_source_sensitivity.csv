@@ -1,0 +1,5 @@
+window,variant,n_events,n_miss,n_events_changed,sum_S,share
+common_2023-01-13_2026-10-30,section_1_primary,199,81,0,94898.65,0.7453521203937042
+common_2023-01-13_2026-10-30,following_notice_summary,199,81,2,94898.65,0.745355176285437
+full,section_1_primary,447,215,0,122824.43999999999,0.7967509560800765
+full,following_notice_summary,447,215,6,122824.23999999999,0.7967546145614254
