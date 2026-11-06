@@ -364,9 +364,11 @@ the released derived tables. The source extraction audit requires the original n
 
 ## Declarations
 
-* Funding: [TO BE COMPLETED]. Competing interests: [TO BE COMPLETED BY THE AUTHORS. Journals usually
-  ask authors who advise on or hold the securities studied to declare it]. Data availability: official
-  notices at the issuers' websites; derived tables and code in the repository.
+* Funding: This research received no specific grant from any funding agency in the public,
+  commercial or not-for-profit sectors.
+* Competing interests: The authors declare no competing interests.
+* Data availability: official notices at the issuers' websites; derived tables and code in the
+  repository.
 * Author contributions (to be finalised in CRediT form): Omoding Isaac — conceptualisation, study
   design, data engineering, statistical analysis, software and reproducibility, writing; Kakande Alex —
   market and institutional interpretation, policy implications, review. Both authors to approve the

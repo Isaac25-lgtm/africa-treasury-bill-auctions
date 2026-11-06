@@ -278,7 +278,7 @@ Code is released under the [MIT licence](LICENSE). The licence does not cover th
 | **Omoding Isaac** (lead and corresponding author) | Data Scientist, Ministry of Health. Study design, data engineering, statistical analysis and reproducibility | [omodingisaac111@gmail.com](mailto:omodingisaac111@gmail.com) · [GitHub](https://github.com/Isaac25-lgtm) |
 | **Kakande Alex** (co-author) | Financial Advisor. Market context, institutional interpretation and policy implications | [Substack](https://kakandealex.substack.com) |
 
-The views expressed are the authors' own and do not represent any institution. Nothing here is investment advice. Contribution roles (CRediT) will be finalised before submission.
+The views expressed are the authors' own and do not represent any institution. Nothing here is investment advice. No specific funding was received, and the authors declare no competing interests. Contribution roles (CRediT) will be finalised before submission.
 
 ## 11. References
 
