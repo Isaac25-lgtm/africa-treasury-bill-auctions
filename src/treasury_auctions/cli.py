@@ -6,7 +6,8 @@
     python -m treasury_auctions audit       # reconciliation, coverage, discrepancy reports
     python -m treasury_auctions measure     # confirmatory measurement tables + figures
     python -m treasury_auctions evaluate    # chronological forecast evaluation
-    python -m treasury_auctions report      # verify generated tables and write run record
+    python -m treasury_auctions report      # README story figures, verify tables, write run record
+    python -m treasury_auctions story       # README story figures only (outputs/figures/readme)
     python -m treasury_auctions build       # parse -> audit -> measure -> evaluate -> report (offline)
     python -m treasury_auctions fixtures    # fixture-only integration run (no network, no cache)
 
@@ -81,8 +82,18 @@ def cmd_evaluate(args, paths) -> int:
     return 0
 
 
+def cmd_story(args, paths) -> int:
+    from .story_figures import make_story_figures
+
+    print("\n".join(make_story_figures(paths)))
+    return 0
+
+
 def cmd_report(args, paths) -> int:
     from .report import run_report
+    from .story_figures import make_story_figures
+
+    make_story_figures(paths)
 
     ok = run_report(paths)
     return 0 if ok else 1
@@ -122,7 +133,7 @@ def main(argv=None) -> int:
     p.add_argument("--reuse-predictions", action="store_true",
                    help="evaluate: rescore saved walk-forward predictions instead of refitting")
     p.add_argument("command", choices=["inventory", "fetch", "parse", "audit", "measure", "evaluate", "report",
-                                       "build", "fixtures"])
+                                       "story", "build", "fixtures"])
     args = p.parse_args(argv)
     paths = get_paths(args.root).ensure()
     fn = globals()[f"cmd_{args.command}"]

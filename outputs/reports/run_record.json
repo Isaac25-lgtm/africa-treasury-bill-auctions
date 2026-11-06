@@ -1,5 +1,5 @@
 {
- "generated_utc": "2026-11-06T15:43:13+00:00",
+ "generated_utc": "2026-11-06T16:05:48+00:00",
  "snapshot_cutoff": "2026-11-06",
  "python": "3.12.10",
  "platform": "Windows-11-10.0.26200-SP0",
@@ -19,8 +19,8 @@
   "pytest": "9.2.0"
  },
  "pdftotext": "pdftotext version 4.00",
- "git_commit": "3313d2a27d1866d2a3f9e72ce8953c6ed8938335",
- "git_dirty": false,
+ "git_commit": "4e5d7760b84e9ea287a7249bfa194f7877363216",
+ "git_dirty": true,
  "derived_sha256": {
   "auction_events.csv": "0b83f1da09a20812161b671230c212504a9a054997275e4055e8957005e34a55",
   "auction_outcomes.csv": "41713c01c743c046a1bb2bfd04b004f9d3226ee9ed4200b6c2b6d1f54cc9953d",
@@ -66,6 +66,7 @@
   "fig2_rows_trace_to_events": true,
   "fig3_rows_trace_to_events": true,
   "fig1_source_present": true,
+  "readme_story_figures_rendered": true,
   "T4_counts_match_events": true,
   "units_one_per_country": true,
   "no_zero_filled_quantities": true

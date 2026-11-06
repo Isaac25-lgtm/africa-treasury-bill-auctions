@@ -10,6 +10,7 @@
  "fig2_rows_trace_to_events": true,
  "fig3_rows_trace_to_events": true,
  "fig1_source_present": true,
+ "readme_story_figures_rendered": true,
  "T4_counts_match_events": true,
  "units_one_per_country": true,
  "no_zero_filled_quantities": true

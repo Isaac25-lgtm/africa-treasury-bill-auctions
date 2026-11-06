@@ -69,6 +69,7 @@ def verify(paths: Paths) -> dict:
     checks["fig2_rows_trace_to_events"] = bool(src2.event_id.isin(ids).all())
     checks["fig3_rows_trace_to_events"] = bool(src3.event_id.isin(ids).all())
     checks["fig1_source_present"] = (paths.figures / "fig1_decomposition_source.csv").is_file()
+    checks["readme_story_figures_rendered"] = len(list((paths.figures / "readme").glob("*.png"))) == 10
     mt = pd.read_csv(paths.tables / "T4_maturity_shift.csv")
     me = pd.read_csv(paths.tables / "maturity_events.csv")
     okm = True
