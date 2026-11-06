@@ -91,9 +91,11 @@ contrast, published machine-learning work targets bill *yields* rather than issu
 ratios, auction tails and bidder behaviour with bidder-level or price data (Beetsma et al. 2020;
 Hortaçsu et al. 2018; Tindall and Perez 2021; Gao and Epp 2026).
 
-Earlier IMF work describes bill-auction arrangements in Ghana and Kenya. The OECD studies auction
-size predictability in African bond markets and discusses the limits of cover ratios as demand
-measures in G7 bond auctions. Our empirical contribution is the notice-level quantity and maturity
+Earlier IMF work describes bill-auction arrangements in Ghana and Kenya. The OECD (2025) measures
+how much auction sizes and intervals vary in African local-currency bond markets in 2024. The OECD
+(2026) argues that bid volumes at G7 bond auctions, expressed as bids over allotments, are not a
+sufficient indicator of overall demand. Neither splits within-auction shortfalls or examines bill
+maturity mixes. Our empirical contribution is the notice-level quantity and maturity
 comparison across the three bill markets. [IMF, Treasury Bill Auctions](https://www.elibrary.imf.org/view/journals/001/1994/135/article-A001-en.xml) · [OECD 2025](https://www.oecd.org/en/publications/africa-capital-markets-report-2025_7d26e1d3-en/full-report/local-currency-bond-markets-for-development-financing-in-africa_b9d9f859.html) · [OECD 2026](https://www.oecd.org/en/publications/global-debt-report-2026_e9d80efd-en/full-report/sovereign-borrowing-outlook_4470147b.html)
 
 ## 2. Institutional setting

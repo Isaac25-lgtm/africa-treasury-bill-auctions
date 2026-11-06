@@ -3,8 +3,10 @@
 **Search date (UTC):** 2026-11-06. **Databases used in this run:** Crossref REST API (metadata and
 keyword search; full log in `docs/literature_raw/crossref_search_log.json`), publisher / institution
 landing pages and full texts where public. The IMF chapter (item 1) was read from a PDF the user
-obtained after completing the eLibrary human-verification step. **Not reached in this run:** Google
-Scholar, RePEc/IDEAS, SSRN and NBER search interfaces, OECD chapters (HTTP 403), Cooperative University
+obtained after completing the eLibrary human-verification step. The two OECD reports (items 9–10)
+block automated fetches (HTTP 403) and were read on 6 Nov 2026 from full-report PDFs the user
+downloaded (not stored in the repository). **Not reached in this run:** Google
+Scholar, RePEc/IDEAS, SSRN and NBER search interfaces, Cooperative University
 of Kenya repository (connection refused). These are
 listed as pending checks; no claim of an exhaustive search is made.
 
@@ -22,8 +24,8 @@ summarised in the project handoff's pilot review; treat as a lead).
 | 6 | U.S. GAO (published 31 Mar 2026; released 3 Apr 2026). *Federal Debt Management: Treasury Is Meeting Borrowing Needs but the Deteriorating Fiscal Outlook Poses Risks*. GAO-26-107529 | V-page (front matter verbatim; Appendix II via fetch-tool summary, to re-read) | US, FY2014–FY2025 | Fixed-effects regressions of bid-to-cover on offering size, separately for bills and notes/bonds; explicitly not causal. Defines bid-to-cover as bids ÷ offered | Official use of B/O; larger offers coincide with slightly lower cover | Same caution on causality; we show the published ratio's denominator varies by vintage in Uganda. |
 | 7 | Hortaçsu, A., Kastl, J., Zhang, A. (2018). Bid Shading and Bidder Surplus in the US Treasury Auction System. *American Economic Review* 108(1), 147–169. DOI 10.1257/aer.20160675 (NBER w24024, 2017) | V-meta | US | Structural estimation with bidder-level bids | Questions about strategy/surplus require bid-level data | We claim accounting decomposition only; no bidder-behaviour inference. |
 | 8 | Allen, J., Hortaçsu, A., Richert, E., Wittwer, M. (Jan 2026). *Entry and Exit in Treasury Auctions*. NBER WP 34646. DOI 10.3386/w34646 | V-page | Canada, 20+ years | Auction model with endogenous participation | Participation dynamics need bidder data | Out of scope; cited for limits of aggregate data. |
-| 9 | OECD (2025). *Africa Capital Markets Report 2025*, chapter on local-currency bond markets | **U** (HTTP 403) | Africa (per handoff: LSEG-based) | Per handoff: predictability of auction sizes | Possible overlap on announced vs realised issuance | Pending verification; if confirmed, our contribution is official notice-level data, maturity decomposition and release-aware tests. |
-| 10 | OECD (2026). *Global Debt Report 2026*, sovereign borrowing outlook | **U** (HTTP 403) | OECD | Per handoff: caution on bid volume as appetite | — | Pending. |
+| 9 | OECD (2025). *Africa Capital Markets Report 2025*, OECD Capital Market Series, ch. 5 "Local currency bond markets for development financing in Africa" (pp. 115–150), Figure 5.18 (p. 133) and Annex 5.D. DOI 10.1787/7d26e1d3-en | **V-full** (report PDF read 6 Nov 2026, supplied by the user) | African sovereigns vs other EMDE regions and advanced economies; LSEG security-level new-issue data 2000–2024 (bills of 33–365 days included in the issuance data); Figure 5.18 covers 2024 | Coefficient of variation of auction sizes for the same bond lines and of the time between auctions (2024), by region and country; Kenya and Uganda are among the labelled countries | African issuers generally vary auction sizes more than other EMDEs at similar frequency; all African issuers except Morocco and Uganda vary more than advanced economies. Size variation is not problematic if it follows auction plans; unexpected or opportunistic changes can reduce confidence and liquidity; weak cash management is named as a driver | Overlaps with our transparency motivation only. It measures *size and timing variability of bond issuance*, not accepted versus offered amounts within an auction, and has no bid-short (D) vs not-accepted (R) split, no 91/182/364-day bill maturity mix and no forecasting. Our contribution stands: official notice-level bill data, the D/R decomposition, maturity shifts and release-aware tests. |
+| 10 | OECD (2026). *Global Debt Report 2026: Sustaining Debt Market Resilience Under Growing Pressure*, ch. 1 "Sovereign borrowing outlook", Box 1.5 and Figure 1.23 (p. 40). DOI 10.1787/e9d80efd-en | **V-full** (report PDF read 6 Nov 2026, supplied by the user) | G7 10-year government bond auctions, 2010–2025 (Bloomberg) | Descriptive: bid-to-cover per auction with a 10-auction moving average, compared with issuance volumes; plus a DMO survey (28 stable, 4 elevated, 2 reduced demand) | States that bid volume at an auction "is not a sufficient indicator" of overall demand, because price discovery clears supply at a lower price; finds no correlation between issuance volumes and G7 bid-to-cover. Defines bid-to-cover as total bids ÷ **allotted** volume (B/A) | Supports our refusal to read B/O or B/A as investor appetite and our audit of which denominator the published ratio uses. Deep-market bond evidence only; no African bills and no shortfall decomposition. |
 | 11 | World Bank (2021). *Uganda Debt Transparency Policy Note* | U (lead) | Uganda | Auction practices | Institutional context | Pending. |
 | 12 | Umlauf, S. R. (1993). An empirical study of the Mexican Treasury bill auction. *Journal of Financial Economics*. DOI 10.1016/0304-405X(93)90010-9 | V-meta (Crossref search hit) | Mexico | Auction format / bidder behaviour | Early emerging-market T-bill auction evidence | Background only. |
 | 13 | (2014). Forecasting weekly auction of the 91-day Treasury bill rates of Ghana. *IOSR Journal of Economics and Finance*. DOI 10.9790/5933-0354653 | V-meta (search hit) | Ghana | Rate forecasting | Ghana bill *rate* forecasting exists | Different target. |
@@ -51,13 +53,16 @@ behaviour with richer data; it supports our restraint about mechanisms.
 
 ## Additional checks during the revision
 
-- The OECD 2025 African markets chapter measures variation in bond auction sizes and auction
-  intervals and discusses predictability relative to issuance plans. This overlaps with the
+- The OECD 2025 African markets chapter (verified from the full report, p. 133) measures 2024
+  variation in bond auction sizes for the same bond lines and in auction intervals, and discusses
+  predictability relative to issuance plans. Kenya and Uganda are labelled; Uganda is one of two
+  African issuers with less size variability than advanced economies. This overlaps with the
   transparency motivation. Figure 5.18 does not provide the bill-level shortfall decomposition.
   [OECD 2025, chapter 5](https://www.oecd.org/en/publications/africa-capital-markets-report-2025_7d26e1d3-en/full-report/local-currency-bond-markets-for-development-financing-in-africa_b9d9f859.html)
-- The OECD 2026 sovereign borrowing chapter discusses limitations of reading demand from
-  bid volumes and illustrates bids divided by allotments in G7 bond auctions. This is relevant
-  to ratio interpretation. [OECD 2026, box 1.5](https://www.oecd.org/en/publications/global-debt-report-2026_e9d80efd-en/full-report/sovereign-borrowing-outlook_4470147b.html)
+- The OECD 2026 sovereign borrowing chapter (verified from the full report, Box 1.5, p. 40)
+  discusses limitations of reading demand from bid volumes and illustrates bids divided by
+  allotments in G7 10-year bond auctions. This is relevant to ratio interpretation and uses the
+  B/A definition. [OECD 2026, box 1.5](https://www.oecd.org/en/publications/global-debt-report-2026_e9d80efd-en/full-report/sovereign-borrowing-outlook_4470147b.html)
 - An earlier IMF study describes bill auction arrangements in Ghana and Kenya among its cases.
   Its institutional comparisons include target–allotment divergence and tranche flexibility.
   The revised novelty claim centres on the notice-level evidence across the three markets.
