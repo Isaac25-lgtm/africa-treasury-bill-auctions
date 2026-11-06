@@ -43,6 +43,8 @@ central banks.
 | BoU invitation #1236 prints the total as "350,000,000/=" while tenor lines sum to 350 bn | tenor lines used; flag kept |
 | BoU 6 May 2026 release has overlapping template text layers (bond text under bill text) | rendered page OCR used |
 | BoU invitation #1002 is a 0-byte file on the server; invitation #996 is legacy `.doc` | listed as unavailable |
+| BoU invitations printed #996 (file "Issue No 997", 10 May 2017) and #1078 (file "Issue No 1079", 29 Jul 2020) invite the next auction; invitations #1087 and #1172 belong to the results printed #1086 (18 Nov 2020) and #1171 (14 Feb 2024) | joined by scheduled auction date, flagged in `offer_versions.csv` |
+| BoU invitations #1102, #1103, #1110 and #1176 give an auction date one or two days from the held date on the results (10 April 2024 was the Eid al-Fitr holiday; #1176 was held on 11 April) | joined by printed number, flagged |
 | CBK issue dated 1 Feb 2021: 182-day accepted 1,969.97 > bids 1,969.87 | quarantined (accepted exceeds tendered beyond rounding) |
 | BoG tender 1878 "377,05"; tender 2006 "1.141.12" | corrected via `data/review/corrections.csv` using the following notice's section-2 totals; raw value retained |
 | BoG tender 1655 section 3 announces "tender 1655" (its own number) | excluded from announced offers |

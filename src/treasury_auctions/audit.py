@@ -283,6 +283,76 @@ def timing_screen(paths: Paths) -> pd.DataFrame:
     return x
 
 
+HOLIDAY_WINDOWS = {"full": ("1900-01-01", "2099-12-31"), "common": ("2023-01-13", "2026-10-30")}
+
+
+def holiday_screen(paths: Paths) -> pd.DataFrame:
+    """A9: how often statutory public holidays break the weekday business-day proxy.
+
+    The forecast uses weekdays as business days. A holiday can make (a) a result's true first business
+    day later than its weekday ``available_from`` and (b) a forecast origin fall on a closed day. Only
+    (a) can leak information: it does so when the next auction's origin lies on or after the weekday
+    date but before the holiday-aware date. Calendars come from the optional ``holidays`` package
+    (statutory holidays; Islamic dates are estimates and ad hoc declarations may be missing), so
+    this is a screen, not a correction. Returns an empty frame if the package is not installed.
+    """
+    try:
+        import holidays
+    except ImportError:
+        print("A9 holiday screen skipped: optional dependency 'holidays' not installed")
+        return pd.DataFrame()
+    from datetime import date, timedelta
+
+    from .forecast import prev_business_day
+
+    ev = _derived(paths, "auction_events")
+    years = range(int(ev.held_date.str[:4].min()), int(ev.held_date.str[:4].max()) + 2)
+    rows, detail = [], []
+    def on_holiday(d, cal) -> bool:
+        return isinstance(d, str) and date.fromisoformat(d[:10]) in cal
+
+    def next_business_day(d, cal):
+        if not isinstance(d, str):
+            return None
+        x = date.fromisoformat(d[:10]) + timedelta(days=1)
+        while x.weekday() >= 5 or x in cal:
+            x += timedelta(days=1)
+        return x.isoformat()
+
+    for c, g in ev.groupby("country"):
+        cal = holidays.country_holidays(c, years=years)
+        g = g.sort_values("held_date").reset_index(drop=True)
+        dl = g.get("deadline_date", g.held_date).fillna(g.held_date)
+        bid = g.held_date.where(g.held_date <= dl, dl)
+        g["origin"] = bid.map(prev_business_day)
+        g["true_available_from"] = [next_business_day(d, cal) for d in g.release_date]
+        g["held_on_holiday"] = [on_holiday(d, cal) for d in g.held_date]
+        g["origin_on_holiday"] = [on_holiday(d, cal) for d in g.origin]
+        g["available_from_on_holiday"] = [on_holiday(d, cal) for d in g.available_from]
+        nxt = g.origin.shift(-1)
+        g["leaks_into_next_origin"] = (g.available_from.notna() & nxt.notna() & (g.available_from <= nxt)
+                                       & (nxt < g.true_available_from))
+        g["holiday_names"] = ["; ".join(sorted({cal.get(date.fromisoformat(d[:10])) for d in (h, o, a)
+                                                if on_holiday(d, cal)}))
+                              for h, o, a in zip(g.held_date, g.origin, g.available_from)]
+        for win, (lo, hi) in HOLIDAY_WINDOWS.items():
+            w = g[g.held_date.between(lo, hi)]
+            rows.append(dict(country=c, window=win, events=len(w), held_on_holiday=int(w.held_on_holiday.sum()),
+                             origin_on_holiday=int(w.origin_on_holiday.sum()),
+                             available_from_on_holiday=int(w.available_from_on_holiday.sum()),
+                             leaks_into_next_origin=int(w.leaks_into_next_origin.sum()),
+                             calendar=f"python-holidays {holidays.__version__} ({c}, statutory)"))
+        flagged = g.held_on_holiday | g.origin_on_holiday | g.available_from_on_holiday
+        detail.append(g.loc[flagged, ["country", "event_id", "held_date", "origin", "release_date",
+                                      "available_from", "true_available_from", "held_on_holiday",
+                                      "origin_on_holiday", "available_from_on_holiday",
+                                      "leaks_into_next_origin", "holiday_names"]])
+    out = pd.DataFrame(rows)
+    out.to_csv(paths.tables / "A9_holiday_screen.csv", index=False)
+    pd.concat(detail).to_csv(paths.tables / "A9b_holiday_events.csv", index=False)
+    return out
+
+
 def _cnt(df: pd.DataFrame, cols: list[str]) -> dict:
     if df is None or df.empty:
         return {}
@@ -299,6 +369,7 @@ def run_audit(paths: Paths, cutoff: str) -> dict:
     sec = second_extraction(paths)
     pil = pilot_comparison(paths)
     tim = timing_screen(paths)
+    hol = holiday_screen(paths)
     ev = _derived(paths, "auction_events")
     coverage = ev.groupby("country").event_id.nunique().rename("inventory_events").to_frame()
     for label, panel in (("auction_wide", event_panel(paths)), ("tenor", tenor_panel(paths))):
@@ -327,6 +398,7 @@ def run_audit(paths: Paths, cutoff: str) -> dict:
         "timing": {"release_before_held": int(tim.release_before_held.sum()),
                    "median_release_lag_days": tim.groupby("country").release_lag_days.median().to_dict()},
         "waterfall_totals": w.drop(columns="year").groupby("country").sum().to_dict(orient="index"),
+        "holiday_screen": hol.to_dict(orient="records") if not hol.empty else "skipped (holidays not installed)",
     }
     (paths.reports / "audit_summary.json").write_text(json.dumps(summary, indent=1, default=str), encoding="utf-8")
     print(json.dumps(summary, indent=1, default=str)[:6000])

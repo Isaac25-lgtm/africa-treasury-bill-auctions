@@ -118,7 +118,8 @@ def build_ug(paths: Paths, cutoff: str):
         inv = inv[inv.status.isin(["parsed"]) & inv.O_announced.notna()].copy()
         inv["auction_no"] = inv.auction_no.astype("Int64")
         inv["O_announced"] = inv.O_announced / 1e9
-        inv["event_id"] = "UG-" + inv.auction_no.astype(str)
+        inv["event_id"], join_flag = _ug_invitation_event_ids(inv, ev)
+        inv["flags"] = (inv["flags"].fillna("").astype(str) + " | " + join_flag).str.strip(" |").replace("", np.nan)
         inv["first_public_date"] = inv.notice_date
         inv["first_public_basis"] = "date printed on invitation (date only)"
         inv["country"] = "UG"
@@ -140,6 +141,50 @@ def build_ug(paths: Paths, cutoff: str):
                       on="event_id", how="left")
     ev["country"] = "UG"
     return ev, outcomes, offers, recon, dups
+
+
+UG_DATE_SHIFT_DAYS = 3
+
+
+def _ug_invitation_event_ids(inv: pd.DataFrame, ev: pd.DataFrame) -> tuple[pd.Series, pd.Series]:
+    """Map each BoU invitation row to a result event.
+
+    BoU printed numbers are occasionally misprinted or reused (an invitation printed #996 invites the
+    10 May 2017 auction whose result is #997; the result for the 14 Feb 2024 auction prints #1171 while
+    its invitation prints #1172). The scheduled auction date is therefore the primary key:
+
+    1. scheduled date equals a result's held date -> that event (flagged if the numbers differ);
+    2. otherwise the printed number, if that result was held within ``UG_DATE_SHIFT_DAYS`` of the
+       scheduled date (rescheduled auctions, e.g. 10 -> 11 April 2024), flagged with the shift;
+    3. otherwise ``UG-<printed number>``, i.e. an invitation without a recovered result.
+    """
+    sched = pd.to_datetime(inv.auction_date, errors="coerce")
+    from_url = inv.url.str.extract(r"scheduled_for_(\d{1,2})(?:st|nd|rd|th)?_([a-zA-Z]+)_(\d{4})", expand=True)
+    url_date = pd.to_datetime(from_url[0] + " " + from_url[1] + " " + from_url[2], format="mixed", errors="coerce")
+    sched = sched.fillna(url_date)
+    held = pd.to_datetime(ev.held_date)
+    by_date = dict(zip(held, ev.event_id))
+    no_of = dict(zip(ev.event_id, ev.auction_no))
+    first = ev.assign(_h=held).sort_values("_h").drop_duplicates("auction_no")
+    by_no = dict(zip(first.auction_no.astype("Int64"), zip(first.event_id, first._h)))
+    ids, flags = [], []
+    for no, s in zip(inv.auction_no, sched):
+        printed = f"UG-{no}"
+        if pd.notna(s) and s in by_date:
+            eid = by_date[s]
+            same = pd.notna(no) and no_of.get(eid) == no
+            ids.append(eid)
+            flags.append("" if same else f"invitation prints #{no}; joined to {eid} by scheduled auction date")
+            continue
+        hit = by_no.get(no) if pd.notna(no) else None
+        if hit is not None and (pd.isna(s) or abs((hit[1] - s).days) <= UG_DATE_SHIFT_DAYS):
+            ids.append(hit[0])
+            flags.append("" if pd.isna(s) else
+                         f"scheduled {s.date()} but held {hit[1].date()} (joined by printed number)")
+            continue
+        ids.append(printed)
+        flags.append("")
+    return pd.Series(ids, index=inv.index), pd.Series(flags, index=inv.index)
 
 
 # ------------------------------------------------------------------------ Kenya

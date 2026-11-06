@@ -43,15 +43,27 @@ for 77 unverified cells. This includes Ghana's combined target among expected qu
 corrections can be applied in both passes. Agreement measures consistency between extraction
 passes and leaves human verification and source conflicts open.
 
+## Visual spot-check against the source page
+
+Twenty common-window result notices were drawn at random (seed 20261106: seven Ugandan, seven
+Kenyan, six Ghanaian, including one OCR-derived Ugandan notice). Each first page was rendered as an
+image and read against the parsed values, without the project parsers. All 168 compared cells
+(offers, bids and accepted amounts by maturity, and Ghana's combined targets) and all 20 held dates
+agreed (`data/review/visual_spot_check.csv`). The reading was done by the AI assistant used to build
+the pipeline, not by the authors, so it is not a substitute for author verification. The file lists
+each source URL and hash so that any row can be re-checked by hand.
+
 ## Announced and result-side offers (A3)
 
 | | Agree | Amount mismatch | Scope mismatch | Unparseable offer | Result only |
 |---|---:|---:|---:|---:|---:|
-| Uganda maturity rows | 605 | 1 | 0 | 0 | 75 |
+| Uganda maturity rows | 617 | 1 | 0 | 0 | 63 |
 | Kenya maturity rows | 1,485 | 1 | 0 | 0 | 75 |
 | Ghana tenders | 424 | 3 | 2 | 1 | 17 |
 
-The Uganda mismatch is auction #1235 (182 days, UGX 50bn announced and 35bn in the result). The
+Joining BoU invitations by scheduled auction date recovered invitations for four auctions
+(12 maturity rows) whose printed numbers disagreed (#997, #1079, the second #1086 and the second
+#1171). The Uganda mismatch is auction #1235 (182 days, UGX 50bn announced and 35bn in the result). The
 Kenya mismatch is the issue dated 13 July 2026 (91 days, KES 4,000m announced and 8,000m in the
 result). Ghana's amount mismatches are #1582, #1710 and #1860. In #1724 and #1792 the amounts agree
 and the maturity scopes differ. The malformed #1842 announcement amount remains unparsed.
@@ -90,6 +102,13 @@ the held date. Kenya usually uses the results notice signature. Ghana uses a tim
 or the signature where the post appears to be a back-fill. A7 lists recorded deadline
 disagreements. Forecast origins and delays use weekdays, which do not encode market holidays.
 The delayed-publication forecast files add one weekday to both publication proxies.
+
+The holiday screen (A9, statutory calendars from python-holidays 0.108) checks that proxy. In no
+auction of any country does a holiday let a result count as public at the next forecast origin
+before the true next business day; consecutive auctions are about a week or more apart. Some
+origins fall on holidays, and some results' weekday availability date is a holiday (A9b lists them).
+These shift dates by a day without changing any information set. Islamic holiday dates in the
+library are estimates, and ad hoc declared holidays may be missing.
 
 The accounting split does not identify bidder or issuer motives. The maturity measure describes
 the face value of each auction's issuance. Result-side offers and pre-close offers are reported

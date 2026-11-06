@@ -73,9 +73,9 @@
   "KE|agree": 1485,
   "KE|numeric mismatch": 1,
   "KE|result only (no pre-close notice recovered)": 75,
-  "UG|agree": 605,
+  "UG|agree": 617,
   "UG|numeric mismatch": 1,
-  "UG|result only (no pre-close notice recovered)": 75
+  "UG|result only (no pre-close notice recovered)": 63
  },
  "ratio_definitions": {
   "KE": {
@@ -162,5 +162,67 @@
    "extract_error": 0,
    "events": 227
   }
- }
+ },
+ "holiday_screen": [
+  {
+   "country": "GH",
+   "window": "full",
+   "events": 447,
+   "held_on_holiday": 1,
+   "origin_on_holiday": 13,
+   "available_from_on_holiday": 54,
+   "leaks_into_next_origin": 0,
+   "calendar": "python-holidays 0.108 (GH, statutory)"
+  },
+  {
+   "country": "GH",
+   "window": "common",
+   "events": 199,
+   "held_on_holiday": 0,
+   "origin_on_holiday": 9,
+   "available_from_on_holiday": 21,
+   "leaks_into_next_origin": 0,
+   "calendar": "python-holidays 0.108 (GH, statutory)"
+  },
+  {
+   "country": "KE",
+   "window": "full",
+   "events": 536,
+   "held_on_holiday": 2,
+   "origin_on_holiday": 11,
+   "available_from_on_holiday": 34,
+   "leaks_into_next_origin": 0,
+   "calendar": "python-holidays 0.108 (KE, statutory)"
+  },
+  {
+   "country": "KE",
+   "window": "common",
+   "events": 198,
+   "held_on_holiday": 0,
+   "origin_on_holiday": 3,
+   "available_from_on_holiday": 19,
+   "leaks_into_next_origin": 0,
+   "calendar": "python-holidays 0.108 (KE, statutory)"
+  },
+  {
+   "country": "UG",
+   "window": "full",
+   "events": 227,
+   "held_on_holiday": 0,
+   "origin_on_holiday": 11,
+   "available_from_on_holiday": 9,
+   "leaks_into_next_origin": 0,
+   "calendar": "python-holidays 0.108 (UG, statutory)"
+  },
+  {
+   "country": "UG",
+   "window": "common",
+   "events": 91,
+   "held_on_holiday": 0,
+   "origin_on_holiday": 4,
+   "available_from_on_holiday": 4,
+   "leaks_into_next_origin": 0,
+   "calendar": "python-holidays 0.108 (UG, statutory)"
+  }
+ ]
 }

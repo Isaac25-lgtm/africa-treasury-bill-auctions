@@ -1,0 +1,7 @@
+country,window,events,held_on_holiday,origin_on_holiday,available_from_on_holiday,leaks_into_next_origin,calendar
+GH,full,447,1,13,54,0,"python-holidays 0.108 (GH, statutory)"
+GH,common,199,0,9,21,0,"python-holidays 0.108 (GH, statutory)"
+KE,full,536,2,11,34,0,"python-holidays 0.108 (KE, statutory)"
+KE,common,198,0,3,19,0,"python-holidays 0.108 (KE, statutory)"
+UG,full,227,0,11,9,0,"python-holidays 0.108 (UG, statutory)"
+UG,common,91,0,4,4,0,"python-holidays 0.108 (UG, statutory)"

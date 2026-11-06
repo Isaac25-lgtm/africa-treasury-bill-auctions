@@ -27,6 +27,7 @@ dependencies = [
 
 [project.optional-dependencies]
 ocr = ["rapidocr-onnxruntime>=1.3"]
+audit = ["holidays==0.108"]  # A9 holiday screen only
 dev = ["pytest>=8.0", "ruff>=0.6"]
 
 [project.scripts]

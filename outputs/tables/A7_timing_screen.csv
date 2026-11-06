@@ -990,8 +990,8 @@ UG,UG-992,2017-03-01,2017-03-01,held date (no plausible printed date),2017-03-02
 UG,UG-993,2017-03-15,2017-03-15,held date (no plausible printed date),2017-03-16,2017-03-16,False,False,True,0,2017-03-15,2017-03-15,,False
 UG,UG-994,2017-03-29,2017-03-29,held date (no plausible printed date),2017-03-30,2017-03-30,False,False,True,0,,,,False
 UG,UG-995,2017-04-12,2017-04-12,held date (no plausible printed date),2017-04-13,2017-04-13,False,False,True,0,2017-04-12,2017-04-12,,False
-UG,UG-996,2017-04-26,2017-04-26,held date (no plausible printed date),2017-04-27,2017-04-27,False,False,True,0,2017-05-10,2017-05-10,,True
-UG,UG-997,2017-05-10,2017-05-10,held date (no plausible printed date),2017-05-11,2017-05-11,False,False,True,0,,,,False
+UG,UG-996,2017-04-26,2017-04-26,held date (no plausible printed date),2017-04-27,2017-04-27,False,False,True,0,,,,False
+UG,UG-997,2017-05-10,2017-05-10,held date (no plausible printed date),2017-05-11,2017-05-11,False,False,True,0,2017-05-10,2017-05-10,,False
 UG,UG-998,2017-05-24,2017-05-24,held date (no plausible printed date),2017-05-25,2017-05-25,False,False,True,0,2017-05-24,2017-05-24,,False
 UG,UG-999,2017-07-05,2017-07-05,held date (no plausible printed date),2017-07-06,2017-07-06,False,False,True,0,2017-07-05,2017-07-05,,False
 UG,UG-1000,2017-07-19,2017-07-20,date printed on release (date only),2017-07-21,2017-07-20,False,False,False,1,2017-07-19,2017-07-19,,False
@@ -1056,7 +1056,7 @@ UG,UG-1075,2020-06-04,2020-06-04,held date (no plausible printed date),2020-06-0
 UG,UG-1076,2020-06-17,2020-06-18,date printed on release (date only),2020-06-19,2020-06-18,False,False,False,1,2020-06-17,2020-06-17,,False
 UG,UG-1077,2020-07-01,2020-07-02,date printed on release (date only),2020-07-03,2020-07-02,False,False,False,1,2020-07-01,2020-07-01,,False
 UG,UG-1078,2020-07-15,2020-07-16,date printed on release (date only),2020-07-17,2020-07-16,False,False,False,1,2020-07-15,2020-07-15,,False
-UG,UG-1079,2020-07-29,2020-07-30,date printed on release (date only),2020-07-31,2020-07-30,False,False,False,1,,,,False
+UG,UG-1079,2020-07-29,2020-07-30,date printed on release (date only),2020-07-31,2020-07-30,False,False,False,1,2020-07-29,2020-07-29,,False
 UG,UG-1080,2020-08-12,2020-08-13,date printed on release (date only),2020-08-14,2020-08-13,False,False,False,1,2020-08-12,2020-08-12,,False
 UG,UG-1081,2020-08-26,2020-08-27,date printed on release (date only),2020-08-28,2020-08-27,False,False,False,1,2020-08-26,2020-08-26,,False
 UG,UG-1082,2020-09-09,2020-09-10,date printed on release (date only),2020-09-11,2020-09-10,False,False,False,1,2020-09-09,2020-09-09,,False
@@ -1064,7 +1064,7 @@ UG,UG-1083,2020-09-23,2020-09-24,date printed on release (date only),2020-09-25,
 UG,UG-1084,2020-10-07,2020-10-08,date printed on release (date only),2020-10-09,2020-10-08,False,False,False,1,,,,False
 UG,UG-1085,2020-10-21,2020-10-22,date printed on release (date only),2020-10-23,2020-10-22,False,False,False,1,2020-10-21,2020-10-21,,False
 UG,UG-1086,2020-11-04,2020-11-05,date printed on release (date only),2020-11-06,2020-11-05,False,False,False,1,2020-11-04,2020-11-04,,False
-UG,UG-1086-2020-11-18,2020-11-18,2020-11-19,date printed on release (date only),2020-11-20,2020-11-19,False,False,False,1,,,,False
+UG,UG-1086-2020-11-18,2020-11-18,2020-11-19,date printed on release (date only),2020-11-20,2020-11-19,False,False,False,1,2020-11-18,2020-11-18,,False
 UG,UG-1088,2020-12-02,2020-12-03,date printed on release (date only),2020-12-04,2020-12-03,False,False,False,1,2020-12-02,2020-12-02,,False
 UG,UG-1089,2020-12-16,2020-12-17,date printed on release (date only),2020-12-18,2020-12-17,False,False,False,1,2020-12-16,2020-12-16,,False
 UG,UG-1090,2020-12-30,2020-12-31,date printed on release (date only),2021-01-01,2020-12-31,False,False,False,1,2020-12-30,2020-12-30,,False
@@ -1144,7 +1144,7 @@ UG,UG-1168,2023-12-20,2023-12-21,date printed on release (date only),2023-12-22,
 UG,UG-1169,2024-01-03,2024-01-04,date printed on release (date only),2024-01-05,2024-01-04,False,False,False,1,,,,False
 UG,UG-1170,2024-01-17,2024-01-18,date printed on release (date only),2024-01-19,2024-01-18,False,False,False,1,,,,False
 UG,UG-1171,2024-01-31,2024-02-01,date printed on release (date only),2024-02-02,2024-02-01,False,False,False,1,2024-01-31,2024-01-31,,False
-UG,UG-1171-2024-02-14,2024-02-14,2024-02-15,date printed on release (date only),2024-02-16,2024-02-15,False,False,False,1,,,,False
+UG,UG-1171-2024-02-14,2024-02-14,2024-02-15,date printed on release (date only),2024-02-16,2024-02-15,False,False,False,1,2024-02-14,2024-02-14,,False
 UG,UG-1173,2024-02-28,2024-02-29,date printed on release (date only),2024-03-01,2024-02-29,False,False,False,1,2024-02-28,2024-02-28,,False
 UG,UG-1174,2024-03-13,2024-03-14,date printed on release (date only),2024-03-15,2024-03-14,False,False,False,1,2024-03-13,2024-03-13,,False
 UG,UG-1175,2024-03-27,2024-03-28,date printed on release (date only),2024-03-29,2024-03-28,False,False,False,1,2024-03-27,2024-03-27,,False

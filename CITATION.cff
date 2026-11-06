@@ -1,0 +1,21 @@
+cff-version: 1.2.0
+message: "If you use this code or the derived tables, please cite it as below, and cite the original central bank notices."
+title: "When Treasury Bill Auctions Miss Their Targets: Bid Volumes, Allotments and Maturity Shifts in Uganda, Kenya and Ghana"
+type: software
+authors:
+  - family-names: Omoding
+    given-names: Isaac
+    email: omodingisaac111@gmail.com
+    affiliation: "Ministry of Health"
+  - family-names: Kakande
+    given-names: Alex
+repository-code: "https://github.com/Isaac25-lgtm/africa-treasury-bill-auctions"
+license: MIT
+version: "0.1.0"
+keywords:
+  - treasury bills
+  - sovereign debt auctions
+  - Uganda
+  - Kenya
+  - Ghana
+  - reproducible research

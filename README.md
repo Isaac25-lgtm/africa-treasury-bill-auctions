@@ -127,7 +127,7 @@ Uganda's few pre-2020 shortfalls were partly volume-driven; since 2020 none are.
 
 ![Dot strips of maturity shift for auctions meeting the total. Uganda: 57 auctions, median plus 27 days. Kenya: 128 auctions, median minus 46 days.](outputs/figures/readme/6_maturity_shift.png)
 
-When the result-side total was met, Uganda accepted a mix **27 days longer** than offered (median, 364-day share +13.6 points), rising to 40 days in 2025–26. Kenya accepted a mix **46 days shorter** (364-day share −13.7 points), easing to 17 days in 2025–26. The matched announced-offer comparison gives +29.1 and −46.4 days in the common window. These shifts measure the face-value maturity of each auction's issuance.
+When the result-side total was met, Uganda accepted a mix **27 days longer** than offered (median, 364-day share +13.6 points), rising to 40 days in 2025–26. Kenya accepted a mix **46 days shorter** (364-day share −13.7 points), easing to 17 days in 2025–26. The matched announced-offer comparison gives +28.5 and −46.4 days in the common window. These shifts measure the face-value maturity of each auction's issuance.
 
 ### Step 7. Even the headline ratio changes meaning
 
@@ -173,7 +173,7 @@ A second text-extraction pass reuses the project parsers and counts expected, co
 
 - Accounting only. Without bid books we cannot say whether rejected bids were "too expensive", or why investors stayed away.
 - Archive gaps: Uganda 2019, Kenya before 2017, seven Ghana files that no longer download. Ghana publishes only a combined target.
-- Publication and bid-close dates are proxies in parts of the panel. The weekday calendar does not incorporate market holidays.
+- Publication and bid-close dates are proxies in parts of the panel. Forecast timing uses weekdays; a public-holiday screen (table A9) finds no case where a holiday makes a result look public too early.
 - Face values only: no cash raised, cost or fiscal simulation.
 - Three markets and these years cannot establish how common these patterns are across Africa.
 - Two Ghana values printed with a misplaced separator were corrected from the following week's totals; the lead author signed off both corrections ([`data/review/corrections.csv`](data/review/corrections.csv)).
@@ -278,7 +278,7 @@ Code is released under the [MIT licence](LICENSE). The licence does not cover th
 | **Omoding Isaac** (lead and corresponding author) | Data Scientist, Ministry of Health. Study design, data engineering, statistical analysis and reproducibility | [omodingisaac111@gmail.com](mailto:omodingisaac111@gmail.com) · [GitHub](https://github.com/Isaac25-lgtm) |
 | **Kakande Alex** (co-author) | Financial Advisor. Market context, institutional interpretation and policy implications | [Substack](https://kakandealex.substack.com) |
 
-The views expressed are the authors' own and do not represent any institution. Nothing here is investment advice. No specific funding was received, and the authors declare no competing interests. Contribution roles (CRediT) will be finalised before submission.
+The views expressed are the authors' own and do not represent any institution. Nothing here is investment advice. No specific funding was received, and the authors declare no competing interests. Proposed CRediT roles are listed in the manuscript declarations and await the co-author's confirmation.
 
 ## 11. References
 

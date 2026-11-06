@@ -21,7 +21,7 @@ UGX 645bn. Its share would reach 21.7% if both attracted zero bids at the invita
 
 Among auctions that met their totals, the median accepted-minus-offered maturity shift was +26.9
 days in Uganda and −46.4 in Kenya using the result offers. The matched announced-offer comparison
-gives +29.1 and −46.4 days. The main analysis is a descriptive accounting split. An individual
+gives +28.5 and −46.4 days. The main analysis is a descriptive accounting split. An individual
 shortfall can include both insufficient submitted volume and bids left unaccepted.
 
 ## Forecasting
@@ -47,5 +47,5 @@ The project contribution is the notice-level decomposition and maturity evidence
 three markets. Read it alongside the IMF work on Uganda's sold-to-offer patterns and the OECD
 work on auction predictability and cover ratios. See the literature matrix for scope and links.
 
-The copy remains a draft pending the Uganda invitation-join checks, institutional review, final release
+The copy remains a draft pending co-author confirmation of the CRediT roles and section 2, institutional review, final release
 identifiers and a genuinely prospective forecast evaluation if an operational claim is pursued.

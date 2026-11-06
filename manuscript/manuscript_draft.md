@@ -101,8 +101,17 @@ comparison across the three bill markets. [IMF, Treasury Bill Auctions](https://
 ## 2. Institutional setting
 
 All three central banks run regular primary auctions of 91-, 182- and 364-day bills as fiscal agents.
-[INSTITUTIONAL DETAIL TO BE REVIEWED BY KAKANDE ALEX: primary-dealer systems, non-competitive
-limits, auction calendars, reopening practice.]
+The access rules printed on the notices differ. In Uganda, primary dealer banks and other commercial
+banks submit bids through the BoU Central Securities Depository by 10:00 on the auction day, and
+results report competitive and non-competitive amounts separately (invitation #1236). In Kenya, bids
+close at 14:00 on the Thursday before the Monday value date and are submitted through DhowCSD or
+Treasury Mobile Direct. Non-competitive bids are capped per investor and tenor: KSh 20 million in the
+2023 notices read, with a KSh 100,000 minimum bid, and KSh 50 million in notices from March 2024, with
+minimums of KSh 50,000 (non-competitive) and KSh 2 million (competitive). CBK may allot pro rata at a common rate and states that the amount
+realised depends on the National Treasury's liquidity needs (notices of 26 January 2023, 21 March
+2024 and 17 April 2025). In Ghana, the weekly wholesale auction is open only to primary dealers, and the public
+buys bills in the secondary market through depository participants (tender 1940). These rules are
+taken from the notices and are not used as explanatory variables.
 
 * **Uganda.** Bank of Uganda (BoU) invitations to tender list an offer by maturity, the auction and
   settlement dates, and state that BoU "reserves the right to increase or reduce the amount offered
@@ -156,7 +165,7 @@ conflicting totals across successive Ghana notices. Where a result notice's own 
 following notice's summary disagree, we use the result notice's table; substituting the summaries
 for all six same-scope amount discrepancies leaves Ghana's shares unchanged at reported precision.
 Two values printed with misplaced separators (#1878, #2006) are corrected in a reviewed ledger that
-keeps the reported and corrected tokens. Of comparable offer rows, 605 of 606 Uganda rows and 1,485 of 1,486 Kenya rows agree.
+keeps the reported and corrected tokens. Of comparable offer rows, 617 of 618 Uganda rows and 1,485 of 1,486 Kenya rows agree.
 In Ghana, 424 offers agree, three differ in amount, two differ in maturity scope, and one announced
 amount cannot be parsed (`docs/audit_and_limitations.md`).
 
@@ -230,7 +239,7 @@ shortfall volume arose because bids did not reach the offer.
 
 The contrast is stable. At 5% and 10% materiality, Uganda's share stays 0.0% (30 and 25 material
 misses), Kenya's 82.2% and 82.4%, Ghana's 74.4% and 74.7%. Using the pre-close announced offer on the
-matched subset gives 0.0% (Uganda, 89 auctions), 80.9% (Kenya, 197) and 74.5% (Ghana, 198).
+matched subset gives 0.0% (Uganda, 90 auctions), 80.9% (Kenya, 197) and 74.5% (Ghana, 198).
 Excluding OCR rows, excluding events with offer discrepancies, or leaving out any single year leaves
 Uganda at 0.0% and Kenya and Ghana between roughly 67% and 84% (`T5_robustness.csv`). The two
 missing Uganda invitations total UGX 645 billion. Assuming those announced targets and zero bids
@@ -267,7 +276,7 @@ pattern: the combined offer was filled, but the 182- and 364-day bills received 
 
 Source: `outputs/tables/T4_maturity_shift.csv` and Figure 2. Settlement-to-maturity day counts give
 +27.7 (Uganda) and −46.4 days (Kenya) for the common window. Using the matched announced offers and
-requiring the announced total to be met gives +29.1 days for Uganda (54 auctions) and −46.4 for
+requiring the announced total to be met gives +28.5 days for Uganda (55 auctions) and −46.4 for
 Kenya (128) in the common window (`T4c_maturity_shift_announced.csv`).
 
 In Uganda, accepted amounts tilted towards the 364-day bill relative to the offered mix, and the
@@ -346,10 +355,12 @@ can change.
 ## 7. Limitations
 
 * Accounting decomposition only; no bid books, bidder identities or price schedules.
-* Date-only release proxies and weekday-based forecast origins. Market holidays and verified
-  historical publication timestamps would improve the timing reconstruction.
-* Archive gaps (Uganda 2019; Kenya before 2017; seven Ghana attachments) and two numbering typos in
-  BoU releases. Coverage tables and conditional missing-auction scenarios are reported.
+* Date-only release proxies and weekday-based forecast origins. A statutory-holiday screen finds no
+  case in which a holiday lets a result count as public at a forecast origin early (A9). Verified
+  historical publication timestamps would still improve the timing reconstruction.
+* Archive gaps (Uganda 2019; Kenya before 2017; seven Ghana attachments) and numbering typos in BoU
+  releases and invitations. Invitations are joined to results by scheduled auction date, and every
+  join where number and date disagree is flagged. Coverage tables and conditional missing-auction scenarios are reported.
 * OCR is used for a minority of Uganda documents (image tables); their values pass the same validation
   rules, and one OCR digit was checked against the rendered image (#1233).
 * Face values only: no cash proceeds, cost or fiscal simulations.
@@ -359,7 +370,7 @@ can change.
 ## 8. Reproducibility
 
 Code, frozen inventories, hashes, a correction ledger and derived tables are in the project release
-([REVISED RELEASE URL AND COMMIT TO BE INSERTED]). With the exact source bytes available,
+(https://github.com/Isaac25-lgtm/africa-treasury-bill-auctions; the release tag and archive DOI will be added at submission, and `CITATION.cff` gives the citation). With the exact source bytes available,
 `python -m treasury_auctions --offline --frozen build` verifies the manifest before parsing.
 `python -m treasury_auctions rebuild-outputs` regenerates the measurement and forecast results from
 the released derived tables. The source extraction audit requires the original notices.
@@ -371,10 +382,11 @@ the released derived tables. The source extraction audit requires the original n
 * Competing interests: The authors declare no competing interests.
 * Data availability: official notices at the issuers' websites; derived tables and code in the
   repository.
-* Author contributions (to be finalised in CRediT form): Omoding Isaac — conceptualisation, study
-  design, data engineering, statistical analysis, software and reproducibility, writing; Kakande Alex —
-  market and institutional interpretation, policy implications, review. Both authors to approve the
-  final manuscript.
+* Author contributions (CRediT; proposed by the lead author, to be confirmed by Kakande Alex):
+  **Omoding Isaac:** Conceptualization, Methodology, Software, Validation, Formal analysis,
+  Investigation, Data curation, Visualization, Project administration, Writing – original draft,
+  Writing – review & editing. **Kakande Alex:** Conceptualization, Validation (market and
+  institutional interpretation), Writing – review & editing. Both authors approve the final manuscript.
 
 ## Figures
 
