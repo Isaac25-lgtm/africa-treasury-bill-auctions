@@ -6,7 +6,7 @@
 
 **Authors:** Omoding Isaac¹ (lead and corresponding author) and Kakande Alex²
 ¹ Data Scientist, Ministry of Health. ² Financial Advisor.
-**Correspondence:** Omoding Isaac [EMAIL TO BE ADDED]
+**Correspondence:** Omoding Isaac, omodingisaac111@gmail.com
 
 ---
 

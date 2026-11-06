@@ -9,7 +9,7 @@ description = "Audited measurement of Treasury bill auction shortfalls, allotmen
 readme = "README.md"
 requires-python = ">=3.11"
 license = "MIT"
-authors = [{ name = "Omoding Isaac" }, { name = "Kakande Alex" }]
+authors = [{ name = "Omoding Isaac", email = "omodingisaac111@gmail.com" }, { name = "Kakande Alex" }]
 dependencies = [
   "numpy>=1.26",
   "pandas>=2.2,<2.3",

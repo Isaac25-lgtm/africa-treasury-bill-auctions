@@ -4,7 +4,7 @@
 
 **Omoding Isaac**¹ and **Kakande Alex**²
 
-¹ Data Scientist, Ministry of Health · [GitHub](https://github.com/Isaac25-lgtm)  
+¹ Data Scientist, Ministry of Health · [omodingisaac111@gmail.com](mailto:omodingisaac111@gmail.com) · [GitHub](https://github.com/Isaac25-lgtm)  
 ² Financial Advisor · [Substack](https://kakandealex.substack.com)
 
 ![Python](https://img.shields.io/badge/python-3.11%20%7C%203.12-3776ab)
@@ -273,7 +273,7 @@ Code is released under the [MIT licence](LICENSE). The licence does not cover th
 
 | Author | Role and affiliation | Contact |
 |---|---|---|
-| **Omoding Isaac** (lead and corresponding author) | Data Scientist, Ministry of Health. Study design, data engineering, statistical analysis and reproducibility | [GitHub](https://github.com/Isaac25-lgtm) |
+| **Omoding Isaac** (lead and corresponding author) | Data Scientist, Ministry of Health. Study design, data engineering, statistical analysis and reproducibility | [omodingisaac111@gmail.com](mailto:omodingisaac111@gmail.com) · [GitHub](https://github.com/Isaac25-lgtm) |
 | **Kakande Alex** (co-author) | Financial Advisor. Market context, institutional interpretation and policy implications | [Substack](https://kakandealex.substack.com) |
 
 The views expressed are the authors' own and do not represent any institution. Nothing here is investment advice. Contribution roles (CRediT) will be finalised before submission.
