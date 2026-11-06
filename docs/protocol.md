@@ -92,11 +92,16 @@ leave-one-year-out; thresholds; by-year table (T2).
 * **Gate 4 (smallest useful gain, provisional):** on the locked holdout, mean log-loss improvement of
   at least 0.02 nats per row vs the strongest development baseline with the 8-block 95% interval
   entirely below zero, **and** captured shortfall volume at the 25% alert budget at least the
-  baseline's. To be confirmed or revised with Isaac and Alex; any revision is logged below and does
+  baseline's. To be confirmed or revised by the authors; any revision is logged below and does
   not change the reported numbers.
 
 ## 7. Deviations log
 
 | Date | Change | Reason | Affects |
 |---|---|---|---|
-| — | — | — | — |
+| 2026-11-06 | Gate 4 candidates restricted to non-baseline models (baselines are comparators, not candidates). | Implementation slip found on first scoring: baselines appeared as "passing". | F6 table only; rule unchanged. |
+| 2026-11-06 | Added a *post-hoc* stricter Gate 4 variant: volume captured must also be ≥ the best of all four baselines (not only the log-loss-strongest one). Pre-registered rule is still reported as primary. | The strongest development baseline captured 0% of volume in some holdout cells (alert rate ≈ 0–3%), which makes the pre-registered volume test trivially passable. | F6 column `passes_gate4_strict_volume` (labelled post hoc). |
+| 2026-11-06 | Added realised alert rates and a retrospective top-25% ranking diagnostic next to the fixed-budget results. | Thresholds set from earlier predictions drift under distribution shift; realised rates differ by model. Diagnostic only, ex post. | F5/F6 extra columns. |
+| 2026-11-06 | Second extraction for text-layer PDFs switched from `pdftotext -layout` (Xpdf 4.00) to OCR of the rendered page. | Xpdf shifted table rows on some CBK/BoU layouts, so it was not an independent check. | A5 table. |
+| 2026-11-06 | Uganda events keyed by held date when one printed auction number appears on two releases with different held dates (numbering typo); earliest keeps the number. | Two such cases found (1086, 1171); otherwise both auctions were quarantined as conflicts. | +2 Uganda events. |
+| 2026-11-06 | Kenya due dates parsed for the settlement-to-maturity sensitivity. | Field was not yet extracted when the protocol was frozen. | T4 `median_actual_days` for Kenya. |

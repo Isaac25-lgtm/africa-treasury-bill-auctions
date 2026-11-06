@@ -76,7 +76,8 @@ def cmd_measure(args, paths) -> int:
 def cmd_evaluate(args, paths) -> int:
     from .forecast import run_evaluate
 
-    run_evaluate(paths, seed=args.seed, strict_timing=not args.lenient_timing)
+    run_evaluate(paths, seed=args.seed, strict_timing=not args.lenient_timing,
+                 reuse_predictions=args.reuse_predictions)
     return 0
 
 
@@ -118,6 +119,8 @@ def main(argv=None) -> int:
                    choices=["result", "announced", "announced_or_result"])
     p.add_argument("--lenient-timing", action="store_true",
                    help="exploratory: allow date-only availability proxies in forecasting")
+    p.add_argument("--reuse-predictions", action="store_true",
+                   help="evaluate: rescore saved walk-forward predictions instead of refitting")
     p.add_argument("command", choices=["inventory", "fetch", "parse", "audit", "measure", "evaluate", "report",
                                        "build", "fixtures"])
     args = p.parse_args(argv)

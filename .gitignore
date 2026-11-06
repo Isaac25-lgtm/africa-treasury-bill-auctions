@@ -27,3 +27,6 @@ pilot_reference/panel.csv
 pilot_reference/ghana.csv
 pilot_reference/last_fetch_report.json
 pilot_reference/parse_errors.txt
+
+# raw stage logs may contain local paths (library warnings); a sanitized summary is committed instead
+outputs/reports/*_log*.txt

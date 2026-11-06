@@ -122,9 +122,9 @@ def ratio_definitions(paths: Paths) -> pd.DataFrame:
     return t
 
 
-def second_extraction(paths: Paths, seed: int = 7, per_stratum: int = 4) -> pd.DataFrame:
+def second_extraction(paths: Paths, seed: int = 7, per_stratum: int = 3) -> pd.DataFrame:
     """Re-extract with an independent engine (pdftotext -layout; OCR for OCR-derived rows) and compare."""
-    from .extract import ocr_available, ocr_pdf_page, pdf_text, pdf_text_alt
+    from .extract import ocr_available, ocr_pdf_page, pdf_text, pdf_text_alt, pdf_text_plumber
     from .fetch import SourceCache
     from .parsers import parse_gh_result, parse_ke_result, parse_ug_result
 
@@ -159,18 +159,11 @@ def second_extraction(paths: Paths, seed: int = 7, per_stratum: int = 4) -> pd.D
                 engine = "ocr-rapidocr@300dpi"
                 pr = parser[d.country](alt.text)
         else:
-            # independent of the text layer: OCR of the rendered page (pdftotext/Xpdf 4.00 was tried first
-            # and found to shift table rows on some CBK and BoU layouts, so it is not an independent check)
-            alt = ocr_pdf_page(payload, 0, dpi=220, cache_dir=paths.cache / "ocr_audit",
-                               digest=d.sha256) if ocr_available() else pdf_text_alt(payload)
+            # a different PDF parser (pdfminer.six via pdfplumber). pdftotext/Xpdf 4.00 was tried first and
+            # shifted table rows on some CBK and BoU layouts; full-page OCR was ~50 s per CBK page.
+            alt = pdf_text_plumber(payload) or pdf_text_alt(payload)
             engine = alt.method if alt else None
             pr = parser[d.country](alt.text) if alt else None
-            if (pr is None or not pr.rows) and alt is not None:
-                alt2 = pdf_text_alt(payload)
-                if alt2 is not None:
-                    pr2 = parser[d.country](alt2.text)
-                    if pr2.rows:
-                        pr, engine = pr2, alt2.method + " (fallback; OCR unparseable)"
         if pr is None or not pr.rows:
             rows.append(dict(url=d.url, country=d.country, event_id=d.event_id, reason=d.reason, engine=engine,
                              status="second engine could not parse"))

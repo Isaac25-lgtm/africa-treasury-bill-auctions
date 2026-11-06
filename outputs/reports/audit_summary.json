@@ -1,0 +1,154 @@
+{
+ "events": {
+  "GH": 447,
+  "KE": 536,
+  "UG": 227
+ },
+ "event_span": {
+  "GH": [
+   "2018-01-05",
+   "2026-10-30"
+  ],
+  "KE": [
+   "2014-09-03",
+   "2026-11-05"
+  ],
+  "UG": [
+   "2017-01-04",
+   "2026-11-04"
+  ]
+ },
+ "events_by_year": {
+  "GH": {
+   "2018": 52,
+   "2019": 50,
+   "2020": 47,
+   "2021": 47,
+   "2022": 51,
+   "2023": 52,
+   "2024": 52,
+   "2025": 52,
+   "2026": 44
+  },
+  "KE": {
+   "2014": 1,
+   "2016": 22,
+   "2017": 52,
+   "2018": 52,
+   "2019": 52,
+   "2020": 53,
+   "2021": 51,
+   "2022": 52,
+   "2023": 52,
+   "2024": 52,
+   "2025": 53,
+   "2026": 44
+  },
+  "UG": {
+   "2017": 24,
+   "2018": 23,
+   "2019": 12,
+   "2020": 27,
+   "2021": 26,
+   "2022": 22,
+   "2023": 25,
+   "2024": 26,
+   "2025": 26,
+   "2026": 16
+  }
+ },
+ "calendar_gaps": {
+  "GH|result document present but blocked": 7,
+  "GH|tender number not observed": 7,
+  "KE|182-day issue number not observed": 103,
+  "UG|invitation found, result not in archive": 12,
+  "UG|no invitation or result found": 13
+ },
+ "offer_reconciliation": {
+  "GH|agree": 426,
+  "GH|mismatch": 4,
+  "GH|result only (no pre-close notice recovered)": 17,
+  "KE|agree": 1494,
+  "KE|mismatch": 1,
+  "KE|result only (no pre-close notice recovered)": 75,
+  "UG|agree": 605,
+  "UG|mismatch": 1,
+  "UG|result only (no pre-close notice recovered)": 75
+ },
+ "ratio_definitions": {
+  "KE": {
+   "B/A": 1443,
+   "B/O": 0,
+   "ambiguous (A = B)": 39,
+   "inconsistent": 0,
+   "missing": 88
+  },
+  "UG": {
+   "B/A": 392,
+   "B/O": 83,
+   "ambiguous (A = B)": 197,
+   "inconsistent": 6,
+   "missing": 3
+  }
+ },
+ "second_extraction": {
+  "documents": 117,
+  "compared": 105,
+  "cells": 882,
+  "cells_agree": 882,
+  "max_abs_diff": 0.0
+ },
+ "pilot_comparison": {
+  "GH|match": 185,
+  "GH|rebuild only": 260,
+  "GH|value difference": 2,
+  "KE|match": 735,
+  "KE|rebuild only": 835,
+  "UG|match": 524,
+  "UG|rebuild only": 156,
+  "UG|value difference": 1
+ },
+ "timing": {
+  "release_before_held": 0,
+  "median_release_lag_days": {
+   "GH": 0.0,
+   "KE": 0.0,
+   "UG": 1.0
+  }
+ },
+ "waterfall_totals": {
+  "GH": {
+   "listed_documents": 461,
+   "fetched": 454,
+   "fetch_failed": 7,
+   "target_family": 454,
+   "other_family": 0,
+   "parsed": 447,
+   "blocked": 7,
+   "extract_error": 0,
+   "events": 447
+  },
+  "KE": {
+   "listed_documents": 1596,
+   "fetched": 1596,
+   "fetch_failed": 0,
+   "target_family": 1594,
+   "other_family": 2,
+   "parsed": 1591,
+   "blocked": 3,
+   "extract_error": 0,
+   "events": 536
+  },
+  "UG": {
+   "listed_documents": 374,
+   "fetched": 374,
+   "fetch_failed": 0,
+   "target_family": 229,
+   "other_family": 145,
+   "parsed": 229,
+   "blocked": 0,
+   "extract_error": 0,
+   "events": 227
+  }
+ }
+}

@@ -359,7 +359,12 @@ def parse_ke_result(text: str) -> ParseResult:
     dm = re.search(r"DATED\s*([0-9/.\- ]{6,12})", hl)
     ev["value_date"] = first_date(dm.group(1)) if dm else None
     # which tenors are present (2016-era notices may only carry 182/364 or 91/182/364)
-    present = [t for t in (91, 182, 364) if re.search(rf"\b{t}\s*-?\s*DAYS?\b", up[:endA][:3000])]
+    # Tenors issued: from the heading's issue numbers ("2206/91 & 2116/364"). Older notices keep a 182-day
+    # column filled with "-" when that bill was not offered, so column headers are not reliable.
+    if ev["issues"]:
+        present = sorted(ev["issues"])
+    else:
+        present = [t for t in (91, 182, 364) if re.search(rf"\b{t}\s*-?\s*DAYS?\b", up[:endA][:3000])]
     ev["tenors_present"] = present
     O, Oraw, _ = _ke_row(text, r"Amount\s+Offered", 0, endA)
     B, Braw, _ = _ke_row(text, r"(?:Bids\s+Received|Amount\s+(?:Applied|Tendered|Received))", 0, endA)
@@ -512,7 +517,8 @@ def parse_gh_result(text: str) -> ParseResult:
         return r
     scope = tg.group(1)
     ev["target_scope"] = re.sub(r"\s+", " ", scope).strip()
-    scope_tenors = sorted({int(x) for x in re.findall(r"\b(91|182|364)\b", scope)})
+    # digit lookarounds, not \b: scopes such as "91AND182 T/BILL" (tender 1671) have no word boundary
+    scope_tenors = sorted({int(x) for x in re.findall(r"(?<!\d)(91|182|364)(?!\d)", scope)})
     ev["target_tenors"] = scope_tenors
     ev["target_bills_only"] = bool(scope_tenors) and bool(re.search(r"BILL", scope)) and not re.search(
         r"YEAR|NOTE|BOND|FXR", scope)

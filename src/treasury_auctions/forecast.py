@@ -344,8 +344,19 @@ def alert_budget(preds: pd.DataFrame, budget: float = ALERT_BUDGET) -> pd.DataFr
             rows.append(dict(level=lev, country=c, model=m, period=per, n_rows=len(x), alert_rate=x.alert.mean(),
                              misses=int((x.label > 0).sum()), misses_alerted=int(((x.label > 0) & x.alert).sum()),
                              false_alerts=int(((x.label == 0) & x.alert).sum()),
-                             shortfall_volume_captured_share=float(x.S[x.alert].sum() / tot) if tot > 0 else np.nan))
+                             shortfall_volume_captured_share=float(x.S[x.alert].sum() / tot) if tot > 0 else np.nan,
+                             # retrospective ranking diagnostic (ex post; NOT a usable live threshold)
+                             retro_top25_volume_share=_top_share(x, budget)))
     return pd.DataFrame(rows)
+
+
+def _top_share(x: pd.DataFrame, budget: float) -> float:
+    tot = x.S.sum()
+    if tot <= 0 or len(x) == 0:
+        return np.nan
+    k = max(1, int(round(budget * len(x))))
+    top = x.sort_values("p_miss", ascending=False, kind="mergesort").head(k)
+    return float(top.S.sum() / tot)
 
 
 # ----------------------------------------------------------------- maturity shift magnitude
@@ -355,20 +366,20 @@ def maturity_forecast(paths: Paths, seed: int, strict: bool = True) -> pd.DataFr
     tp = tp[tp.event_id.isin(full[full == 3].index)]
     e = tp.groupby(["country", "event_id"]).apply(lambda g: pd.Series(dict(
         held_date=g.held_date.iloc[0], origin=g.origin.iloc[0], label_available=g.label_available.max(),
-        shift=(g.A * g.tenor_days).sum() / g.A.sum() - (g.O_result * g.tenor_days).sum() / g.O_result.sum()
+        mshift=(g.A * g.tenor_days).sum() / g.A.sum() - (g.O_result * g.tenor_days).sum() / g.O_result.sum()
         if g.A.sum() > 0 else np.nan,
         ann_mat=(g.O_known * g.tenor_days).sum() / g.O_known.sum() if g.O_known.notna().all() else np.nan,
         ann_share364=g.loc[g.tenor_days == 364, "O_known"].sum() / g.O_known.sum() if g.O_known.notna().all() else np.nan,
     )), include_groups=False).reset_index()
-    e = e[e.shift.notna()].sort_values(["country", "held_date"]).reset_index(drop=True)
+    e = e[e.mshift.notna()].sort_values(["country", "held_date"]).reset_index(drop=True)
     rows = []
     for c, g in e.groupby("country"):
         g = g.reset_index(drop=True)
         for i in range(len(g)):
             h = g[(g.label_available <= g.origin[i]) & (g.held_date < g.held_date[i])]
-            rows.append(dict(idx=g.index[i], country=c, prev=h["shift"].iloc[-1] if len(h) else np.nan,
-                             med6=h["shift"].tail(6).median() if len(h) else np.nan,
-                             med12=h["shift"].tail(12).median() if len(h) else np.nan, nh=len(h)))
+            rows.append(dict(idx=g.index[i], country=c, prev=h["mshift"].iloc[-1] if len(h) else np.nan,
+                             med6=h["mshift"].tail(6).median() if len(h) else np.nan,
+                             med12=h["mshift"].tail(12).median() if len(h) else np.nan, nh=len(h)))
     f = pd.DataFrame(rows)
     e = pd.concat([e.reset_index(drop=True), f.drop(columns=["idx", "country"]).reset_index(drop=True)], axis=1)
     out = []
@@ -382,15 +393,15 @@ def maturity_forecast(paths: Paths, seed: int, strict: bool = True) -> pd.DataFr
                      "rolling_median6": t.med6.fillna(0).to_numpy()}
             if len(tr) >= MIN_TRAIN:
                 rid = make_pipeline(SimpleImputer(strategy="median", keep_empty_features=True), StandardScaler(),
-                                    Ridge(alpha=10.0)).fit(tr[feats], tr["shift"])
+                                    Ridge(alpha=10.0)).fit(tr[feats], tr["mshift"])
                 preds["ridge"] = rid.predict(t[feats])
                 hg = make_pipeline(SimpleImputer(strategy="median", keep_empty_features=True),
                                    HistGradientBoostingRegressor(max_depth=3, learning_rate=0.05, max_iter=150,
-                                                                 min_samples_leaf=20, random_state=seed)).fit(tr[feats], tr["shift"])
+                                                                 min_samples_leaf=20, random_state=seed)).fit(tr[feats], tr["mshift"])
                 preds["hgb"] = hg.predict(t[feats])
             for m, p in preds.items():
                 out.append(pd.DataFrame(dict(country=c, event_id=t.event_id, held_date=t.held_date, model=m,
-                                             actual=t["shift"], pred=p, fold=start)))
+                                             actual=t["mshift"], pred=p, fold=start)))
     o = pd.concat(out, ignore_index=True)
     o["period"] = o.held_date.map(period_of)
     o["abs_err"] = (o.pred - o.actual).abs()
@@ -401,15 +412,21 @@ def maturity_forecast(paths: Paths, seed: int, strict: bool = True) -> pd.DataFr
     return s
 
 
-def run_evaluate(paths: Paths, seed: int = 20261106, strict_timing: bool = True) -> None:
+def run_evaluate(paths: Paths, seed: int = 20261106, strict_timing: bool = True,
+                 reuse_predictions: bool = False) -> None:
     tag = "strict" if strict_timing else "lenient"
-    tp, ep = build_rows(paths, strict_timing)
-    tp.to_csv(paths.interim / f"features_tenor_{tag}.csv", index=False)
-    ep.to_csv(paths.interim / f"features_auction_{tag}.csv", index=False)
-    p_t = walk_forward(tp, "tenor", seed)
-    p_e = walk_forward(ep, "auction", seed)
-    preds = pd.concat([p_t, p_e], ignore_index=True)
-    preds.to_csv(paths.tables / f"F0_predictions_{tag}.csv", index=False)
+    f0 = paths.tables / f"F0_predictions_{tag}.csv"
+    if reuse_predictions and f0.is_file():
+        preds = pd.read_csv(f0, dtype={"tenor": str})
+        print(f"reusing {f0.name} ({len(preds)} rows)")
+    else:
+        tp, ep = build_rows(paths, strict_timing)
+        tp.to_csv(paths.interim / f"features_tenor_{tag}.csv", index=False)
+        ep.to_csv(paths.interim / f"features_auction_{tag}.csv", index=False)
+        p_t = walk_forward(tp, "tenor", seed)
+        p_e = walk_forward(ep, "auction", seed)
+        preds = pd.concat([p_t, p_e], ignore_index=True)
+        preds.to_csv(f0, index=False)
     sc, cmp_, cal = score(preds, seed)
     ab = alert_budget(preds)
     sc.to_csv(paths.tables / f"F1_scores_{tag}.csv", index=False)
@@ -419,15 +436,29 @@ def run_evaluate(paths: Paths, seed: int = 20261106, strict_timing: bool = True)
     mf = maturity_forecast(paths, seed, strict_timing)
     # Gate 4 decision on the locked holdout
     gate = []
-    for (lev, c), g in cmp_[cmp_.period == "holdout"].groupby(["level", "country"]):
-        for _, r in g.iterrows():
-            abm = ab[(ab.level == lev) & (ab.country == c) & (ab.period == "holdout")].set_index("model")
-            vm = abm.shortfall_volume_captured_share.get(r.model, np.nan)
-            vb = abm.shortfall_volume_captured_share.get(r.baseline, np.nan)
-            passes = (r.mean_diff <= -0.02) and (r.ci95_hi_b8 < 0) and (vm >= vb if np.isfinite(vm) and np.isfinite(vb) else False)
-            gate.append(dict(level=lev, country=c, model=r.model, baseline=r.baseline, n_events=r.n_events,
-                             logloss_diff=r.mean_diff, ci95_b8=(r.ci95_lo_b8, r.ci95_hi_b8),
-                             volume_captured_model=vm, volume_captured_baseline=vb, passes_gate4=bool(passes)))
+    for per in ("holdout", "replication"):
+        for (lev, c), g in cmp_[(cmp_.period == per) & ~cmp_.model.str.startswith("base_")].groupby(["level", "country"]):
+            abm = ab[(ab.level == lev) & (ab.country == c) & (ab.period == per)].set_index("model")
+            base_names = [m for m in abm.index if m.startswith("base_")]
+            best_base_vol = abm.loc[base_names, "shortfall_volume_captured_share"].max() if base_names else np.nan
+            for _, r in g.iterrows():
+                vm = abm.shortfall_volume_captured_share.get(r.model, np.nan)
+                vb = abm.shortfall_volume_captured_share.get(r.baseline, np.nan)
+                ll_ok = bool((r.mean_diff <= -0.02) and (r.ci95_hi_b8 < 0))
+                # pre-registered rule (volume vs the strongest development baseline)
+                passes = ll_ok and bool(np.isfinite(vm) and np.isfinite(vb) and vm >= vb)
+                # post-hoc stricter sensitivity (deviation log): volume vs the best of all four baselines
+                passes_strict = ll_ok and bool(np.isfinite(vm) and np.isfinite(best_base_vol) and vm >= best_base_vol)
+                gate.append(dict(period=per, level=lev, country=c, model=r.model, baseline=r.baseline,
+                                 n_events=r.n_events, logloss_diff=r.mean_diff, ci95_lo_b8=r.ci95_lo_b8,
+                                 ci95_hi_b8=r.ci95_hi_b8, logloss_criterion=ll_ok,
+                                 alert_rate_model=abm.alert_rate.get(r.model, np.nan),
+                                 alert_rate_baseline=abm.alert_rate.get(r.baseline, np.nan),
+                                 volume_captured_model=vm, volume_captured_baseline=vb,
+                                 volume_best_of_baselines=best_base_vol,
+                                 retro_top25_model=abm.retro_top25_volume_share.get(r.model, np.nan),
+                                 retro_top25_baseline=abm.retro_top25_volume_share.get(r.baseline, np.nan),
+                                 passes_gate4=passes, passes_gate4_strict_volume=passes_strict))
     g = pd.DataFrame(gate)
     g.to_csv(paths.tables / f"F6_gate4_{tag}.csv", index=False)
     meta = dict(seed=seed, strict_timing=strict_timing, periods=PERIODS, clip=CLIP, alert_budget=ALERT_BUDGET,
@@ -435,10 +466,12 @@ def run_evaluate(paths: Paths, seed: int = 20261106, strict_timing: bool = True)
                 models=sorted(preds.model.unique()),
                 hyperparameters=dict(logit="L2, C=0.5", hgb="depth 3, lr 0.05, 150 iter, l2 1.0, min leaf 20",
                                      ridge_alpha=10.0),
-                gate4_any_pass=bool(g.passes_gate4.any()) if not g.empty else False)
+                gate4_any_pass_holdout=bool(g[g.period == "holdout"].passes_gate4.any()) if not g.empty else False)
     (paths.reports / f"forecast_meta_{tag}.json").write_text(json.dumps(meta, indent=1, default=str), encoding="utf-8")
     view = sc[(sc.period == "holdout")][["level", "country", "model", "n_rows", "logloss", "brier_miss", "auc_miss",
                                            "strongest_baseline"]]
     print(view.to_string(index=False))
-    print(g.to_string(index=False) if not g.empty else "no gate rows")
+    print(g[["period", "level", "country", "model", "logloss_diff", "ci95_hi_b8", "alert_rate_model", "alert_rate_baseline",
+             "volume_captured_model", "volume_captured_baseline", "volume_best_of_baselines", "passes_gate4",
+             "passes_gate4_strict_volume"]].to_string(index=False) if not g.empty else "no gate rows")
     print(mf.to_string(index=False))

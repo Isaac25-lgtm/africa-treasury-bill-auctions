@@ -65,8 +65,36 @@ def pdf_text(payload: bytes) -> Extracted:
     return Extracted(normalize_text(text), "pymupdf", f"pymupdf {pymupdf.__version__}", pages=doc.page_count)
 
 
+def pdf_text_plumber(payload: bytes) -> Extracted | None:
+    """Independent second extraction with pdfminer.six (via pdfplumber): a different PDF parser from PyMuPDF.
+
+    CBK notices embed a literal space after the leading digit of many amounts ("1 0,000.00"); for this
+    audit engine only, one space between a lone leading digit and a following thousands group is removed.
+    Digits themselves are never altered.
+    """
+    try:
+        import pdfplumber
+    except ImportError:
+        return None
+    try:
+        with pdfplumber.open(io.BytesIO(payload)) as pdf:
+            txt = "\n".join((p.extract_text(x_tolerance=3) or "") for p in pdf.pages)
+            ver = pdfplumber.__version__
+    except Exception:  # noqa: BLE001
+        return None
+    return Extracted(normalize_text(repair_split_digits(txt)), "pdfplumber", f"pdfplumber {ver}")
+
+
+SPLIT_DIGIT = re.compile(r"(?<![\d,.])(\d) (?=(?:\d{0,2},\d{3})|(?:,\d{3})|(?:\d{1,2}\.\d{2}\b))")
+
+
+def repair_split_digits(txt: str) -> str:
+    """Join a lone leading digit to the rest of its amount ("1 0,000.00" -> "10,000.00"; "5 15.21" -> "515.21")."""
+    return SPLIT_DIGIT.sub(r"\1", txt)
+
+
 def pdf_text_alt(payload: bytes) -> Extracted | None:
-    """Independent second extraction (Poppler/Xpdf ``pdftotext -layout``) for audit agreement checks."""
+    """Fallback second extraction (Poppler/Xpdf ``pdftotext -layout``); found to shift rows on some layouts."""
     ver = pdftotext_version()
     if not ver:
         return None
@@ -195,8 +223,9 @@ def boxes_to_lines(result) -> list[tuple[str, float]]:
 
 
 def ocr_pdf_page(payload: bytes, page: int = 0, dpi: int = 220, cache_dir: Path | None = None,
-                 digest: str | None = None) -> Extracted:
-    key = f"{digest}_p{page}_d{dpi}.json" if digest else None
+                 digest: str | None = None, top_fraction: float | None = None) -> Extracted:
+    crop = f"_t{int(top_fraction * 100)}" if top_fraction else ""
+    key = f"{digest}_p{page}_d{dpi}{crop}.json" if digest else None
     if cache_dir and key and (cache_dir / key).is_file():
         d = json.loads((cache_dir / key).read_text(encoding="utf-8"))
         return Extracted(d["text"], "ocr-rapidocr", d["tool"], ocr_page=page, ocr_mean_conf=d["mean"],
@@ -208,7 +237,12 @@ def ocr_pdf_page(payload: bytes, page: int = 0, dpi: int = 220, cache_dir: Path 
     import pymupdf
 
     doc = pymupdf.open(stream=payload, filetype="pdf")
-    pix = doc[page].get_pixmap(dpi=dpi)
+    pg = doc[page]
+    clip = None
+    if top_fraction:
+        r = pg.rect
+        clip = pymupdf.Rect(r.x0, r.y0, r.x1, r.y0 + r.height * top_fraction)
+    pix = pg.get_pixmap(dpi=dpi, clip=clip)
     img = np.frombuffer(pix.samples, dtype=np.uint8).reshape(pix.height, pix.width, pix.n)[:, :, :3]
     result, _ = engine(img)
     lines = boxes_to_lines(result)

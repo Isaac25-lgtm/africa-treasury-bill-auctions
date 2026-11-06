@@ -1,0 +1,143 @@
+country,expected_id,status
+UG,1023,no invitation or result found
+UG,1025,"invitation found, result not in archive"
+UG,1028,"invitation found, result not in archive"
+UG,1047,"invitation found, result not in archive"
+UG,1048,no invitation or result found
+UG,1049,no invitation or result found
+UG,1050,no invitation or result found
+UG,1051,no invitation or result found
+UG,1052,no invitation or result found
+UG,1053,no invitation or result found
+UG,1054,no invitation or result found
+UG,1055,no invitation or result found
+UG,1056,no invitation or result found
+UG,1057,no invitation or result found
+UG,1058,no invitation or result found
+UG,1059,no invitation or result found
+UG,1063,"invitation found, result not in archive"
+UG,1087,"invitation found, result not in archive"
+UG,1135,"invitation found, result not in archive"
+UG,1136,"invitation found, result not in archive"
+UG,1137,"invitation found, result not in archive"
+UG,1139,"invitation found, result not in archive"
+UG,1162,"invitation found, result not in archive"
+UG,1172,"invitation found, result not in archive"
+UG,1221,"invitation found, result not in archive"
+KE,2054,182-day issue number not observed
+KE,2055,182-day issue number not observed
+KE,2056,182-day issue number not observed
+KE,2057,182-day issue number not observed
+KE,2058,182-day issue number not observed
+KE,2059,182-day issue number not observed
+KE,2060,182-day issue number not observed
+KE,2061,182-day issue number not observed
+KE,2062,182-day issue number not observed
+KE,2063,182-day issue number not observed
+KE,2064,182-day issue number not observed
+KE,2065,182-day issue number not observed
+KE,2066,182-day issue number not observed
+KE,2067,182-day issue number not observed
+KE,2068,182-day issue number not observed
+KE,2069,182-day issue number not observed
+KE,2070,182-day issue number not observed
+KE,2071,182-day issue number not observed
+KE,2072,182-day issue number not observed
+KE,2073,182-day issue number not observed
+KE,2074,182-day issue number not observed
+KE,2075,182-day issue number not observed
+KE,2076,182-day issue number not observed
+KE,2077,182-day issue number not observed
+KE,2078,182-day issue number not observed
+KE,2079,182-day issue number not observed
+KE,2080,182-day issue number not observed
+KE,2081,182-day issue number not observed
+KE,2082,182-day issue number not observed
+KE,2083,182-day issue number not observed
+KE,2084,182-day issue number not observed
+KE,2085,182-day issue number not observed
+KE,2086,182-day issue number not observed
+KE,2087,182-day issue number not observed
+KE,2088,182-day issue number not observed
+KE,2089,182-day issue number not observed
+KE,2090,182-day issue number not observed
+KE,2091,182-day issue number not observed
+KE,2092,182-day issue number not observed
+KE,2093,182-day issue number not observed
+KE,2094,182-day issue number not observed
+KE,2095,182-day issue number not observed
+KE,2096,182-day issue number not observed
+KE,2097,182-day issue number not observed
+KE,2098,182-day issue number not observed
+KE,2099,182-day issue number not observed
+KE,2100,182-day issue number not observed
+KE,2101,182-day issue number not observed
+KE,2102,182-day issue number not observed
+KE,2103,182-day issue number not observed
+KE,2104,182-day issue number not observed
+KE,2105,182-day issue number not observed
+KE,2106,182-day issue number not observed
+KE,2107,182-day issue number not observed
+KE,2108,182-day issue number not observed
+KE,2109,182-day issue number not observed
+KE,2110,182-day issue number not observed
+KE,2111,182-day issue number not observed
+KE,2112,182-day issue number not observed
+KE,2113,182-day issue number not observed
+KE,2114,182-day issue number not observed
+KE,2115,182-day issue number not observed
+KE,2116,182-day issue number not observed
+KE,2117,182-day issue number not observed
+KE,2118,182-day issue number not observed
+KE,2119,182-day issue number not observed
+KE,2120,182-day issue number not observed
+KE,2121,182-day issue number not observed
+KE,2122,182-day issue number not observed
+KE,2123,182-day issue number not observed
+KE,2124,182-day issue number not observed
+KE,2125,182-day issue number not observed
+KE,2126,182-day issue number not observed
+KE,2127,182-day issue number not observed
+KE,2128,182-day issue number not observed
+KE,2129,182-day issue number not observed
+KE,2130,182-day issue number not observed
+KE,2131,182-day issue number not observed
+KE,2133,182-day issue number not observed
+KE,2134,182-day issue number not observed
+KE,2135,182-day issue number not observed
+KE,2136,182-day issue number not observed
+KE,2137,182-day issue number not observed
+KE,2138,182-day issue number not observed
+KE,2139,182-day issue number not observed
+KE,2140,182-day issue number not observed
+KE,2141,182-day issue number not observed
+KE,2143,182-day issue number not observed
+KE,2144,182-day issue number not observed
+KE,2145,182-day issue number not observed
+KE,2146,182-day issue number not observed
+KE,2147,182-day issue number not observed
+KE,2148,182-day issue number not observed
+KE,2149,182-day issue number not observed
+KE,2150,182-day issue number not observed
+KE,2152,182-day issue number not observed
+KE,2153,182-day issue number not observed
+KE,2154,182-day issue number not observed
+KE,2155,182-day issue number not observed
+KE,2156,182-day issue number not observed
+KE,2158,182-day issue number not observed
+KE,2379,182-day issue number not observed
+KE,2585,182-day issue number not observed
+GH,1624,result document present but blocked
+GH,1626,result document present but blocked
+GH,1690,result document present but blocked
+GH,1692,result document present but blocked
+GH,1697,tender number not observed
+GH,1698,tender number not observed
+GH,1699,tender number not observed
+GH,1700,tender number not observed
+GH,1733,result document present but blocked
+GH,1743,result document present but blocked
+GH,1768,tender number not observed
+GH,1769,tender number not observed
+GH,1770,tender number not observed
+GH,1812,result document present but blocked

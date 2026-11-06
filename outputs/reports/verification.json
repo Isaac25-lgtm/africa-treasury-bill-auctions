@@ -1,0 +1,16 @@
+{
+ "T1_identity_S_eq_D_plus_R": true,
+ "T1_counts_reconcile": true,
+ "T1_shares_in_unit_interval": true,
+ "T1_undefined_when_no_shortfall": true,
+ "T1_headline_recomputed": true,
+ "fig1_decomposition_rendered": true,
+ "fig2_maturity_shift_rendered": true,
+ "fig3_uganda_timeline_rendered": true,
+ "fig2_rows_trace_to_events": true,
+ "fig3_rows_trace_to_events": true,
+ "fig1_source_present": true,
+ "T4_counts_match_events": true,
+ "units_one_per_country": true,
+ "no_zero_filled_quantities": true
+}

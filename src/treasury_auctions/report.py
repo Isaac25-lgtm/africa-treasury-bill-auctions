@@ -83,7 +83,49 @@ def verify(paths: Paths) -> dict:
     return checks
 
 
+def key_numbers(paths: Paths) -> dict:
+    """Every number quoted in the memo / manuscript / brief, read from generated tables only."""
+    t = paths.tables
+    k: dict = {}
+    t1 = pd.read_csv(t / "T1_decomposition.csv")
+    for _, r in t1[(t1.offer_version == "result") & (t1.tol.isin([0, 0.05, 0.1]))].iterrows():
+        key = f"{r.country}|{r.level}|{r.window}|tol{r.tol:g}"
+        k[key] = dict(n_events=int(r.n_events), n_miss=int(r.n_miss), n_miss_B_ge_O=int(r.n_miss_B_ge_O),
+                      share=None if pd.isna(r.volume_share_D) else round(float(r.volume_share_D), 4),
+                      ci_b8=[None if pd.isna(r.ci95_lo_b8) else round(float(r.ci95_lo_b8), 4),
+                             None if pd.isna(r.ci95_hi_b8) else round(float(r.ci95_hi_b8), 4)],
+                      first=r["first"], last=r["last"], sum_S=round(float(r.sum_S), 2), sum_D=round(float(r.sum_D), 2))
+    ann = t1[(t1.offer_version == "announced") & (t1.tol == 0) & (t1.window == "common_2023-01-13_2026-10-30")]
+    for _, r in ann.iterrows():
+        k[f"announced|{r.country}|{r.level}"] = dict(n_events=int(r.n_events), n_miss=int(r.n_miss),
+                                                    share=None if pd.isna(r.volume_share_D) else round(float(r.volume_share_D), 4))
+    m = pd.read_csv(t / "T4_maturity_shift.csv")
+    for _, r in m.iterrows():
+        k[f"maturity|{r.country}|{r.window}|{r.subset}"] = dict(
+            n=int(r.n), median=round(float(r["median"]), 2), q1=round(float(r.q1), 2), q3=round(float(r.q3), 2),
+            n_longer_30=int(r.n_longer_30), n_shorter_30=int(r.n_shorter_30),
+            median_actual_days=None if pd.isna(r.median_actual_days) else round(float(r.median_actual_days), 2),
+            median_share364_shift=round(float(r.median_share364_shift), 4))
+    mk = pd.read_csv(t / "T3_masking.csv")
+    for _, r in mk.iterrows():
+        k[f"masking|{r.country}|{r.window}"] = dict(n_overall_met=int(r.n_overall_met),
+                                                    n_met_with_tenor_miss=int(r.n_met_with_tenor_miss),
+                                                    share=round(float(r.share_met_with_tenor_miss), 4))
+    g4 = paths.tables / "F6_gate4_strict.csv"
+    if g4.is_file():
+        g = pd.read_csv(g4)
+        k["gate4_pass_holdout_prereg"] = g[(g.period == "holdout") & g.passes_gate4][["level", "country", "model"]].values.tolist()
+        k["gate4_pass_holdout_strict"] = g[(g.period == "holdout") & g.passes_gate4_strict_volume][["level", "country", "model"]].values.tolist()
+        k["gate4_pass_replication_strict"] = g[(g.period == "replication") & g.passes_gate4_strict_volume][["level", "country", "model"]].values.tolist()
+    ev = pd.read_csv(paths.root / "data" / "derived" / "auction_events.csv")
+    k["events"] = {c: dict(n=int(len(x)), first=x.held_date.min(), last=x.held_date.max())
+                   for c, x in ev.groupby("country")}
+    (paths.reports / "key_numbers.json").write_text(json.dumps(k, indent=1, default=str), encoding="utf-8")
+    return k
+
+
 def run_report(paths: Paths) -> bool:
+    key_numbers(paths)
     checks = verify(paths)
     derived = paths.root / "data" / "derived"
     files = {p.name: _sha(p) for p in sorted(derived.glob("*.csv"))}

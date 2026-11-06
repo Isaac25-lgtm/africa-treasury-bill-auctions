@@ -322,6 +322,13 @@ def build_panel(paths: Paths, cutoff: str) -> dict:
         if not dup.empty:
             dps.append(dup.assign(country=country))
     events = pd.concat(evs, ignore_index=True) if evs else pd.DataFrame()
+    if not events.empty:
+        # results cannot be public before the auction: a printed date earlier than the held date (e.g. a
+        # wrong year on BoG 1789/1790, template dates on three CBK notices) is raised to the held date
+        early = events.release_date.notna() & events.held_date.notna() & (events.release_date < events.held_date)
+        events.loc[early, "release_basis"] = events.loc[early, "release_basis"] + "; printed date precedes auction, raised to held date"
+        events.loc[early, "release_date"] = events.loc[early, "held_date"]
+        events["available_from"] = events.release_date.map(_next_business_day)
     outcomes = pd.concat(outs, ignore_index=True) if outs else pd.DataFrame()
     offers = pd.concat(offs, ignore_index=True) if offs else pd.DataFrame()
     keep_out = ["country", "event_id", "tenor", "O", "B", "A", "B_comp", "B_noncomp", "A_comp", "A_noncomp", "unit",

@@ -1,0 +1,28 @@
+{
+ "parser_version": "1.0.0",
+ "cutoff": "2026-11-06",
+ "status_counts": {
+  "GH|blocked": 7,
+  "GH|fetch_failed": 7,
+  "GH|parsed": 447,
+  "KE|blocked": 3,
+  "KE|not_target_family": 2,
+  "KE|parsed": 1591,
+  "UG|fetch_failed": 2,
+  "UG|not_target_family": 316,
+  "UG|parsed": 456
+ },
+ "doc_types": {
+  "GH|gh_bill_result": 454,
+  "KE|ke_bill_result": 1594,
+  "KE|ke_unclassified": 2,
+  "UG|ug_bill_invitation": 227,
+  "UG|ug_bill_result": 229,
+  "UG|ug_bond_invitation": 124,
+  "UG|ug_bond_other": 18,
+  "UG|ug_bond_result": 117,
+  "UG|ug_empty_text": 50,
+  "UG|ug_matrix": 3,
+  "UG|ug_unclassified": 4
+ }
+}

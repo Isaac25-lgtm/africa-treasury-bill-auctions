@@ -1,0 +1,885 @@
+{
+ "UG|auction_wide|common_2023-01-13_2026-10-30|tol0": {
+  "n_events": 91,
+  "n_miss": 34,
+  "n_miss_B_ge_O": 34,
+  "share": 0.0,
+  "ci_b8": [
+   0.0,
+   0.0
+  ],
+  "first": "2023-01-18",
+  "last": "2026-10-21",
+  "sum_S": 2332.81,
+  "sum_D": 0.0
+ },
+ "UG|tenor|common_2023-01-13_2026-10-30|tol0": {
+  "n_events": 91,
+  "n_miss": 163,
+  "n_miss_B_ge_O": 161,
+  "share": 0.003,
+  "ci_b8": [
+   0.0,
+   0.0069
+  ],
+  "first": "2023-01-18",
+  "last": "2026-10-21",
+  "sum_S": 4807.8,
+  "sum_D": 14.62
+ },
+ "UG|auction_wide|common_2023-01-13_2026-10-30|tol0.05": {
+  "n_events": 91,
+  "n_miss": 30,
+  "n_miss_B_ge_O": 30,
+  "share": 0.0,
+  "ci_b8": [
+   0.0,
+   0.0
+  ],
+  "first": "2023-01-18",
+  "last": "2026-10-21",
+  "sum_S": 2298.66,
+  "sum_D": 0.0
+ },
+ "UG|tenor|common_2023-01-13_2026-10-30|tol0.05": {
+  "n_events": 91,
+  "n_miss": 159,
+  "n_miss_B_ge_O": 157,
+  "share": 0.003,
+  "ci_b8": [
+   0.0,
+   0.0066
+  ],
+  "first": "2023-01-18",
+  "last": "2026-10-21",
+  "sum_S": 4803.0,
+  "sum_D": 14.62
+ },
+ "UG|auction_wide|common_2023-01-13_2026-10-30|tol0.1": {
+  "n_events": 91,
+  "n_miss": 25,
+  "n_miss_B_ge_O": 25,
+  "share": 0.0,
+  "ci_b8": [
+   0.0,
+   0.0
+  ],
+  "first": "2023-01-18",
+  "last": "2026-10-21",
+  "sum_S": 2205.86,
+  "sum_D": 0.0
+ },
+ "UG|tenor|common_2023-01-13_2026-10-30|tol0.1": {
+  "n_events": 91,
+  "n_miss": 151,
+  "n_miss_B_ge_O": 149,
+  "share": 0.0031,
+  "ci_b8": [
+   0.0,
+   0.0068
+  ],
+  "first": "2023-01-18",
+  "last": "2026-10-21",
+  "sum_S": 4746.76,
+  "sum_D": 14.62
+ },
+ "KE|auction_wide|common_2023-01-13_2026-10-30|tol0": {
+  "n_events": 198,
+  "n_miss": 70,
+  "n_miss_B_ge_O": 12,
+  "share": 0.8114,
+  "ci_b8": [
+   0.7081,
+   0.8946
+  ],
+  "first": "2023-01-19",
+  "last": "2026-10-29",
+  "sum_S": 497121.98,
+  "sum_D": 403348.1
+ },
+ "KE|tenor|common_2023-01-13_2026-10-30|tol0": {
+  "n_events": 198,
+  "n_miss": 313,
+  "n_miss_B_ge_O": 27,
+  "share": 0.9365,
+  "ci_b8": [
+   0.9052,
+   0.9609
+  ],
+  "first": "2023-01-19",
+  "last": "2026-10-29",
+  "sum_S": 1600905.47,
+  "sum_D": 1499207.78
+ },
+ "KE|auction_wide|common_2023-01-13_2026-10-30|tol0.05": {
+  "n_events": 198,
+  "n_miss": 56,
+  "n_miss_B_ge_O": 4,
+  "share": 0.8215,
+  "ci_b8": [
+   0.7242,
+   0.9055
+  ],
+  "first": "2023-01-19",
+  "last": "2026-10-29",
+  "sum_S": 486828.8,
+  "sum_D": 399927.02
+ },
+ "KE|tenor|common_2023-01-13_2026-10-30|tol0.05": {
+  "n_events": 198,
+  "n_miss": 299,
+  "n_miss_B_ge_O": 20,
+  "share": 0.9373,
+  "ci_b8": [
+   0.9083,
+   0.9615
+  ],
+  "first": "2023-01-19",
+  "last": "2026-10-29",
+  "sum_S": 1597687.01,
+  "sum_D": 1497544.69
+ },
+ "KE|auction_wide|common_2023-01-13_2026-10-30|tol0.1": {
+  "n_events": 198,
+  "n_miss": 52,
+  "n_miss_B_ge_O": 3,
+  "share": 0.824,
+  "ci_b8": [
+   0.7248,
+   0.906
+  ],
+  "first": "2023-01-19",
+  "last": "2026-10-29",
+  "sum_S": 479979.28,
+  "sum_D": 395491.89
+ },
+ "KE|tenor|common_2023-01-13_2026-10-30|tol0.1": {
+  "n_events": 198,
+  "n_miss": 286,
+  "n_miss_B_ge_O": 16,
+  "share": 0.9394,
+  "ci_b8": [
+   0.9109,
+   0.9622
+  ],
+  "first": "2023-01-19",
+  "last": "2026-10-29",
+  "sum_S": 1588437.68,
+  "sum_D": 1492210.59
+ },
+ "GH|auction_wide|common_2023-01-13_2026-10-30|tol0": {
+  "n_events": 189,
+  "n_miss": 79,
+  "n_miss_B_ge_O": 8,
+  "share": 0.7439,
+  "ci_b8": [
+   0.6009,
+   0.8987
+  ],
+  "first": "2023-01-13",
+  "last": "2026-10-30",
+  "sum_S": 94374.91,
+  "sum_D": 70209.17
+ },
+ "GH|auction_wide|common_2023-01-13_2026-10-30|tol0.05": {
+  "n_events": 189,
+  "n_miss": 70,
+  "n_miss_B_ge_O": 7,
+  "share": 0.7429,
+  "ci_b8": [
+   0.5999,
+   0.9047
+  ],
+  "first": "2023-01-13",
+  "last": "2026-10-30",
+  "sum_S": 93436.91,
+  "sum_D": 69411.36
+ },
+ "GH|auction_wide|common_2023-01-13_2026-10-30|tol0.1": {
+  "n_events": 189,
+  "n_miss": 62,
+  "n_miss_B_ge_O": 5,
+  "share": 0.7453,
+  "ci_b8": [
+   0.6042,
+   0.9041
+  ],
+  "first": "2023-01-13",
+  "last": "2026-10-30",
+  "sum_S": 90397.41,
+  "sum_D": 67374.99
+ },
+ "UG|auction_wide|recent_2025-01-01_2026-10-30|tol0": {
+  "n_events": 41,
+  "n_miss": 13,
+  "n_miss_B_ge_O": 13,
+  "share": 0.0,
+  "ci_b8": [
+   0.0,
+   0.0
+  ],
+  "first": "2025-01-02",
+  "last": "2026-10-21",
+  "sum_S": 850.44,
+  "sum_D": 0.0
+ },
+ "UG|tenor|recent_2025-01-01_2026-10-30|tol0": {
+  "n_events": 41,
+  "n_miss": 71,
+  "n_miss_B_ge_O": 69,
+  "share": 0.0053,
+  "ci_b8": [
+   0.0,
+   0.0068
+  ],
+  "first": "2025-01-02",
+  "last": "2026-10-21",
+  "sum_S": 2747.87,
+  "sum_D": 14.62
+ },
+ "UG|auction_wide|recent_2025-01-01_2026-10-30|tol0.05": {
+  "n_events": 41,
+  "n_miss": 9,
+  "n_miss_B_ge_O": 9,
+  "share": 0.0,
+  "ci_b8": [
+   0.0,
+   0.0
+  ],
+  "first": "2025-01-02",
+  "last": "2026-10-21",
+  "sum_S": 816.28,
+  "sum_D": 0.0
+ },
+ "UG|tenor|recent_2025-01-01_2026-10-30|tol0.05": {
+  "n_events": 41,
+  "n_miss": 71,
+  "n_miss_B_ge_O": 69,
+  "share": 0.0053,
+  "ci_b8": [
+   0.0,
+   0.0069
+  ],
+  "first": "2025-01-02",
+  "last": "2026-10-21",
+  "sum_S": 2747.87,
+  "sum_D": 14.62
+ },
+ "UG|auction_wide|recent_2025-01-01_2026-10-30|tol0.1": {
+  "n_events": 41,
+  "n_miss": 7,
+  "n_miss_B_ge_O": 7,
+  "share": 0.0,
+  "ci_b8": [
+   0.0,
+   0.0
+  ],
+  "first": "2025-01-02",
+  "last": "2026-10-21",
+  "sum_S": 776.22,
+  "sum_D": 0.0
+ },
+ "UG|tenor|recent_2025-01-01_2026-10-30|tol0.1": {
+  "n_events": 41,
+  "n_miss": 71,
+  "n_miss_B_ge_O": 69,
+  "share": 0.0053,
+  "ci_b8": [
+   0.0,
+   0.0069
+  ],
+  "first": "2025-01-02",
+  "last": "2026-10-21",
+  "sum_S": 2747.87,
+  "sum_D": 14.62
+ },
+ "KE|auction_wide|recent_2025-01-01_2026-10-30|tol0": {
+  "n_events": 96,
+  "n_miss": 26,
+  "n_miss_B_ge_O": 2,
+  "share": 0.9124,
+  "ci_b8": [
+   0.7704,
+   0.9894
+  ],
+  "first": "2025-01-02",
+  "last": "2026-10-29",
+  "sum_S": 181726.89,
+  "sum_D": 165806.02
+ },
+ "KE|tenor|recent_2025-01-01_2026-10-30|tol0": {
+  "n_events": 96,
+  "n_miss": 139,
+  "n_miss_B_ge_O": 12,
+  "share": 0.9255,
+  "ci_b8": [
+   0.8808,
+   0.9647
+  ],
+  "first": "2025-01-02",
+  "last": "2026-10-29",
+  "sum_S": 572512.61,
+  "sum_D": 529831.92
+ },
+ "KE|auction_wide|recent_2025-01-01_2026-10-30|tol0.05": {
+  "n_events": 96,
+  "n_miss": 23,
+  "n_miss_B_ge_O": 2,
+  "share": 0.9128,
+  "ci_b8": [
+   0.7651,
+   0.9909
+  ],
+  "first": "2025-01-02",
+  "last": "2026-10-29",
+  "sum_S": 179417.06,
+  "sum_D": 163775.11
+ },
+ "KE|tenor|recent_2025-01-01_2026-10-30|tol0.05": {
+  "n_events": 96,
+  "n_miss": 130,
+  "n_miss_B_ge_O": 9,
+  "share": 0.926,
+  "ci_b8": [
+   0.8796,
+   0.9666
+  ],
+  "first": "2025-01-02",
+  "last": "2026-10-29",
+  "sum_S": 570434.3,
+  "sum_D": 528238.15
+ },
+ "KE|auction_wide|recent_2025-01-01_2026-10-30|tol0.1": {
+  "n_events": 96,
+  "n_miss": 20,
+  "n_miss_B_ge_O": 2,
+  "share": 0.9123,
+  "ci_b8": [
+   0.7661,
+   0.9931
+  ],
+  "first": "2025-01-02",
+  "last": "2026-10-29",
+  "sum_S": 174657.47,
+  "sum_D": 159339.98
+ },
+ "KE|tenor|recent_2025-01-01_2026-10-30|tol0.1": {
+  "n_events": 96,
+  "n_miss": 124,
+  "n_miss_B_ge_O": 7,
+  "share": 0.9284,
+  "ci_b8": [
+   0.8802,
+   0.9676
+  ],
+  "first": "2025-01-02",
+  "last": "2026-10-29",
+  "sum_S": 566723.23,
+  "sum_D": 526141.57
+ },
+ "GH|auction_wide|recent_2025-01-01_2026-10-30|tol0": {
+  "n_events": 95,
+  "n_miss": 46,
+  "n_miss_B_ge_O": 8,
+  "share": 0.6422,
+  "ci_b8": [
+   0.459,
+   0.8357
+  ],
+  "first": "2025-01-03",
+  "last": "2026-10-30",
+  "sum_S": 67509.32,
+  "sum_D": 43352.84
+ },
+ "GH|auction_wide|recent_2025-01-01_2026-10-30|tol0.05": {
+  "n_events": 95,
+  "n_miss": 44,
+  "n_miss_B_ge_O": 7,
+  "share": 0.6426,
+  "ci_b8": [
+   0.4648,
+   0.8313
+  ],
+  "first": "2025-01-03",
+  "last": "2026-10-30",
+  "sum_S": 67199.89,
+  "sum_D": 43183.2
+ },
+ "GH|auction_wide|recent_2025-01-01_2026-10-30|tol0.1": {
+  "n_events": 95,
+  "n_miss": 40,
+  "n_miss_B_ge_O": 5,
+  "share": 0.6485,
+  "ci_b8": [
+   0.4588,
+   0.8446
+  ],
+  "first": "2025-01-03",
+  "last": "2026-10-30",
+  "sum_S": 65481.51,
+  "sum_D": 42467.92
+ },
+ "UG|auction_wide|full|tol0": {
+  "n_events": 227,
+  "n_miss": 74,
+  "n_miss_B_ge_O": 72,
+  "share": 0.01,
+  "ci_b8": [
+   0.0,
+   0.0361
+  ],
+  "first": "2017-01-04",
+  "last": "2026-11-04",
+  "sum_S": 3366.65,
+  "sum_D": 33.58
+ },
+ "UG|tenor|full|tol0": {
+  "n_events": 227,
+  "n_miss": 297,
+  "n_miss_B_ge_O": 275,
+  "share": 0.0294,
+  "ci_b8": [
+   0.0058,
+   0.0746
+  ],
+  "first": "2017-01-04",
+  "last": "2026-11-04",
+  "sum_S": 6507.66,
+  "sum_D": 191.3
+ },
+ "UG|auction_wide|full|tol0.05": {
+  "n_events": 227,
+  "n_miss": 54,
+  "n_miss_B_ge_O": 52,
+  "share": 0.0102,
+  "ci_b8": [
+   0.0,
+   0.0363
+  ],
+  "first": "2017-01-04",
+  "last": "2026-11-04",
+  "sum_S": 3276.38,
+  "sum_D": 33.58
+ },
+ "UG|tenor|full|tol0.05": {
+  "n_events": 227,
+  "n_miss": 283,
+  "n_miss_B_ge_O": 262,
+  "share": 0.0294,
+  "ci_b8": [
+   0.0053,
+   0.0732
+  ],
+  "first": "2017-01-04",
+  "last": "2026-11-04",
+  "sum_S": 6483.6,
+  "sum_D": 190.73
+ },
+ "UG|auction_wide|full|tol0.1": {
+  "n_events": 227,
+  "n_miss": 42,
+  "n_miss_B_ge_O": 40,
+  "share": 0.011,
+  "ci_b8": [
+   0.0,
+   0.0395
+  ],
+  "first": "2017-01-04",
+  "last": "2026-11-04",
+  "sum_S": 3060.89,
+  "sum_D": 33.58
+ },
+ "UG|tenor|full|tol0.1": {
+  "n_events": 227,
+  "n_miss": 261,
+  "n_miss_B_ge_O": 240,
+  "share": 0.0299,
+  "ci_b8": [
+   0.0059,
+   0.0751
+  ],
+  "first": "2017-01-04",
+  "last": "2026-11-04",
+  "sum_S": 6370.77,
+  "sum_D": 190.73
+ },
+ "KE|auction_wide|full|tol0": {
+  "n_events": 495,
+  "n_miss": 266,
+  "n_miss_B_ge_O": 60,
+  "share": 0.7633,
+  "ci_b8": [
+   0.7011,
+   0.8196
+  ],
+  "first": "2017-05-04",
+  "last": "2026-11-05",
+  "sum_S": 2065518.26,
+  "sum_D": 1576690.44
+ },
+ "KE|tenor|full|tol0": {
+  "n_events": 535,
+  "n_miss": 919,
+  "n_miss_B_ge_O": 119,
+  "share": 0.8742,
+  "ci_b8": [
+   0.838,
+   0.9037
+  ],
+  "first": "2014-09-03",
+  "last": "2026-11-05",
+  "sum_S": 4032909.42,
+  "sum_D": 3525735.58
+ },
+ "KE|auction_wide|full|tol0.05": {
+  "n_events": 495,
+  "n_miss": 230,
+  "n_miss_B_ge_O": 34,
+  "share": 0.7703,
+  "ci_b8": [
+   0.7105,
+   0.8239
+  ],
+  "first": "2017-05-04",
+  "last": "2026-11-05",
+  "sum_S": 2040695.11,
+  "sum_D": 1572009.52
+ },
+ "KE|tenor|full|tol0.05": {
+  "n_events": 535,
+  "n_miss": 877,
+  "n_miss_B_ge_O": 93,
+  "share": 0.8752,
+  "ci_b8": [
+   0.8385,
+   0.9042
+  ],
+  "first": "2014-09-03",
+  "last": "2026-11-05",
+  "sum_S": 4025326.63,
+  "sum_D": 3523117.42
+ },
+ "KE|auction_wide|full|tol0.1": {
+  "n_events": 495,
+  "n_miss": 219,
+  "n_miss_B_ge_O": 29,
+  "share": 0.773,
+  "ci_b8": [
+   0.7086,
+   0.826
+  ],
+  "first": "2017-05-04",
+  "last": "2026-11-05",
+  "sum_S": 2022436.64,
+  "sum_D": 1563432.29
+ },
+ "KE|tenor|full|tol0.1": {
+  "n_events": 535,
+  "n_miss": 836,
+  "n_miss_B_ge_O": 78,
+  "share": 0.8775,
+  "ci_b8": [
+   0.8425,
+   0.9057
+  ],
+  "first": "2014-09-03",
+  "last": "2026-11-05",
+  "sum_S": 3999610.33,
+  "sum_D": 3509658.83
+ },
+ "GH|auction_wide|full|tol0": {
+  "n_events": 296,
+  "n_miss": 132,
+  "n_miss_B_ge_O": 9,
+  "share": 0.7735,
+  "ci_b8": [
+   0.6473,
+   0.9162
+  ],
+  "first": "2019-02-01",
+  "last": "2026-10-30",
+  "sum_S": 108656.28,
+  "sum_D": 84042.51
+ },
+ "GH|auction_wide|full|tol0.05": {
+  "n_events": 296,
+  "n_miss": 116,
+  "n_miss_B_ge_O": 7,
+  "share": 0.7729,
+  "ci_b8": [
+   0.6498,
+   0.9183
+  ],
+  "first": "2019-02-01",
+  "last": "2026-10-30",
+  "sum_S": 107447.78,
+  "sum_D": 83049.23
+ },
+ "GH|auction_wide|full|tol0.1": {
+  "n_events": 296,
+  "n_miss": 99,
+  "n_miss_B_ge_O": 5,
+  "share": 0.7749,
+  "ci_b8": [
+   0.6495,
+   0.9264
+  ],
+  "first": "2019-02-01",
+  "last": "2026-10-30",
+  "sum_S": 103800.94,
+  "sum_D": 80434.32
+ },
+ "announced|UG|auction_wide": {
+  "n_events": 89,
+  "n_miss": 35,
+  "share": 0.0
+ },
+ "announced|UG|tenor": {
+  "n_events": 89,
+  "n_miss": 159,
+  "share": 0.0031
+ },
+ "announced|KE|auction_wide": {
+  "n_events": 197,
+  "n_miss": 69,
+  "share": 0.8085
+ },
+ "announced|KE|tenor": {
+  "n_events": 197,
+  "n_miss": 311,
+  "share": 0.9361
+ },
+ "announced|GH|auction_wide": {
+  "n_events": 189,
+  "n_miss": 79,
+  "share": 0.7439
+ },
+ "maturity|UG|common_2023-01-13_2026-10-30|met": {
+  "n": 57,
+  "median": 26.91,
+  "q1": 8.39,
+  "q3": 40.39,
+  "n_longer_30": 26,
+  "n_shorter_30": 3,
+  "median_actual_days": 27.7,
+  "median_share364_shift": 0.1361
+ },
+ "maturity|UG|common_2023-01-13_2026-10-30|all": {
+  "n": 91,
+  "median": 25.62,
+  "q1": 5.16,
+  "q3": 37.98,
+  "n_longer_30": 39,
+  "n_shorter_30": 4,
+  "median_actual_days": 25.9,
+  "median_share364_shift": 0.1258
+ },
+ "maturity|KE|common_2023-01-13_2026-10-30|met": {
+  "n": 128,
+  "median": -46.41,
+  "q1": -82.66,
+  "q3": 5.46,
+  "n_longer_30": 22,
+  "n_shorter_30": 77,
+  "median_actual_days": -46.41,
+  "median_share364_shift": -0.1373
+ },
+ "maturity|KE|common_2023-01-13_2026-10-30|all": {
+  "n": 198,
+  "median": -48.09,
+  "q1": -96.52,
+  "q3": 4.47,
+  "n_longer_30": 29,
+  "n_shorter_30": 120,
+  "median_actual_days": -48.09,
+  "median_share364_shift": -0.1439
+ },
+ "maturity|UG|recent_2025-01-01_2026-10-30|met": {
+  "n": 28,
+  "median": 40.14,
+  "q1": 28.01,
+  "q3": 44.14,
+  "n_longer_30": 21,
+  "n_shorter_30": 0,
+  "median_actual_days": 40.14,
+  "median_share364_shift": 0.1909
+ },
+ "maturity|UG|recent_2025-01-01_2026-10-30|all": {
+  "n": 41,
+  "median": 35.82,
+  "q1": 12.58,
+  "q3": 42.54,
+  "n_longer_30": 26,
+  "n_shorter_30": 1,
+  "median_actual_days": 35.82,
+  "median_share364_shift": 0.1798
+ },
+ "maturity|KE|recent_2025-01-01_2026-10-30|met": {
+  "n": 70,
+  "median": -16.98,
+  "q1": -50.27,
+  "q3": 36.14,
+  "n_longer_30": 21,
+  "n_shorter_30": 33,
+  "median_actual_days": -16.98,
+  "median_share364_shift": -0.0318
+ },
+ "maturity|KE|recent_2025-01-01_2026-10-30|all": {
+  "n": 96,
+  "median": -2.69,
+  "q1": -49.78,
+  "q3": 35.51,
+  "n_longer_30": 28,
+  "n_shorter_30": 39,
+  "median_actual_days": -2.69,
+  "median_share364_shift": 0.0083
+ },
+ "maturity|UG|full|met": {
+  "n": 153,
+  "median": 5.68,
+  "q1": 0.0,
+  "q3": 23.02,
+  "n_longer_30": 31,
+  "n_shorter_30": 3,
+  "median_actual_days": 6.54,
+  "median_share364_shift": 0.0252
+ },
+ "maturity|UG|full|all": {
+  "n": 227,
+  "median": 7.67,
+  "q1": 0.0,
+  "q3": 23.95,
+  "n_longer_30": 45,
+  "n_shorter_30": 5,
+  "median_actual_days": 8.13,
+  "median_share364_shift": 0.0325
+ },
+ "maturity|KE|full|met": {
+  "n": 229,
+  "median": -11.72,
+  "q1": -63.71,
+  "q3": 30.43,
+  "n_longer_30": 59,
+  "n_shorter_30": 97,
+  "median_actual_days": -11.72,
+  "median_share364_shift": -0.0072
+ },
+ "maturity|KE|full|all": {
+  "n": 495,
+  "median": -6.37,
+  "q1": -59.12,
+  "q3": 30.21,
+  "n_longer_30": 125,
+  "n_shorter_30": 189,
+  "median_actual_days": -6.37,
+  "median_share364_shift": 0.0077
+ },
+ "masking|KE|common_2023-01-13_2026-10-30": {
+  "n_overall_met": 128,
+  "n_met_with_tenor_miss": 109,
+  "share": 0.8516
+ },
+ "masking|KE|full": {
+  "n_overall_met": 229,
+  "n_met_with_tenor_miss": 198,
+  "share": 0.8646
+ },
+ "masking|KE|recent_2025-01-01_2026-10-30": {
+  "n_overall_met": 70,
+  "n_met_with_tenor_miss": 60,
+  "share": 0.8571
+ },
+ "masking|UG|common_2023-01-13_2026-10-30": {
+  "n_overall_met": 57,
+  "n_met_with_tenor_miss": 50,
+  "share": 0.8772
+ },
+ "masking|UG|full": {
+  "n_overall_met": 153,
+  "n_met_with_tenor_miss": 87,
+  "share": 0.5686
+ },
+ "masking|UG|recent_2025-01-01_2026-10-30": {
+  "n_overall_met": 28,
+  "n_met_with_tenor_miss": 25,
+  "share": 0.8929
+ },
+ "gate4_pass_holdout_prereg": [
+  [
+   "auction",
+   "GH",
+   "pooled_logit"
+  ],
+  [
+   "tenor",
+   "KE",
+   "logit_full"
+  ],
+  [
+   "tenor",
+   "KE",
+   "logit_history"
+  ],
+  [
+   "tenor",
+   "KE",
+   "pooled_logit"
+  ],
+  [
+   "tenor",
+   "KE",
+   "transfer_recalibrated"
+  ]
+ ],
+ "gate4_pass_holdout_strict": [
+  [
+   "tenor",
+   "KE",
+   "logit_full"
+  ],
+  [
+   "tenor",
+   "KE",
+   "logit_history"
+  ],
+  [
+   "tenor",
+   "KE",
+   "pooled_logit"
+  ],
+  [
+   "tenor",
+   "KE",
+   "transfer_recalibrated"
+  ]
+ ],
+ "gate4_pass_replication_strict": [
+  [
+   "auction",
+   "KE",
+   "logit_history"
+  ],
+  [
+   "auction",
+   "KE",
+   "pooled_logit"
+  ]
+ ],
+ "events": {
+  "GH": {
+   "n": 447,
+   "first": "2018-01-05",
+   "last": "2026-10-30"
+  },
+  "KE": {
+   "n": 536,
+   "first": "2014-09-03",
+   "last": "2026-11-05"
+  },
+  "UG": {
+   "n": 227,
+   "first": "2017-01-04",
+   "last": "2026-11-04"
+  }
+ }
+}

@@ -120,3 +120,20 @@ def test_ratio_formula_identification():
     assert published_ratio_formula(0.734, 15, 11.006, 11.006) == "B/O"
     assert published_ratio_formula(2.0, 10, 20, 10) == "ambiguous:B/O|B/A"
     assert published_ratio_formula(9.9, 10, 20, 10) == "inconsistent"
+
+
+def test_ke_dash_column_uses_issued_tenors():
+    """2016-17 notices keep an empty ('-') 182-day column; values must not shift into it."""
+    r = parse_ke_result(read("ke_2017_dash_column.txt"))
+    assert not r.blocking, r.blocking
+    assert r.event["tenors_present"] == [91, 364]
+    assert [(x["tenor"], x["O"], x["B"], x["A"]) for x in r.rows] == [
+        (91, 10000.0, 11223.12, 7084.75), (364, 10000.0, 13275.72, 9287.41)]
+    assert r.event["printed_totals"]["O"] == 20000.0
+
+
+def test_second_engine_space_repair():
+    from treasury_auctions.extract import repair_split_digits
+
+    s = "Bids Received 3 4,498.37 1 0,000.00 5 15.21 9,773.39 Number 43 7 3"
+    assert repair_split_digits(s) == "Bids Received 34,498.37 10,000.00 515.21 9,773.39 Number 43 7 3"
