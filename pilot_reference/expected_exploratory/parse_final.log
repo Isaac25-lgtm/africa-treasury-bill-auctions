@@ -1,0 +1,22 @@
+duplicate row count 6 {'offered': 0, 'bids': 0, 'accepted': 0}
+country  year  method
+KE       2022  text      43
+         2023  text      52
+         2024  text      53
+         2025  text      52
+         2026  text      45
+UG       2017  text       7
+         2018  text      16
+         2019  text      10
+         2020  text      23
+         2021  text      14
+         2022  ocr        1
+               text      21
+         2023  text      24
+         2024  text      23
+         2025  ocr        1
+               text      19
+         2026  ocr       11
+               text       5
+Name: date, dtype: int64
+parse failures 3 of 424

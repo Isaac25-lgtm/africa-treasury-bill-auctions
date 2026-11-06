@@ -1,0 +1,282 @@
+
+THRESHOLD 0
+KE 2022-03-07 2026-11-09 245 735 tenor states [325 374  36] auction states [141  84  20] near-cutoff mixed 0 weak volume share 0.9305 date count {2022: 43, 2023: 52, 2024: 53, 2025: 52, 2026: 45}
+total cover masking tenor shortfall dates 122
+UG 2017-01-04 2026-11-04 175 525 tenor states [273  17 235] auction states [110   2  63] near-cutoff mixed 0 weak volume share 0.0251 date count {2017: 7, 2018: 16, 2019: 10, 2020: 23, 2021: 14, 2022: 22, 2023: 24, 2024: 23, 2025: 20, 2026: 16}
+total cover masking tenor shortfall dates 69
+HOLDOUT KE all events 97 states [151 127  13]
+              hist log=0.899 multi_brier=0.564 shortfall_brier=0.252
+      tenor_recent log=0.762 multi_brier=0.451 shortfall_brier=0.201
+    lag_transition log=0.821 multi_brier=0.478 shortfall_brier=0.211
+          logistic log=0.813 multi_brier=0.470 shortfall_brier=0.212
+               hgb log=0.772 multi_brier=0.445 shortfall_brier=0.199
+          transfer log=1.168 multi_brier=0.620 shortfall_brier=0.235
+            pooled log=0.807 multi_brier=0.475 shortfall_brier=0.214
+ no_yield_calendar log=0.799 multi_brier=0.464 shortfall_brier=0.208
+      history_only log=0.797 multi_brier=0.465 shortfall_brier=0.209
+    adaptive_blend log=0.745 multi_brier=0.439 shortfall_brier=0.195
+HOLDOUT KE 2025 events 52 states [81 68  7]
+              hist log=1.029 multi_brier=0.660 shortfall_brier=0.298
+      tenor_recent log=0.779 multi_brier=0.465 shortfall_brier=0.209
+    lag_transition log=0.886 multi_brier=0.509 shortfall_brier=0.226
+          logistic log=0.905 multi_brier=0.516 shortfall_brier=0.235
+               hgb log=0.856 multi_brier=0.490 shortfall_brier=0.222
+          transfer log=1.219 multi_brier=0.630 shortfall_brier=0.240
+            pooled log=0.887 multi_brier=0.522 shortfall_brier=0.238
+ no_yield_calendar log=0.897 multi_brier=0.516 shortfall_brier=0.234
+      history_only log=0.891 multi_brier=0.516 shortfall_brier=0.234
+    adaptive_blend log=0.777 multi_brier=0.461 shortfall_brier=0.206
+HOLDOUT KE 2026 events 45 states [70 59  6]
+              hist log=0.748 multi_brier=0.452 shortfall_brier=0.199
+      tenor_recent log=0.741 multi_brier=0.435 shortfall_brier=0.191
+    lag_transition log=0.746 multi_brier=0.442 shortfall_brier=0.193
+          logistic log=0.706 multi_brier=0.417 shortfall_brier=0.185
+               hgb log=0.676 multi_brier=0.393 shortfall_brier=0.173
+          transfer log=1.110 multi_brier=0.610 shortfall_brier=0.229
+            pooled log=0.714 multi_brier=0.421 shortfall_brier=0.185
+ no_yield_calendar log=0.685 multi_brier=0.403 shortfall_brier=0.179
+      history_only log=0.687 multi_brier=0.406 shortfall_brier=0.180
+    adaptive_blend log=0.708 multi_brier=0.414 shortfall_brier=0.181
+HOLDOUT KE text_only_sensitivity events 97 states [151 127  13]
+              hist log=0.899 multi_brier=0.564 shortfall_brier=0.252
+      tenor_recent log=0.762 multi_brier=0.451 shortfall_brier=0.201
+    lag_transition log=0.821 multi_brier=0.478 shortfall_brier=0.211
+          logistic log=0.813 multi_brier=0.470 shortfall_brier=0.212
+               hgb log=0.772 multi_brier=0.445 shortfall_brier=0.199
+          transfer log=1.168 multi_brier=0.620 shortfall_brier=0.235
+            pooled log=0.807 multi_brier=0.475 shortfall_brier=0.214
+ no_yield_calendar log=0.799 multi_brier=0.464 shortfall_brier=0.208
+      history_only log=0.797 multi_brier=0.465 shortfall_brier=0.209
+    adaptive_blend log=0.745 multi_brier=0.439 shortfall_brier=0.195
+HOLDOUT UG all events 36 states [47  2 59]
+              hist log=0.662 multi_brier=0.404 shortfall_brier=0.187
+      tenor_recent log=0.595 multi_brier=0.336 shortfall_brier=0.153
+    lag_transition log=0.567 multi_brier=0.318 shortfall_brier=0.141
+          logistic log=0.468 multi_brier=0.259 shortfall_brier=0.111
+               hgb log=0.550 multi_brier=0.304 shortfall_brier=0.136
+          transfer log=1.314 multi_brier=0.812 shortfall_brier=0.289
+            pooled log=0.475 multi_brier=0.266 shortfall_brier=0.116
+ no_yield_calendar log=0.477 multi_brier=0.265 shortfall_brier=0.115
+      history_only log=0.480 multi_brier=0.265 shortfall_brier=0.115
+    adaptive_blend log=0.553 multi_brier=0.308 shortfall_brier=0.138
+HOLDOUT UG 2025 events 20 states [21  1 38]
+              hist log=0.574 multi_brier=0.328 shortfall_brier=0.143
+      tenor_recent log=0.418 multi_brier=0.203 shortfall_brier=0.085
+    lag_transition log=0.391 multi_brier=0.177 shortfall_brier=0.072
+          logistic log=0.323 multi_brier=0.145 shortfall_brier=0.056
+               hgb log=0.398 multi_brier=0.190 shortfall_brier=0.080
+          transfer log=1.430 multi_brier=0.904 shortfall_brier=0.327
+            pooled log=0.334 multi_brier=0.155 shortfall_brier=0.062
+ no_yield_calendar log=0.319 multi_brier=0.139 shortfall_brier=0.053
+      history_only log=0.319 multi_brier=0.139 shortfall_brier=0.053
+    adaptive_blend log=0.387 multi_brier=0.176 shortfall_brier=0.072
+HOLDOUT UG 2026 events 16 states [26  1 21]
+              hist log=0.772 multi_brier=0.500 shortfall_brier=0.242
+      tenor_recent log=0.817 multi_brier=0.502 shortfall_brier=0.239
+    lag_transition log=0.788 multi_brier=0.493 shortfall_brier=0.226
+          logistic log=0.649 multi_brier=0.401 shortfall_brier=0.181
+               hgb log=0.741 multi_brier=0.447 shortfall_brier=0.205
+          transfer log=1.168 multi_brier=0.697 shortfall_brier=0.241
+            pooled log=0.650 multi_brier=0.404 shortfall_brier=0.183
+ no_yield_calendar log=0.674 multi_brier=0.423 shortfall_brier=0.192
+      history_only log=0.680 multi_brier=0.421 shortfall_brier=0.191
+    adaptive_blend log=0.760 multi_brier=0.473 shortfall_brier=0.220
+HOLDOUT UG text_only_sensitivity events 24 states [29  1 42]
+              hist log=0.605 multi_brier=0.361 shortfall_brier=0.165
+      tenor_recent log=0.488 multi_brier=0.259 shortfall_brier=0.117
+    lag_transition log=0.473 multi_brier=0.249 shortfall_brier=0.112
+          logistic log=0.357 multi_brier=0.182 shortfall_brier=0.077
+               hgb log=0.440 multi_brier=0.232 shortfall_brier=0.104
+          transfer log=1.361 multi_brier=0.862 shortfall_brier=0.316
+            pooled log=0.369 multi_brier=0.190 shortfall_brier=0.082
+ no_yield_calendar log=0.359 multi_brier=0.181 shortfall_brier=0.077
+      history_only log=0.360 multi_brier=0.182 shortfall_brier=0.077
+    adaptive_blend log=0.460 multi_brier=0.237 shortfall_brier=0.106
+
+THRESHOLD 0.05
+KE 2022-03-07 2026-11-09 245 735 tenor states [341 363  31] auction states [159  72  14] near-cutoff mixed 4 weak volume share 0.9312 date count {2022: 43, 2023: 52, 2024: 53, 2025: 52, 2026: 45}
+total cover masking tenor shortfall dates 135
+UG 2017-01-04 2026-11-04 175 525 tenor states [285  16 224] auction states [127   1  47] near-cutoff mixed 1 weak volume share 0.0252 date count {2017: 7, 2018: 16, 2019: 10, 2020: 23, 2021: 14, 2022: 22, 2023: 24, 2024: 23, 2025: 20, 2026: 16}
+total cover masking tenor shortfall dates 84
+HOLDOUT KE all events 97 states [160 120  11]
+              hist log=0.888 multi_brier=0.566 shortfall_brier=0.260
+      tenor_recent log=0.749 multi_brier=0.449 shortfall_brier=0.205
+    lag_transition log=0.820 multi_brier=0.485 shortfall_brier=0.220
+          logistic log=0.804 multi_brier=0.474 shortfall_brier=0.219
+               hgb log=0.789 multi_brier=0.451 shortfall_brier=0.209
+          transfer log=1.108 multi_brier=0.604 shortfall_brier=0.233
+            pooled log=0.805 multi_brier=0.480 shortfall_brier=0.222
+ no_yield_calendar log=0.795 multi_brier=0.469 shortfall_brier=0.217
+      history_only log=0.794 multi_brier=0.470 shortfall_brier=0.217
+    adaptive_blend log=0.739 multi_brier=0.441 shortfall_brier=0.201
+HOLDOUT KE 2025 events 52 states [86 63  7]
+              hist log=1.023 multi_brier=0.664 shortfall_brier=0.302
+      tenor_recent log=0.761 multi_brier=0.454 shortfall_brier=0.204
+    lag_transition log=0.895 multi_brier=0.519 shortfall_brier=0.233
+          logistic log=0.904 multi_brier=0.523 shortfall_brier=0.240
+               hgb log=0.872 multi_brier=0.489 shortfall_brier=0.224
+          transfer log=1.135 multi_brier=0.611 shortfall_brier=0.237
+            pooled log=0.896 multi_brier=0.529 shortfall_brier=0.245
+ no_yield_calendar log=0.904 multi_brier=0.525 shortfall_brier=0.240
+      history_only log=0.900 multi_brier=0.524 shortfall_brier=0.240
+    adaptive_blend log=0.777 multi_brier=0.462 shortfall_brier=0.207
+HOLDOUT KE 2026 events 45 states [74 57  4]
+              hist log=0.733 multi_brier=0.454 shortfall_brier=0.211
+      tenor_recent log=0.735 multi_brier=0.442 shortfall_brier=0.206
+    lag_transition log=0.734 multi_brier=0.445 shortfall_brier=0.205
+          logistic log=0.688 multi_brier=0.418 shortfall_brier=0.195
+               hgb log=0.693 multi_brier=0.408 shortfall_brier=0.191
+          transfer log=1.076 multi_brier=0.596 shortfall_brier=0.227
+            pooled log=0.700 multi_brier=0.423 shortfall_brier=0.197
+ no_yield_calendar log=0.670 multi_brier=0.405 shortfall_brier=0.189
+      history_only log=0.673 multi_brier=0.408 shortfall_brier=0.191
+    adaptive_blend log=0.696 multi_brier=0.417 shortfall_brier=0.194
+HOLDOUT KE text_only_sensitivity events 97 states [160 120  11]
+              hist log=0.888 multi_brier=0.566 shortfall_brier=0.260
+      tenor_recent log=0.749 multi_brier=0.449 shortfall_brier=0.205
+    lag_transition log=0.820 multi_brier=0.485 shortfall_brier=0.220
+          logistic log=0.804 multi_brier=0.474 shortfall_brier=0.219
+               hgb log=0.789 multi_brier=0.451 shortfall_brier=0.209
+          transfer log=1.108 multi_brier=0.604 shortfall_brier=0.233
+            pooled log=0.805 multi_brier=0.480 shortfall_brier=0.222
+ no_yield_calendar log=0.795 multi_brier=0.469 shortfall_brier=0.217
+      history_only log=0.794 multi_brier=0.470 shortfall_brier=0.217
+    adaptive_blend log=0.739 multi_brier=0.441 shortfall_brier=0.201
+HOLDOUT UG all events 36 states [47  2 59]
+              hist log=0.672 multi_brier=0.416 shortfall_brier=0.193
+      tenor_recent log=0.595 multi_brier=0.336 shortfall_brier=0.153
+    lag_transition log=0.579 multi_brier=0.326 shortfall_brier=0.144
+          logistic log=0.471 multi_brier=0.260 shortfall_brier=0.112
+               hgb log=0.553 multi_brier=0.298 shortfall_brier=0.133
+          transfer log=1.386 multi_brier=0.825 shortfall_brier=0.295
+            pooled log=0.478 multi_brier=0.269 shortfall_brier=0.118
+ no_yield_calendar log=0.477 multi_brier=0.265 shortfall_brier=0.115
+      history_only log=0.480 multi_brier=0.264 shortfall_brier=0.114
+    adaptive_blend log=0.557 multi_brier=0.310 shortfall_brier=0.138
+HOLDOUT UG 2025 events 20 states [21  1 38]
+              hist log=0.595 multi_brier=0.351 shortfall_brier=0.155
+      tenor_recent log=0.418 multi_brier=0.203 shortfall_brier=0.085
+    lag_transition log=0.413 multi_brier=0.193 shortfall_brier=0.079
+          logistic log=0.326 multi_brier=0.146 shortfall_brier=0.057
+               hgb log=0.410 multi_brier=0.187 shortfall_brier=0.079
+          transfer log=1.521 multi_brier=0.921 shortfall_brier=0.330
+            pooled log=0.342 multi_brier=0.161 shortfall_brier=0.066
+ no_yield_calendar log=0.321 multi_brier=0.140 shortfall_brier=0.054
+      history_only log=0.320 multi_brier=0.140 shortfall_brier=0.054
+    adaptive_blend log=0.396 multi_brier=0.181 shortfall_brier=0.073
+HOLDOUT UG 2026 events 16 states [26  1 21]
+              hist log=0.768 multi_brier=0.498 shortfall_brier=0.240
+      tenor_recent log=0.817 multi_brier=0.502 shortfall_brier=0.239
+    lag_transition log=0.787 multi_brier=0.492 shortfall_brier=0.226
+          logistic log=0.653 multi_brier=0.403 shortfall_brier=0.182
+               hgb log=0.731 multi_brier=0.438 shortfall_brier=0.200
+          transfer log=1.217 multi_brier=0.705 shortfall_brier=0.250
+            pooled log=0.648 multi_brier=0.403 shortfall_brier=0.182
+ no_yield_calendar log=0.673 multi_brier=0.421 shortfall_brier=0.192
+      history_only log=0.680 multi_brier=0.419 shortfall_brier=0.190
+    adaptive_blend log=0.759 multi_brier=0.471 shortfall_brier=0.219
+HOLDOUT UG text_only_sensitivity events 24 states [29  1 42]
+              hist log=0.620 multi_brier=0.378 shortfall_brier=0.174
+      tenor_recent log=0.488 multi_brier=0.259 shortfall_brier=0.117
+    lag_transition log=0.489 multi_brier=0.260 shortfall_brier=0.116
+          logistic log=0.361 multi_brier=0.184 shortfall_brier=0.078
+               hgb log=0.440 multi_brier=0.221 shortfall_brier=0.098
+          transfer log=1.440 multi_brier=0.876 shortfall_brier=0.320
+            pooled log=0.376 multi_brier=0.195 shortfall_brier=0.085
+ no_yield_calendar log=0.360 multi_brier=0.181 shortfall_brier=0.077
+      history_only log=0.360 multi_brier=0.181 shortfall_brier=0.077
+    adaptive_blend log=0.467 multi_brier=0.241 shortfall_brier=0.107
+
+THRESHOLD 0.1
+KE 2022-03-07 2026-11-09 245 735 tenor states [359 351  25] auction states [164  65  16] near-cutoff mixed 4 weak volume share 0.9335 date count {2022: 43, 2023: 52, 2024: 53, 2025: 52, 2026: 45}
+total cover masking tenor shortfall dates 139
+UG 2017-01-04 2026-11-04 175 525 tenor states [303  15 207] auction states [138   1  36] near-cutoff mixed 2 weak volume share 0.0256 date count {2017: 7, 2018: 16, 2019: 10, 2020: 23, 2021: 14, 2022: 22, 2023: 24, 2024: 23, 2025: 20, 2026: 16}
+total cover masking tenor shortfall dates 90
+HOLDOUT KE all events 97 states [166 115  10]
+              hist log=0.862 multi_brier=0.551 shortfall_brier=0.256
+      tenor_recent log=0.748 multi_brier=0.447 shortfall_brier=0.209
+    lag_transition log=0.791 multi_brier=0.470 shortfall_brier=0.220
+          logistic log=0.782 multi_brier=0.462 shortfall_brier=0.215
+               hgb log=0.792 multi_brier=0.453 shortfall_brier=0.212
+          transfer log=1.058 multi_brier=0.585 shortfall_brier=0.235
+            pooled log=0.787 multi_brier=0.473 shortfall_brier=0.221
+ no_yield_calendar log=0.772 multi_brier=0.458 shortfall_brier=0.214
+      history_only log=0.772 multi_brier=0.460 shortfall_brier=0.215
+    adaptive_blend log=0.728 multi_brier=0.434 shortfall_brier=0.204
+HOLDOUT KE 2025 events 52 states [89 60  7]
+              hist log=0.988 multi_brier=0.637 shortfall_brier=0.292
+      tenor_recent log=0.762 multi_brier=0.447 shortfall_brier=0.204
+    lag_transition log=0.874 multi_brier=0.504 shortfall_brier=0.230
+          logistic log=0.878 multi_brier=0.504 shortfall_brier=0.230
+               hgb log=0.875 multi_brier=0.480 shortfall_brier=0.221
+          transfer log=1.067 multi_brier=0.589 shortfall_brier=0.239
+            pooled log=0.874 multi_brier=0.516 shortfall_brier=0.237
+ no_yield_calendar log=0.876 multi_brier=0.508 shortfall_brier=0.232
+      history_only log=0.872 multi_brier=0.508 shortfall_brier=0.232
+    adaptive_blend log=0.772 multi_brier=0.453 shortfall_brier=0.208
+HOLDOUT KE 2026 events 45 states [77 55  3]
+              hist log=0.718 multi_brier=0.452 shortfall_brier=0.215
+      tenor_recent log=0.731 multi_brier=0.448 shortfall_brier=0.214
+    lag_transition log=0.694 multi_brier=0.430 shortfall_brier=0.208
+          logistic log=0.671 multi_brier=0.414 shortfall_brier=0.197
+               hgb log=0.696 multi_brier=0.421 shortfall_brier=0.203
+          transfer log=1.048 multi_brier=0.580 shortfall_brier=0.230
+            pooled log=0.686 multi_brier=0.424 shortfall_brier=0.202
+ no_yield_calendar log=0.653 multi_brier=0.401 shortfall_brier=0.192
+      history_only log=0.656 multi_brier=0.405 shortfall_brier=0.194
+    adaptive_blend log=0.678 multi_brier=0.413 shortfall_brier=0.199
+HOLDOUT KE text_only_sensitivity events 97 states [166 115  10]
+              hist log=0.862 multi_brier=0.551 shortfall_brier=0.256
+      tenor_recent log=0.748 multi_brier=0.447 shortfall_brier=0.209
+    lag_transition log=0.791 multi_brier=0.470 shortfall_brier=0.220
+          logistic log=0.782 multi_brier=0.462 shortfall_brier=0.215
+               hgb log=0.792 multi_brier=0.453 shortfall_brier=0.212
+          transfer log=1.058 multi_brier=0.585 shortfall_brier=0.235
+            pooled log=0.787 multi_brier=0.473 shortfall_brier=0.221
+ no_yield_calendar log=0.772 multi_brier=0.458 shortfall_brier=0.214
+      history_only log=0.772 multi_brier=0.460 shortfall_brier=0.215
+    adaptive_blend log=0.728 multi_brier=0.434 shortfall_brier=0.204
+HOLDOUT UG all events 36 states [47  1 60]
+              hist log=0.680 multi_brier=0.441 shortfall_brier=0.210
+      tenor_recent log=0.564 multi_brier=0.319 shortfall_brier=0.153
+    lag_transition log=0.556 multi_brier=0.323 shortfall_brier=0.152
+          logistic log=0.442 multi_brier=0.255 shortfall_brier=0.118
+               hgb log=0.508 multi_brier=0.292 shortfall_brier=0.138
+          transfer log=1.381 multi_brier=0.813 shortfall_brier=0.266
+            pooled log=0.454 multi_brier=0.266 shortfall_brier=0.123
+ no_yield_calendar log=0.444 multi_brier=0.252 shortfall_brier=0.117
+      history_only log=0.450 multi_brier=0.251 shortfall_brier=0.117
+    adaptive_blend log=0.534 multi_brier=0.299 shortfall_brier=0.141
+HOLDOUT UG 2025 events 20 states [21  1 38]
+              hist log=0.644 multi_brier=0.400 shortfall_brier=0.179
+      tenor_recent log=0.415 multi_brier=0.200 shortfall_brier=0.085
+    lag_transition log=0.459 multi_brier=0.231 shortfall_brier=0.098
+          logistic log=0.347 multi_brier=0.165 shortfall_brier=0.067
+               hgb log=0.420 multi_brier=0.203 shortfall_brier=0.087
+          transfer log=1.492 multi_brier=0.882 shortfall_brier=0.279
+            pooled log=0.369 multi_brier=0.184 shortfall_brier=0.076
+ no_yield_calendar log=0.336 multi_brier=0.148 shortfall_brier=0.059
+      history_only log=0.337 multi_brier=0.149 shortfall_brier=0.059
+    adaptive_blend log=0.417 multi_brier=0.194 shortfall_brier=0.080
+HOLDOUT UG 2026 events 16 states [26  0 22]
+              hist log=0.725 multi_brier=0.493 shortfall_brier=0.247
+      tenor_recent log=0.750 multi_brier=0.467 shortfall_brier=0.239
+    lag_transition log=0.678 multi_brier=0.439 shortfall_brier=0.220
+          logistic log=0.561 multi_brier=0.369 shortfall_brier=0.183
+               hgb log=0.617 multi_brier=0.402 shortfall_brier=0.202
+          transfer log=1.242 multi_brier=0.727 shortfall_brier=0.250
+            pooled log=0.559 multi_brier=0.368 shortfall_brier=0.182
+ no_yield_calendar log=0.579 multi_brier=0.382 shortfall_brier=0.191
+      history_only log=0.590 multi_brier=0.380 shortfall_brier=0.189
+    adaptive_blend log=0.679 multi_brier=0.429 shortfall_brier=0.217
+HOLDOUT UG text_only_sensitivity events 24 states [29  1 42]
+              hist log=0.660 multi_brier=0.419 shortfall_brier=0.193
+      tenor_recent log=0.481 multi_brier=0.255 shortfall_brier=0.117
+    lag_transition log=0.522 multi_brier=0.289 shortfall_brier=0.130
+          logistic log=0.376 multi_brier=0.197 shortfall_brier=0.085
+               hgb log=0.431 multi_brier=0.222 shortfall_brier=0.099
+          transfer log=1.423 multi_brier=0.849 shortfall_brier=0.278
+            pooled log=0.394 multi_brier=0.209 shortfall_brier=0.091
+ no_yield_calendar log=0.372 multi_brier=0.188 shortfall_brier=0.081
+      history_only log=0.373 multi_brier=0.188 shortfall_brier=0.081
+    adaptive_blend log=0.479 multi_brier=0.249 shortfall_brier=0.111

@@ -1,0 +1,99 @@
+Threshold 0
+full
+KE events 245 gap_tenors 410 gaps_despite_sufficient_bids 36 weak_share 0.931 quarter_bootstrap [0.902 0.952] met_total 141 masked 122 whole_event_demand_gap 84
+UG events 175 gap_tenors 252 gaps_despite_sufficient_bids 235 weak_share 0.025 quarter_bootstrap [0.007 0.058] met_total 110 masked 69 whole_event_demand_gap 2
+matched_2022_2026
+KE events 245 gap_tenors 410 gaps_despite_sufficient_bids 36 weak_share 0.931 quarter_bootstrap [0.901 0.953] met_total 141 masked 122 whole_event_demand_gap 84
+UG events 100 gap_tenors 183 gaps_despite_sufficient_bids 181 weak_share 0.003 quarter_bootstrap [0.    0.007] met_total 59 masked 52 whole_event_demand_gap 0
+matched_no_ocr
+KE events 245 gap_tenors 410 gaps_despite_sufficient_bids 36 weak_share 0.931 quarter_bootstrap [0.904 0.953] met_total 141 masked 122 whole_event_demand_gap 84
+UG events 88 gap_tenors 165 gaps_despite_sufficient_bids 164 weak_share 0.002 quarter_bootstrap [0.    0.007] met_total 54 masked 49 whole_event_demand_gap 0
+holdout_2025_26
+KE events 97 gap_tenors 140 gaps_despite_sufficient_bids 13 weak_share 0.921 quarter_bootstrap [0.863 0.963] met_total 71 masked 61 whole_event_demand_gap 24
+UG events 36 gap_tenors 61 gaps_despite_sufficient_bids 59 weak_share 0.006 quarter_bootstrap [0.    0.014] met_total 24 masked 21 whole_event_demand_gap 0
+KE tenor_recent top_quarter_amount_capture 0.514 avg_loss 0.762
+KE lag_transition top_quarter_amount_capture 0.477 avg_loss 0.821
+KE logistic top_quarter_amount_capture 0.555 avg_loss 0.813
+KE hgb top_quarter_amount_capture 0.536 avg_loss 0.772
+KE transfer top_quarter_amount_capture 0.457 avg_loss 1.168
+KE pooled top_quarter_amount_capture 0.537 avg_loss 0.807
+KE no_yield_calendar top_quarter_amount_capture 0.516 avg_loss 0.799
+DiffLogLoss KE logistic lag_transition -0.008 [-0.075  0.06 ]
+DiffLogLoss KE logistic tenor_recent 0.051 [-0.023  0.133]
+DiffLogLoss KE hgb tenor_recent 0.011 [-0.056  0.083]
+UG tenor_recent top_quarter_amount_capture 0.463 avg_loss 0.595
+UG lag_transition top_quarter_amount_capture 0.507 avg_loss 0.567
+UG logistic top_quarter_amount_capture 0.4 avg_loss 0.468
+UG hgb top_quarter_amount_capture 0.378 avg_loss 0.55
+UG transfer top_quarter_amount_capture 0.406 avg_loss 1.314
+UG pooled top_quarter_amount_capture 0.406 avg_loss 0.475
+UG no_yield_calendar top_quarter_amount_capture 0.371 avg_loss 0.477
+DiffLogLoss UG logistic lag_transition -0.1 [-0.178 -0.029]
+DiffLogLoss UG logistic tenor_recent -0.127 [-0.233 -0.028]
+DiffLogLoss UG hgb tenor_recent -0.045 [-0.134  0.054]
+Threshold 0.05
+full
+KE events 245 gap_tenors 394 gaps_despite_sufficient_bids 27 weak_share 0.931 quarter_bootstrap [0.902 0.954] met_total 159 masked 135 whole_event_demand_gap 77
+UG events 175 gap_tenors 240 gaps_despite_sufficient_bids 223 weak_share 0.025 quarter_bootstrap [0.007 0.054] met_total 127 masked 84 whole_event_demand_gap 2
+matched_2022_2026
+KE events 245 gap_tenors 394 gaps_despite_sufficient_bids 27 weak_share 0.931 quarter_bootstrap [0.902 0.954] met_total 159 masked 135 whole_event_demand_gap 77
+UG events 100 gap_tenors 177 gaps_despite_sufficient_bids 175 weak_share 0.003 quarter_bootstrap [0.    0.007] met_total 63 masked 56 whole_event_demand_gap 0
+matched_no_ocr
+KE events 245 gap_tenors 394 gaps_despite_sufficient_bids 27 weak_share 0.931 quarter_bootstrap [0.903 0.954] met_total 159 masked 135 whole_event_demand_gap 77
+UG events 88 gap_tenors 159 gaps_despite_sufficient_bids 158 weak_share 0.002 quarter_bootstrap [0.    0.007] met_total 55 masked 50 whole_event_demand_gap 0
+holdout_2025_26
+KE events 97 gap_tenors 131 gaps_despite_sufficient_bids 10 weak_share 0.922 quarter_bootstrap [0.864 0.963] met_total 74 masked 60 whole_event_demand_gap 21
+UG events 36 gap_tenors 61 gaps_despite_sufficient_bids 59 weak_share 0.006 quarter_bootstrap [0.    0.014] met_total 28 masked 25 whole_event_demand_gap 0
+KE tenor_recent top_quarter_amount_capture 0.509 avg_loss 0.749
+KE lag_transition top_quarter_amount_capture 0.474 avg_loss 0.82
+KE logistic top_quarter_amount_capture 0.561 avg_loss 0.804
+KE hgb top_quarter_amount_capture 0.512 avg_loss 0.789
+KE transfer top_quarter_amount_capture 0.459 avg_loss 1.108
+KE pooled top_quarter_amount_capture 0.54 avg_loss 0.805
+KE no_yield_calendar top_quarter_amount_capture 0.526 avg_loss 0.795
+DiffLogLoss KE logistic lag_transition -0.016 [-0.084  0.054]
+DiffLogLoss KE logistic tenor_recent 0.055 [-0.019  0.143]
+DiffLogLoss KE hgb tenor_recent 0.04 [-0.029  0.115]
+UG tenor_recent top_quarter_amount_capture 0.463 avg_loss 0.595
+UG lag_transition top_quarter_amount_capture 0.507 avg_loss 0.579
+UG logistic top_quarter_amount_capture 0.419 avg_loss 0.471
+UG hgb top_quarter_amount_capture 0.393 avg_loss 0.553
+UG transfer top_quarter_amount_capture 0.38 avg_loss 1.386
+UG pooled top_quarter_amount_capture 0.406 avg_loss 0.478
+UG no_yield_calendar top_quarter_amount_capture 0.39 avg_loss 0.477
+DiffLogLoss UG logistic lag_transition -0.108 [-0.192 -0.034]
+DiffLogLoss UG logistic tenor_recent -0.124 [-0.234 -0.02 ]
+DiffLogLoss UG hgb tenor_recent -0.043 [-0.132  0.059]
+Threshold 0.1
+full
+KE events 245 gap_tenors 376 gaps_despite_sufficient_bids 21 weak_share 0.933 quarter_bootstrap [0.907 0.954] met_total 164 masked 139 whole_event_demand_gap 74
+UG events 175 gap_tenors 222 gaps_despite_sufficient_bids 205 weak_share 0.026 quarter_bootstrap [0.007 0.057] met_total 138 masked 90 whole_event_demand_gap 2
+matched_2022_2026
+KE events 245 gap_tenors 376 gaps_despite_sufficient_bids 21 weak_share 0.933 quarter_bootstrap [0.905 0.954] met_total 164 masked 139 whole_event_demand_gap 74
+UG events 100 gap_tenors 165 gaps_despite_sufficient_bids 163 weak_share 0.003 quarter_bootstrap [0.    0.007] met_total 70 masked 59 whole_event_demand_gap 0
+matched_no_ocr
+KE events 245 gap_tenors 376 gaps_despite_sufficient_bids 21 weak_share 0.933 quarter_bootstrap [0.905 0.955] met_total 164 masked 139 whole_event_demand_gap 74
+UG events 88 gap_tenors 147 gaps_despite_sufficient_bids 146 weak_share 0.002 quarter_bootstrap [0.    0.007] met_total 61 masked 52 whole_event_demand_gap 0
+holdout_2025_26
+KE events 97 gap_tenors 125 gaps_despite_sufficient_bids 8 weak_share 0.924 quarter_bootstrap [0.868 0.964] met_total 77 masked 62 whole_event_demand_gap 18
+UG events 36 gap_tenors 61 gaps_despite_sufficient_bids 59 weak_share 0.006 quarter_bootstrap [0.    0.014] met_total 30 masked 27 whole_event_demand_gap 0
+KE tenor_recent top_quarter_amount_capture 0.523 avg_loss 0.748
+KE lag_transition top_quarter_amount_capture 0.471 avg_loss 0.791
+KE logistic top_quarter_amount_capture 0.566 avg_loss 0.782
+KE hgb top_quarter_amount_capture 0.516 avg_loss 0.792
+KE transfer top_quarter_amount_capture 0.452 avg_loss 1.058
+KE pooled top_quarter_amount_capture 0.509 avg_loss 0.787
+KE no_yield_calendar top_quarter_amount_capture 0.521 avg_loss 0.772
+DiffLogLoss KE logistic lag_transition -0.009 [-0.071  0.05 ]
+DiffLogLoss KE logistic tenor_recent 0.034 [-0.047  0.117]
+DiffLogLoss KE hgb tenor_recent 0.044 [-0.032  0.126]
+UG tenor_recent top_quarter_amount_capture 0.463 avg_loss 0.564
+UG lag_transition top_quarter_amount_capture 0.423 avg_loss 0.556
+UG logistic top_quarter_amount_capture 0.39 avg_loss 0.442
+UG hgb top_quarter_amount_capture 0.35 avg_loss 0.508
+UG transfer top_quarter_amount_capture 0.399 avg_loss 1.381
+UG pooled top_quarter_amount_capture 0.398 avg_loss 0.454
+UG no_yield_calendar top_quarter_amount_capture 0.366 avg_loss 0.444
+DiffLogLoss UG logistic lag_transition -0.114 [-0.185 -0.041]
+DiffLogLoss UG logistic tenor_recent -0.122 [-0.236 -0.024]
+DiffLogLoss UG hgb tenor_recent -0.056 [-0.13   0.028]

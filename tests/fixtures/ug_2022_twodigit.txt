@@ -1,0 +1,10 @@
+PRESS RELEASE
+RESULTS OF TREASURY BILLS AUCTION
+ AUCTION NO: 1126 HELD ON 11-MAY-22 SETTLED 12-MAY-22
+       MATURITIES:          91                182                364
+   MATURITY DATE:         11-Aug-22               10-Nov-22                11-May-23
+   EFFECTIVE YIELD:          7.000                 8.000                 9.000
+         OFFERED:      20,000,000,000          50,000,000,000       200,000,000,000
+        TENDERED:      30,000,000,000          40,000,000,000       500,000,000,000
+    ACCEPTED BIDS      20,000,000,000          40,000,000,000       250,000,000,000
+BID TO COVER RATIO          1.500                  0.800                   2.500

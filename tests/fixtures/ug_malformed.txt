@@ -1,0 +1,6 @@
+RESULTS OF TREASURY BILLS AUCTION
+ AUCTION NO: 1999 HELD ON 01-JAN-2020
+       MATURITIES:          91                182                364
+         OFFERED:      20,000,000,000          50,000,000,000       200,000,000,000
+        TENDERED:      30.000.000          40,000,000,000       500,000,000,000
+    ACCEPTED BIDS      20,000,000,000          40,000,000,000       250,000,000,000

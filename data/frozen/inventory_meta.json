@@ -1,0 +1,31 @@
+{
+  "snapshot_cutoff": "2026-11-06",
+  "UG": {
+    "endpoint": "https://bou.or.ug/api/financial-market-auction-information?populate=auctionInformation.overview.button&populate=auctionInformation.items.file.file.file&populate=auctionInformation.items.file.fileWithMonth.file.file",
+    "sha256": "20079c0720c27938a3e8cffbd6eb92899d44b797bcb542357f3c9c7b96ee1307",
+    "retrieved_utc": "2026-11-06T10:31:45+00:00",
+    "listed_entries": 1160,
+    "unique_urls": 1159,
+    "rows": 1159,
+    "in_scope": 774
+  },
+  "KE": {
+    "endpoint": "https://www.centralbank.go.ke/bills-bonds/treasury-bills/",
+    "sha256": "a8c8d41cffa4979472f8115a2a59f89ffe401e058d1a6d0531d042db45aae82c",
+    "retrieved_utc": "2026-11-06T10:31:47+00:00",
+    "unique_urls": 1596,
+    "rows": 1596,
+    "in_scope": 1596
+  },
+  "GH": {
+    "endpoint": "https://www.bog.gov.gh/wp-json/wp/v2/gog_auction_results",
+    "posts": 461,
+    "first_posted": "2019-07-15T15:56:14",
+    "last_posted": "2026-10-30T20:01:38",
+    "warnings": [],
+    "attachments": 461,
+    "posts_without_pdf": 0,
+    "rows": 461,
+    "in_scope": 461
+  }
+}

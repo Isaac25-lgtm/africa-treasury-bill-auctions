@@ -1,0 +1,29 @@
+# local runtime state, raw bytes and OCR caches are never committed
+.venv/
+data/cache/
+data/interim/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+build/
+dist/
+# private handoff copy (contains internal working instructions)
+docs/handoff/
+# pilot replay artefacts written by the legacy scripts
+pilot_reference/UG/*.pdf
+pilot_reference/UG/*.docx
+pilot_reference/UG/*.xlsx
+pilot_reference/UG/*.txt
+pilot_reference/UG_API/*.pdf
+pilot_reference/UG_API/*.docx
+pilot_reference/UG_API/*.xls*
+pilot_reference/UG_API/*.txt
+pilot_reference/UG_INV/*.pdf
+pilot_reference/KE/*.pdf
+pilot_reference/GH/
+pilot_reference/panel.csv
+pilot_reference/ghana.csv
+pilot_reference/last_fetch_report.json
+pilot_reference/parse_errors.txt

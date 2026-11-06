@@ -1,0 +1,22 @@
+KE all 245 maturity shift mean med q1 q3 -44.91 [-51.02, -90.76, 1.18] shorter_by30 154 longer_by30 30
+KE 2025+ 97 maturity shift mean med q1 q3 -8.91 [-5.41, -50.52, 35.17] shorter_by30 40 longer_by30 28
+KE met 141 maturity shift mean med q1 q3 -42.33 [-48.44, -82.87, 4.44] shorter_by30 89 longer_by30 22
+KE aggregate share 0.7977205568705542 by year
+      no_bid_gap  total_gap     share
+date                                 
+2022   185309.16  245736.16  0.754098
+2023   155264.24  198040.65  0.784002
+2024   101971.61  137108.00  0.743732
+2025   106332.50  115276.19  0.922415
+2026    59473.52   66450.70  0.895002
+UG all 100 maturity shift mean med q1 q3 16.71 [18.93, 3.11, 34.24] shorter_by30 5 longer_by30 35
+UG 2025+ 36 maturity shift mean med q1 q3 23.23 [31.1, 7.77, 40.78] shorter_by30 1 longer_by30 20
+UG met 59 maturity shift mean med q1 q3 19.11 [23.02, 8.26, 35.96] shorter_by30 3 longer_by30 23
+UG aggregate share 0.0 by year
+      no_bid_gap  total_gap  share
+date                              
+2022         0.0   538.1094    0.0
+2023         0.0   604.0210    0.0
+2024         0.0   815.8501    0.0
+2025         0.0   270.6931    0.0
+2026         0.0   510.9848    0.0
