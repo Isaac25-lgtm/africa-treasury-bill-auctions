@@ -2,9 +2,10 @@
 
 **Bid volumes, allotments and maturity shifts in Uganda, Kenya and Ghana: an audited reconstruction of 1,210 auctions from the central banks' own notices.**
 
-**Omoding Isaac**¹ · co-authors to be confirmed
+**Omoding Isaac**¹ and **Kakande Alex**²
 
-¹ Data Scientist, Ministry of Health · [GitHub](https://github.com/Isaac25-lgtm)
+¹ Data Scientist, Ministry of Health · [GitHub](https://github.com/Isaac25-lgtm)  
+² Financial Advisor · [Substack](https://kakandealex.substack.com)
 
 ![Python](https://img.shields.io/badge/python-3.11%20%7C%203.12-3776ab)
 ![Licence](https://img.shields.io/badge/code%20licence-MIT-2a78d6)
@@ -264,7 +265,7 @@ Requires Python 3.11 or 3.12. Verified on Windows 11 with Python 3.12.10, pandas
 
 - **The Bank of Uganda, the Central Bank of Kenya and the Bank of Ghana** for publishing every auction notice openly.
 - **Software:** Python, pandas, NumPy, scikit-learn, SciPy, Matplotlib, PyMuPDF, pdfplumber, RapidOCR. Full lock: [`requirements-lock.txt`](requirements-lock.txt).
-- **AI assistance:** code and documents were developed with Claude Code (Anthropic) under the author's direction. The author is responsible for the content.
+- **AI assistance:** code and documents were developed with Claude Code (Anthropic) under the authors' direction. The authors are responsible for the content.
 
 Code is released under the [MIT licence](LICENSE). The licence does not cover the source documents.
 
@@ -272,10 +273,10 @@ Code is released under the [MIT licence](LICENSE). The licence does not cover th
 
 | Author | Role and affiliation | Contact |
 |---|---|---|
-| **Omoding Isaac** (corresponding author) | Data Scientist, Ministry of Health | [GitHub](https://github.com/Isaac25-lgtm) |
-| Co-authors | To be confirmed | |
+| **Omoding Isaac** (lead and corresponding author) | Data Scientist, Ministry of Health. Study design, data engineering, statistical analysis and reproducibility | [GitHub](https://github.com/Isaac25-lgtm) |
+| **Kakande Alex** (co-author) | Financial Advisor. Market context, institutional interpretation and policy implications | [Substack](https://kakandealex.substack.com) |
 
-The views expressed are the author's own and do not represent any institution. Contribution roles (CRediT) will be added before submission.
+The views expressed are the authors' own and do not represent any institution. Nothing here is investment advice. Contribution roles (CRediT) will be finalised before submission.
 
 ## 11. References
 

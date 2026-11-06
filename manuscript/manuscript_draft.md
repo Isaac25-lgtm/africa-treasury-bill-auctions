@@ -4,8 +4,9 @@
 `outputs/tables/` (run record: `outputs/reports/run_record.json`). Every number below is traceable to
 `outputs/reports/key_numbers.json`.
 
-**Authors:** [AUTHOR LIST, ORDER AND AFFILIATIONS TO BE AGREED BY THE AUTHORS]
-**Correspondence:** [TO BE ADDED]
+**Authors:** Omoding Isaac¹ (lead and corresponding author) and Kakande Alex²
+¹ Data Scientist, Ministry of Health. ² Financial Advisor.
+**Correspondence:** Omoding Isaac [EMAIL TO BE ADDED]
 
 ---
 
@@ -96,7 +97,7 @@ Hortaçsu et al. 2018; Tindall and Perez 2021; Gao and Epp 2026).
 ## 2. Institutional setting
 
 All three central banks run regular primary auctions of 91-, 182- and 364-day bills as fiscal agents.
-[INSTITUTIONAL DETAIL TO BE REVIEWED BY A MARKET-PRACTICE CO-AUTHOR: primary-dealer systems, non-competitive
+[INSTITUTIONAL DETAIL TO BE REVIEWED BY KAKANDE ALEX: primary-dealer systems, non-competitive
 limits, auction calendars, reopening practice.]
 
 * **Uganda.** Bank of Uganda (BoU) invitations to tender list an offer by maturity, the auction and
@@ -351,11 +352,13 @@ runs a network-free integration test. Original notices remain the citable source
 
 ## Declarations
 
-* Funding: [TO BE COMPLETED]. Competing interests: [TO BE COMPLETED]. Data availability: official
+* Funding: [TO BE COMPLETED]. Competing interests: [TO BE COMPLETED BY THE AUTHORS. Journals usually
+  ask authors who advise on or hold the securities studied to declare it]. Data availability: official
   notices at the issuers' websites; derived tables and code in the repository.
-* Author contributions (provisional, for discussion): data engineering, statistical evaluation and
-  reproducibility — [ISAAC OMODING]; institutional interpretation and market context — [MARKET-PRACTICE CO-AUTHOR,
-  subject to agreement]. Not final.
+* Author contributions (to be finalised in CRediT form): Omoding Isaac — conceptualisation, study
+  design, data engineering, statistical analysis, software and reproducibility, writing; Kakande Alex —
+  market and institutional interpretation, policy implications, review. Both authors to approve the
+  final manuscript.
 
 ## Figures
 
